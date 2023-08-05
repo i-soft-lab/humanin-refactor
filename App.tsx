@@ -25,6 +25,7 @@ const App = () => {
           }}
           xAxis={{
             enabled: true,
+            position: 'BOTTOM',
             drawAxisLine: true,
             drawGridLines: false,
             drawLabels: true,
