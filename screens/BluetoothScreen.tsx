@@ -9,13 +9,22 @@ interface Props {
 }
 
 const BluetoothScreen: React.FC<Props> = ({navigation}) => {
+  const handleBluetoothPress = (address: string) => {
+    navigation.push('Graph');
+    console.log(address);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.listContainer}>
-        <BluetoothList title={'연결된 디바이스'} />
-        <BluetoothList title={'검색된 디바이스'} />
+        <BluetoothList
+          title={'연결된 디바이스'}
+          onPress={address => handleBluetoothPress(address)}
+        />
+        <BluetoothList
+          title={'검색된 디바이스'}
+          onPress={address => handleBluetoothPress(address)}
+        />
       </View>
-      {/*<Button title={'그래프 열기'} onPress={() => navigation.push('Graph')} />*/}
     </SafeAreaView>
   );
 };

@@ -5,8 +5,9 @@ import {Card} from '@rneui/themed';
 
 type Props = {
   title: string;
+  onPress: (address: string) => void;
 };
-const BluetoothList: React.FC<Props> = ({title}) => {
+const BluetoothList: React.FC<Props> = ({title, onPress}) => {
   const list = [
     {
       name: '블루투스1',
@@ -35,7 +36,11 @@ const BluetoothList: React.FC<Props> = ({title}) => {
       <FlatList
         data={list}
         renderItem={({item}) => (
-          <BluetoothListItem title={item.name} subTitle={item.subtitle} />
+          <BluetoothListItem
+            title={item.name}
+            subTitle={item.subtitle}
+            onPress={onPress}
+          />
         )}
       />
     </View>

@@ -5,8 +5,9 @@ import TouchableScale from 'react-native-touchable-scale';
 type Props = {
   title: string;
   subTitle: string;
+  onPress: (subTitle: string) => void;
 };
-const BluetoothListItem: React.FC<Props> = ({title, subTitle}) => {
+const BluetoothListItem: React.FC<Props> = ({title, subTitle, onPress}) => {
   return (
     <ListItem
       Component={TouchableScale}
@@ -14,6 +15,7 @@ const BluetoothListItem: React.FC<Props> = ({title, subTitle}) => {
       friction={90}
       tension={100}
       activeScale={0.95}
+      onPress={() => onPress(subTitle)}
       bottomDivider>
       <ListItem.Content>
         <ListItem.Title>{title}</ListItem.Title>
