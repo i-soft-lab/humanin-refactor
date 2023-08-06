@@ -2,7 +2,11 @@ import React from 'react';
 import {processColor, StyleSheet, View} from 'react-native';
 import {LineChart as ImportLineChart} from 'react-native-charts-wrapper';
 
-const LineChart = () => {
+type Props = {
+  data: {y: number}[];
+};
+
+const LineChart: React.FC<Props> = ({data}) => {
   return (
     <View style={styles.container}>
       <ImportLineChart
@@ -11,7 +15,7 @@ const LineChart = () => {
           dataSets: [
             {
               label: 'demo',
-              values: [{y: 1}, {y: 2}, {y: 1}, {y: 3}, {y: 5}, {y: 10}],
+              values: data,
               config: {
                 mode: 'CUBIC_BEZIER',
                 drawValues: false,

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import LineChart from '../components/LineChart';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text} from '@rneui/themed';
 import {RootStackParamList} from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
@@ -12,9 +12,12 @@ interface GraphScreenProps {
   route: RouteProp<RootStackParamList, 'Graph'>;
 }
 
+type ChartData = {y: number}[];
+
 const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
   const {write, readMessage} = useBluetooth();
   const {device} = route.params;
+  const [chartData, setChartData] = useState<ChartData>([{y: 0}]);
 
   useEffect(() => {
     write(device!)
@@ -37,6 +40,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
 
   const handleChartData = (dataArr: number[]) => {
     const [data, flag] = dataArr;
+    setChartData([...chartData, {y: data}]);
     if (flag === 1) {
       console.log(data, flag);
       // sendMqttMessage('1');
@@ -49,7 +53,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text>연결된 장치: {device.name}</Text>
-      <LineChart />
+      <LineChart data={chartData} />
     </SafeAreaView>
   );
 };
