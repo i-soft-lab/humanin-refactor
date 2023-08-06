@@ -9,6 +9,28 @@ interface Props {
 }
 
 const BluetoothScreen: React.FC<Props> = ({navigation}) => {
+  const list = [
+    {
+      name: '블루투스1',
+      subTitle: '맥주소1',
+    },
+    {
+      name: '블루투스2',
+      subTitle: '맥주소2',
+    },
+    {
+      name: '블루투스2',
+      subTitle: '맥주소2',
+    },
+    {
+      name: '블루투스2',
+      subTitle: '맥주소2',
+    },
+    {
+      name: '블루투스2',
+      subTitle: '맥주소2',
+    },
+  ];
   const handleBluetoothPress = (address: string) => {
     navigation.push('Graph');
     console.log(address);
@@ -18,10 +40,12 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
       <View style={styles.listContainer}>
         <BluetoothList
           title={'연결된 디바이스'}
+          data={list}
           onPress={address => handleBluetoothPress(address)}
         />
         <BluetoothList
           title={'검색된 디바이스'}
+          data={list}
           onPress={address => handleBluetoothPress(address)}
         />
       </View>

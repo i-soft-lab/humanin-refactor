@@ -5,41 +5,20 @@ import BluetoothListItem from './BluetoothListItem';
 
 type Props = {
   title: string;
+  data: {name: string; subTitle: string}[];
   onPress: (address: string) => void;
 };
-const BluetoothList: React.FC<Props> = ({title, onPress}) => {
-  const list = [
-    {
-      name: '블루투스1',
-      subtitle: '맥주소1',
-    },
-    {
-      name: '블루투스2',
-      subtitle: '맥주소2',
-    },
-    {
-      name: '블루투스2',
-      subtitle: '맥주소2',
-    },
-    {
-      name: '블루투스2',
-      subtitle: '맥주소2',
-    },
-    {
-      name: '블루투스2',
-      subtitle: '맥주소2',
-    },
-  ];
+const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
   return (
     <View style={[styles.container, shadowStyle]}>
       <Card.Title>{title}</Card.Title>
       <FlatList
         style={styles.list}
-        data={list}
+        data={data}
         renderItem={({item}) => (
           <BluetoothListItem
             title={item.name}
-            subTitle={item.subtitle}
+            subTitle={item.subTitle}
             onPress={onPress}
           />
         )}
