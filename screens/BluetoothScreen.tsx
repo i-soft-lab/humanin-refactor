@@ -10,17 +10,6 @@ interface Props {
   navigation: BluetoothScreenNavigationProp;
 }
 
-const list = [
-  {
-    name: '블루투스1',
-    subTitle: '맥주소1',
-  },
-  {
-    name: '블루투스2',
-    subTitle: '맥주소2',
-  },
-];
-
 const BluetoothScreen: React.FC<Props> = ({navigation}) => {
   const {requestPermissions} = usePermission();
   const {pairedDeviceList, getPairedDevices} = useBluetooth();
@@ -29,7 +18,7 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
     requestPermissions(isGranted => {
       isGranted ? getPairedDevices() : console.log('실패');
     });
-  }, [requestPermissions]);
+  }, [getPairedDevices, requestPermissions]);
 
   const handleBluetoothPress = (address: string) => {
     navigation.push('Graph');
@@ -44,11 +33,11 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
           data={pairedDeviceList}
           onPress={address => handleBluetoothPress(address)}
         />
-        {/*<BluetoothList*/}
-        {/*  title={'검색된 디바이스'}*/}
-        {/*  data={list}*/}
-        {/*  onPress={address => handleBluetoothPress(address)}*/}
-        {/*/>*/}
+        <BluetoothList
+          title={'검색된 디바이스'}
+          data={pairedDeviceList}
+          onPress={address => handleBluetoothPress(address)}
+        />
       </View>
     </SafeAreaView>
   );

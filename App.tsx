@@ -5,6 +5,7 @@ import GraphScreen from './screens/GraphScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from '@rneui/themed';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const App = () => {
             <Stack.Screen name={'Bluetooth'} component={BluetoothScreen} />
             <Stack.Screen name={'Graph'} component={GraphScreen} />
           </Stack.Navigator>
+          <Toast />
         </NavigationContainer>
       </ThemeProvider>
     </SafeAreaProvider>
