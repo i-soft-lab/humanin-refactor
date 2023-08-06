@@ -63,11 +63,12 @@ const shadowStyle = Platform.select({
   ios: {
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
   },
   android: {
     elevation: 4,
+    overflow: 'hidden' as 'hidden',
   },
 });
 export default BluetoothList;
