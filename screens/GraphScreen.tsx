@@ -6,16 +6,45 @@ import {Text} from '@rneui/themed';
 import {RootStackParamList} from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
 import useBluetooth from '../hooks/useBluetooth';
+import {showErrorToast, showSuccessToast} from '../components/Toast';
 
 interface GraphScreenProps {
   route: RouteProp<RootStackParamList, 'Graph'>;
 }
 
 const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
-  const {connectDevice} = useBluetooth();
+  const {write, readMessage} = useBluetooth();
   const {device} = route.params;
 
-  useEffect(() => {}, [device]);
+  useEffect(() => {
+    write(device!)
+      .then(() => showSuccessToast('성공')) //TODO 디버깅용
+      .catch(e => {
+        showErrorToast('차트 데이터를 가져올 수 없습니다.', e.message);
+      });
+  }, [device, write]);
+
+  useEffect(() => {
+    readMessage(device).then(() => {
+      device.onDataReceived((data: {data: string}) => {
+        const dataArr = data.data
+          .split(',')
+          .map((v: any) => parseInt(v || 0, 10));
+        handleChartData(dataArr);
+      });
+    });
+  }, [device, readMessage]);
+
+  const handleChartData = (dataArr: number[]) => {
+    const [data, flag] = dataArr;
+    if (flag === 1) {
+      console.log(data, flag);
+      // sendMqttMessage('1');
+    } else if (flag === 2) {
+      console.log(data, flag);
+      // sendMqttMessage('0');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

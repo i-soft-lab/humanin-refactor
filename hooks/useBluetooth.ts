@@ -29,9 +29,17 @@ export default function useBluetooth() {
       connection = await device.connect({
         delimiter: '\n',
       });
-      setConnectDevice(device);
     }
+    setConnectDevice(device);
     return connection;
+  };
+
+  const write = async (device: BluetoothDevice) => {
+    await device.write('plot');
+  };
+
+  const readMessage = async (device: BluetoothDevice) => {
+    await device.read();
   };
 
   return {
@@ -41,5 +49,7 @@ export default function useBluetooth() {
     getScanDevices,
     connectDevice,
     connect,
+    write,
+    readMessage,
   };
 }

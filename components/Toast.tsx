@@ -17,7 +17,7 @@ export const showErrorToast = (
 
 export const showSuccessToast = (
   message: string | undefined,
-  description: string | undefined,
+  description: string | undefined = undefined,
   autoHide = true,
 ) => {
   Toast.show({
