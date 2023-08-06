@@ -5,7 +5,7 @@ import BluetoothListItem from './BluetoothListItem';
 
 type Props = {
   title: string;
-  data: {name: string; subTitle: string}[];
+  data: {name: string; address: string}[];
   onPress: (address: string) => void;
 };
 const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
@@ -18,7 +18,7 @@ const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
         renderItem={({item}) => (
           <BluetoothListItem
             title={item.name}
-            subTitle={item.subTitle}
+            address={item.address}
             onPress={onPress}
           />
         )}

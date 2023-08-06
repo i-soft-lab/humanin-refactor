@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect} from 'react';
 import BluetoothList from '../components/BluetoothList';
 import usePermission from '../hooks/usePermission';
+import useBluetooth from '../hooks/useBluetooth';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
@@ -22,28 +23,32 @@ const list = [
 
 const BluetoothScreen: React.FC<Props> = ({navigation}) => {
   const {requestPermissions} = usePermission();
+  const {pairedDeviceList, getPairedDevices} = useBluetooth();
+
   useEffect(() => {
     requestPermissions(isGranted => {
-      console.log(isGranted);
+      isGranted ? getPairedDevices() : console.log('실패');
     });
   }, [requestPermissions]);
+
   const handleBluetoothPress = (address: string) => {
     navigation.push('Graph');
     console.log(address);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.listContainer}>
         <BluetoothList
           title={'연결된 디바이스'}
-          data={list}
+          data={pairedDeviceList}
           onPress={address => handleBluetoothPress(address)}
         />
-        <BluetoothList
-          title={'검색된 디바이스'}
-          data={list}
-          onPress={address => handleBluetoothPress(address)}
-        />
+        {/*<BluetoothList*/}
+        {/*  title={'검색된 디바이스'}*/}
+        {/*  data={list}*/}
+        {/*  onPress={address => handleBluetoothPress(address)}*/}
+        {/*/>*/}
       </View>
     </SafeAreaView>
   );
