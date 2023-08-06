@@ -1,7 +1,8 @@
 import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
+import {BluetoothDevice} from 'react-native-bluetooth-classic';
 
 export type RootStackParamList = {
-  Graph: {address: string};
+  Graph: {device: BluetoothDevice};
   Bluetooth: undefined;
 };
 

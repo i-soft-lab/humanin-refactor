@@ -1,25 +1,46 @@
 import Toast from 'react-native-toast-message';
 
-type Props = {
-  type: string;
-  message: string | undefined;
-  description: string | undefined;
-  autoHide: boolean;
-};
-const showToast = ({
-  type = 'error',
-  message,
-  description,
+export const showErrorToast = (
+  message: string | undefined,
+  description: string | undefined,
   autoHide = true,
-}: Props) => {
+) => {
   Toast.show({
-    type: type,
+    type: 'error',
     text1: message,
     text2: description,
     autoHide: autoHide,
-    position: 'top',
+    position: 'bottom',
     topOffset: 100,
   });
 };
 
-export default showToast;
+export const showSuccessToast = (
+  message: string | undefined,
+  description: string | undefined,
+  autoHide = true,
+) => {
+  Toast.show({
+    type: 'success',
+    text1: message,
+    text2: description,
+    autoHide: autoHide,
+    position: 'bottom',
+    topOffset: 100,
+  });
+};
+
+export const showInfoToast = (
+  message: string | undefined,
+  description: string | undefined,
+  autoHide = true,
+) => {
+  Toast.show({
+    type: 'info',
+    text1: message,
+    text2: description,
+    autoHide: autoHide,
+    position: 'bottom',
+    topOffset: 100,
+  });
+};

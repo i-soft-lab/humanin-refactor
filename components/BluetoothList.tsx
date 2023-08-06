@@ -2,13 +2,18 @@ import {FlatList, Platform, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Card} from '@rneui/themed';
 import BluetoothListItem from './BluetoothListItem';
+import {BluetoothDevice} from 'react-native-bluetooth-classic';
 
 type Props = {
   title: string;
-  data: {name: string; address: string}[];
-  onPress: (address: string) => void;
+  data: BluetoothDevice[];
+  onPress: (device: BluetoothDevice) => void;
 };
 const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
+  const handleItemPress = (address: string) => {
+    onPress(data.find(device => device.address === address)!);
+  };
+
   return (
     <View style={[styles.container, shadowStyle]}>
       <Card.Title>{title}</Card.Title>
@@ -19,7 +24,7 @@ const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
           <BluetoothListItem
             title={item.name}
             address={item.address}
-            onPress={onPress}
+            onPress={() => handleItemPress(item.address)}
           />
         )}
       />
