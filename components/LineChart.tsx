@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
-    margin: 20,
   },
 });
 

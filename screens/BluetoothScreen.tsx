@@ -19,8 +19,13 @@ interface Props {
 
 const BluetoothScreen: React.FC<Props> = ({navigation}) => {
   const {requestPermissions} = usePermission();
-  const {pairedDeviceList, getPairedDevices, scanDeviceList, getScanDevices} =
-    useBluetooth();
+  const {
+    pairedDeviceList,
+    getPairedDevices,
+    scanDeviceList,
+    getScanDevices,
+    connect,
+  } = useBluetooth();
 
   useEffect(() => {
     requestPermissions(isGranted => {
@@ -32,7 +37,17 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
   }, [getPairedDevices, requestPermissions]);
 
   const handleBluetoothPress = (device: BluetoothDevice) => {
-    navigation.push('Graph', {device: device});
+    showInfoToast('info', '장치에 연결중입니다. 잠시만 기다려주세요.', false);
+    connect(device)
+      .then((connection: boolean) => {
+        if (connection) {
+          showSuccessToast('success', `${device.name} 장치에 연결되었습니다.`);
+          navigation.push('Graph', {device: device});
+        }
+      })
+      .catch(e => {
+        showErrorToast('error', '연결 오류!', e?.message);
+      });
   };
 
   const handleScanDevice = () => {

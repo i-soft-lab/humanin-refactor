@@ -16,6 +16,7 @@ export default function useBluetooth() {
   };
 
   const getScanDevices = async () => {
+    setScanDeviceList([]);
     const unpaired = await RNBluetoothClassic.startDiscovery();
     const namedDeviceList = unpaired.filter(v => v.name !== v.address);
     setScanDeviceList(namedDeviceList);
@@ -30,6 +31,7 @@ export default function useBluetooth() {
       });
       setConnectDevice(device);
     }
+    return connection;
   };
 
   return {
