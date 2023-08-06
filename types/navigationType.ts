@@ -1,7 +1,7 @@
 import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
 
 export type RootStackParamList = {
-  Graph: undefined;
+  Graph: {address: string};
   Bluetooth: undefined;
 };
 

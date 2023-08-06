@@ -23,8 +23,7 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
   }, [getPairedDevices, requestPermissions]);
 
   const handleBluetoothPress = (address: string) => {
-    navigation.push('Graph');
-    console.log(address);
+    navigation.push('Graph', {address: address});
   };
 
   return (
