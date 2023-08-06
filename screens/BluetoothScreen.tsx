@@ -1,36 +1,32 @@
 import {StyleSheet, View} from 'react-native';
 import {BluetoothScreenNavigationProp} from '../types/navigationType';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import React from 'react';
+import React, {useEffect} from 'react';
 import BluetoothList from '../components/BluetoothList';
+import usePermission from '../hooks/usePermission';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
 }
 
+const list = [
+  {
+    name: '블루투스1',
+    subTitle: '맥주소1',
+  },
+  {
+    name: '블루투스2',
+    subTitle: '맥주소2',
+  },
+];
+
 const BluetoothScreen: React.FC<Props> = ({navigation}) => {
-  const list = [
-    {
-      name: '블루투스1',
-      subTitle: '맥주소1',
-    },
-    {
-      name: '블루투스2',
-      subTitle: '맥주소2',
-    },
-    {
-      name: '블루투스2',
-      subTitle: '맥주소2',
-    },
-    {
-      name: '블루투스2',
-      subTitle: '맥주소2',
-    },
-    {
-      name: '블루투스2',
-      subTitle: '맥주소2',
-    },
-  ];
+  const {requestPermissions} = usePermission();
+  useEffect(() => {
+    requestPermissions(isGranted => {
+      console.log(isGranted);
+    });
+  }, [requestPermissions]);
   const handleBluetoothPress = (address: string) => {
     navigation.push('Graph');
     console.log(address);
