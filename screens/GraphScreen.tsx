@@ -7,7 +7,11 @@ import {
   RootStackParamList,
 } from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
-import {showErrorToast, showInfoToast} from '../components/Toast';
+import {
+  showErrorToast,
+  showInfoToast,
+  showSuccessToast,
+} from '../components/Toast';
 import useBluetooth from '../hooks/useBluetooth';
 import LineChart from '../components/LineChart';
 import {BluetoothDevice} from 'react-native-bluetooth-classic';
@@ -53,7 +57,12 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     return () => {
       if (connectedDevice) {
         disconnect(connectedDevice)
-          .then(() => showInfoToast('디바이스 연결 종료'))
+          .then(() =>
+            showSuccessToast(
+              '디바이스 연결 종료',
+              '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
+            ),
+          )
           .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
       }
     };
