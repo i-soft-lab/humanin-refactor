@@ -7,7 +7,7 @@ import {
   RootStackParamList,
 } from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
-import {showErrorToast} from '../components/Toast';
+import {showErrorToast, showSuccessToast} from '../components/Toast';
 import useBluetooth from '../hooks/useBluetooth';
 import LineChart from '../components/LineChart';
 import RNBluetoothClassic, {
@@ -20,7 +20,7 @@ interface GraphScreenProps {
 }
 
 const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
-  const {write, readMessage} = useBluetooth();
+  const {write, readMessage, disconnect} = useBluetooth();
   const {device} = route.params;
   const [chartData, setChartData] = useState<{y: number}[]>([{y: 135}]);
   let receiveData: {y: number}[] = [];
@@ -45,6 +45,14 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     }
     return () => {
       readDataListener.remove();
+      disconnect(device)
+        .then(() => showSuccessToast('디바이스 연결 종료 성공'))
+        .catch(() =>
+          showErrorToast(
+            '디바이스 연결 종료 실패',
+            '디바이스 초기화 버튼을 눌러주세요',
+          ),
+        );
     };
   }, []);
 

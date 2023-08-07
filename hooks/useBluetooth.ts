@@ -8,7 +8,6 @@ export default function useBluetooth() {
     [],
   );
   const [scanDeviceList, setScanDeviceList] = useState<BluetoothDevice[]>([]);
-  const [connectDevice, setConnectDevice] = useState<BluetoothDevice>();
 
   const getPairedDevices = async () => {
     const paired = await RNBluetoothClassic.getBondedDevices();
@@ -30,7 +29,6 @@ export default function useBluetooth() {
         delimiter: '\n',
       });
     }
-    setConnectDevice(device);
     return connection;
   };
 
@@ -42,14 +40,18 @@ export default function useBluetooth() {
     await device.read();
   };
 
+  const disconnect = async (device: BluetoothDevice) => {
+    await device.disconnect();
+  };
+
   return {
     pairedDeviceList,
     getPairedDevices,
     scanDeviceList,
     getScanDevices,
-    connectDevice,
     connect,
     write,
     readMessage,
+    disconnect,
   };
 }
