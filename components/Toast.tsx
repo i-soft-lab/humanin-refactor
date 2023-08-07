@@ -2,7 +2,7 @@ import Toast from 'react-native-toast-message';
 
 export const showErrorToast = (
   message: string | undefined,
-  description: string | undefined,
+  description: string | undefined = undefined,
   autoHide = true,
 ) => {
   Toast.show({

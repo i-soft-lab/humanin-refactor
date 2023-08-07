@@ -10,3 +10,8 @@ export type BluetoothScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'Bluetooth'
 >;
+
+export type GraphScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Graph'
+>;

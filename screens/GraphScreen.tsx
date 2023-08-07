@@ -1,60 +1,71 @@
 import {StyleSheet} from 'react-native';
-import LineChart from '../components/LineChart';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import {Text} from '@rneui/themed';
-import {RootStackParamList} from '../types/navigationType';
+import {
+  GraphScreenNavigationProp,
+  RootStackParamList,
+} from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
+import {showErrorToast} from '../components/Toast';
+import useBluetooth from '../hooks/useBluetooth';
+import LineChart from '../components/LineChart';
+import RNBluetoothClassic, {
+  BluetoothEventSubscription,
+} from 'react-native-bluetooth-classic';
 
 interface GraphScreenProps {
+  navigation: GraphScreenNavigationProp;
   route: RouteProp<RootStackParamList, 'Graph'>;
 }
 
-type ChartData = {y: number}[];
-
-const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
-  // const {write, readMessage} = useBluetooth();
+const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
+  const {write, readMessage} = useBluetooth();
   const {device} = route.params;
-  const [chartData, setChartData] = useState<ChartData>([{y: 0}]);
+  const [chartData, setChartData] = useState<{y: number}[]>([{y: 0}]);
+  let receiveData: {y: number}[] = [];
 
   useEffect(() => {
-    const timerId = setInterval(() => {
-      handleChartData([Math.random() * 150, 0]);
-    }, 100);
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [chartData]);
+    write(device!).catch(e => {
+      showErrorToast('차트 데이터를 가져올 수 없습니다.', e.message);
+    });
+  }, [device, write]);
 
-  // useEffect(() => {
-  //   write(device!)
-  //     .then(() => showSuccessToast('성공')) //TODO 디버깅용
-  //     .catch(e => {
-  //       showErrorToast('차트 데이터를 가져올 수 없습니다.', e.message);
-  //     });
-  // }, [device, write]);
-  //
-  // useEffect(() => {
-  //   readMessage(device).then(() => {
-  //     device.onDataReceived((data: {data: string}) => {
-  //       const dataArr = data.data
-  //         .split(',')
-  //         .map((v: any) => parseInt(v || 0, 10));
-  //       handleChartData(dataArr);
-  //     });
-  //   });
-  // }, [device, readMessage]);
+  useEffect(() => {
+    let readDataListener: BluetoothEventSubscription;
+    if (device) {
+      readMessage(device).then(() => {
+        readDataListener = device.onDataReceived((data: {data: string}) => {
+          const dataArr = data.data
+            .split(',')
+            .map((v: any) => parseInt(v || 0, 10));
+          handleChartData(dataArr);
+        });
+      });
+    }
+    return () => {
+      readDataListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    const disconnectListener = RNBluetoothClassic.onDeviceDisconnected(() => {
+      showErrorToast('블루투스 연결이 해제되었습니다.');
+      navigation.goBack();
+    });
+    return () => {
+      disconnectListener.remove();
+    };
+  }, [navigation]);
 
   const handleChartData = (dataArr: number[]) => {
     const [data, flag] = dataArr;
-    setChartData(chartData.concat({y: data}));
-    if (flag === 1) {
-      console.log(data, flag);
-      // sendMqttMessage('1');
-    } else if (flag === 2) {
-      console.log(data, flag);
-      // sendMqttMessage('0');
+    receiveData.push({y: data});
+    if (receiveData.length >= 5) {
+      setChartData(prevChartData => [...prevChartData, ...receiveData]);
+      receiveData = [];
     }
+    console.log(receiveData, chartData);
   };
 
   return (
@@ -70,6 +81,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
     padding: 16,
+  },
+  chartContainer: {
+    height: '60%',
+    width: '100%',
   },
 });
 
