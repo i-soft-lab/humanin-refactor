@@ -44,7 +44,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         });
       });
     }
-    console.log(device);
     return () => {
       readDataListener.remove();
       disconnect(device)

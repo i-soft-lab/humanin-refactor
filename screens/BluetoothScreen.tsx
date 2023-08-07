@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import {BluetoothScreenNavigationProp} from '../types/navigationType';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import BluetoothList from '../components/BluetoothList';
 import usePermission from '../hooks/usePermission';
 import useBluetooth from '../hooks/useBluetooth';
@@ -26,6 +26,7 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
     getScanDevices,
     connect,
   } = useBluetooth();
+  const [isScan, setIsScan] = useState(false);
 
   useEffect(() => {
     requestPermissions(isGranted => {
@@ -58,13 +59,14 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
     showInfoToast(
       '장치를 검색중입니다. 잠시만 기다려주세요.',
       '7초 이내로 완료됩니다.',
-      false,
     );
+    setIsScan(true);
     getScanDevices()
       .then(count =>
         showSuccessToast('장치 검색 성공', `${count}개의 장치를 발견했습니다.`),
       )
-      .catch(e => showErrorToast('장치 검색 실패', e.message));
+      .catch(e => showErrorToast('장치 검색 실패', e.message))
+      .finally(() => setIsScan(false));
   };
 
   return (
@@ -81,7 +83,15 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
           onPress={device => handleBluetoothPress(device)}
         />
       </View>
-      <Button onPress={handleScanDevice}>장치 검색 시작</Button>
+      <Button
+        onPress={handleScanDevice}
+        loading={isScan}
+        titleStyle={{fontWeight: 'bold', fontSize: 18}}
+        buttonStyle={{
+          height: 50,
+        }}>
+        장치 검색 시작
+      </Button>
     </SafeAreaView>
   );
 };
