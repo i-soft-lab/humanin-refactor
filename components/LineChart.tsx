@@ -44,7 +44,7 @@ const LineChart: React.FC<Props> = ({data}) => {
             drawLabels: true,
             textSize: 10,
             textColor: processColor('gray'),
-            axisMinimum: 0,
+            axisMinimum: 80,
             axisMaximum: 200,
           },
           right: {
