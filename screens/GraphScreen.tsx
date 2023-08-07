@@ -10,9 +10,8 @@ import {RouteProp} from '@react-navigation/native';
 import {showErrorToast, showInfoToast} from '../components/Toast';
 import useBluetooth from '../hooks/useBluetooth';
 import LineChart from '../components/LineChart';
-import RNBluetoothClassic, {
-  BluetoothEventSubscription,
-} from 'react-native-bluetooth-classic';
+import {BluetoothDevice} from 'react-native-bluetooth-classic';
+import usePlotData from '../hooks/usePlotData';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -20,71 +19,56 @@ interface GraphScreenProps {
 }
 
 const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
-  const {write, readMessage, disconnect} = useBluetooth();
-  const {device} = route.params;
-  const [chartData, setChartData] = useState<{y: number}[]>([{y: 135}]);
-  let receiveData: {y: number}[] = [];
-  let backDisconnect = false;
+  const {
+    disconnect,
+    findConnectedDeviceByAddress,
+    plotDataStreamStart,
+    onStreamDataReceive,
+    onDisconnect,
+  } = useBluetooth();
+  const {chartData, handleChartData} = usePlotData();
+  const [connectedDevice, setConnectedDevice] = useState<BluetoothDevice>();
+  const {address} = route.params;
 
   useEffect(() => {
-    write(device!).catch(e => {
-      showErrorToast('차트 데이터를 가져올 수 없습니다.', e.message);
-    });
-  }, [device, write]);
-
-  useEffect(() => {
-    let readDataListener: BluetoothEventSubscription;
-    if (device) {
-      readMessage(device).then(() => {
-        readDataListener = device.onDataReceived((data: {data: string}) => {
-          const dataArr = data.data
-            .split(',')
-            .map((v: any) => parseInt(v || 0, 10));
-          handleChartData(dataArr);
-        });
-      });
-    }
+    findConnectedDeviceByAddress(address).then(device =>
+      device
+        ? setConnectedDevice(device)
+        : showErrorToast('블루투스 연결이 끊어졌습니다.'),
+    );
+    // onDisconnect(() => {
+    //   showErrorToast('블루투스 연결이 끊어졌습니다.');
+    //   navigation.goBack();
+    // });
     return () => {
-      readDataListener.remove();
-      disconnect(device)
-        .then(() => showInfoToast('디바이스 연결 종료'))
-        .catch(
-          () =>
-            backDisconnect &&
-            showInfoToast('디바이스 초기화 버튼을 눌러주세요'),
-        );
+      if (connectedDevice) {
+        disconnect(connectedDevice)
+          .then(() => showInfoToast('디바이스 연결 종료'))
+          .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
+      }
     };
   }, []);
 
   useEffect(() => {
-    const disconnectListener = RNBluetoothClassic.onDeviceDisconnected(() => {
+    if (connectedDevice) {
+      plotDataStreamStart(connectedDevice)
+        .then(() => {
+          onStreamDataReceive(connectedDevice, handleChartData);
+        })
+        .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
+    }
+  }, [connectedDevice]);
+
+  useEffect(() => {
+    onDisconnect(() => {
       showErrorToast('블루투스 연결이 끊어졌습니다.');
       navigation.goBack();
     });
-    return () => {
-      disconnectListener.remove();
-    };
-  }, [navigation]);
-
-  useEffect(() => {
-    if (chartData.length > 450) {
-      setChartData([]);
-    }
-  }, [chartData]);
-
-  const handleChartData = (dataArr: number[]) => {
-    const [data, flag] = dataArr;
-    receiveData.push({y: data});
-    if (receiveData.length >= 5) {
-      setChartData(prevChartData => [...prevChartData, ...receiveData]);
-      console.log(receiveData);
-      receiveData = [];
-    }
-  };
+  }, [navigation, onDisconnect]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>연결된 장치: {device.name}</Text>
+      <Text>연결된 장치: {connectedDevice?.name}</Text>
       <LineChart data={chartData} />
     </SafeAreaView>
   );

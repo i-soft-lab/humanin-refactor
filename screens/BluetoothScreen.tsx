@@ -47,7 +47,7 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
       .then((connection: boolean) => {
         if (connection) {
           showSuccessToast(`${device.name} 장치에 연결되었습니다.`);
-          navigation.push('Graph', {device: device});
+          navigation.push('Graph', {address: device.address});
         }
       })
       .catch(e => {
