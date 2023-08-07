@@ -15,8 +15,16 @@ const App = () => {
       <ThemeProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={'Bluetooth'}>
-            <Stack.Screen name={'Bluetooth'} component={BluetoothScreen} />
-            <Stack.Screen name={'Graph'} component={GraphScreen} />
+            <Stack.Screen
+              name={'Bluetooth'}
+              component={BluetoothScreen}
+              options={{title: '블루투스'}}
+            />
+            <Stack.Screen
+              name={'Graph'}
+              component={GraphScreen}
+              options={{title: '그래프'}}
+            />
           </Stack.Navigator>
           <Toast />
         </NavigationContainer>
