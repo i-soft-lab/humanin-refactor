@@ -22,7 +22,7 @@ interface GraphScreenProps {
 const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {write, readMessage} = useBluetooth();
   const {device} = route.params;
-  const [chartData, setChartData] = useState<{y: number}[]>([{y: 0}]);
+  const [chartData, setChartData] = useState<{y: number}[]>([{y: 135}]);
   let receiveData: {y: number}[] = [];
 
   useEffect(() => {
@@ -58,6 +58,12 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     };
   }, [navigation]);
 
+  useEffect(() => {
+    if (chartData.length > 450) {
+      setChartData([]);
+    }
+  }, [chartData]);
+
   const handleChartData = (dataArr: number[]) => {
     const [data, flag] = dataArr;
     receiveData.push({y: data});
@@ -65,7 +71,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
       setChartData(prevChartData => [...prevChartData, ...receiveData]);
       receiveData = [];
     }
-    console.log(receiveData, chartData);
   };
 
   return (

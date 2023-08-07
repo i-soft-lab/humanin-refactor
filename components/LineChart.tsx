@@ -14,12 +14,12 @@ const LineChart: React.FC<Props> = ({data}) => {
         data={{
           dataSets: [
             {
-              label: 'demo',
+              label: 'data',
               values: data,
               config: {
                 mode: 'CUBIC_BEZIER',
                 drawValues: false,
-                lineWidth: 1,
+                lineWidth: 1.4,
                 drawCircles: false,
                 drawCubicIntensity: 0.2,
               },
@@ -34,7 +34,7 @@ const LineChart: React.FC<Props> = ({data}) => {
           drawLabels: true,
           textSize: 10,
           textColor: processColor('gray'),
-          axisMaximum: 200,
+          axisMaximum: 450,
         }}
         yAxis={{
           left: {
@@ -45,7 +45,7 @@ const LineChart: React.FC<Props> = ({data}) => {
             textSize: 10,
             textColor: processColor('gray'),
             axisMinimum: 0,
-            axisMaximum: 250,
+            axisMaximum: 200,
           },
           right: {
             enabled: false,
