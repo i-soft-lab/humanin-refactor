@@ -4,7 +4,7 @@ import BluetoothScreen from './screens/BluetoothScreen';
 import GraphScreen from './screens/GraphScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {ThemeProvider} from '@rneui/themed';
+import {Button, Icon, ThemeProvider} from '@rneui/themed';
 import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +23,14 @@ const App = () => {
             <Stack.Screen
               name={'Graph'}
               component={GraphScreen}
-              options={{title: '그래프'}}
+              options={{
+                title: '그래프',
+                headerRight: () => (
+                  <Button type="clear" color="gray">
+                    <Icon name="info" color="gray" />
+                  </Button>
+                ),
+              }}
             />
           </Stack.Navigator>
           <Toast />
