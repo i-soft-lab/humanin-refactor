@@ -7,7 +7,7 @@ import {
   RootStackParamList,
 } from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
-import {showErrorToast, showSuccessToast} from '../components/Toast';
+import {showErrorToast, showInfoToast} from '../components/Toast';
 import useBluetooth from '../hooks/useBluetooth';
 import LineChart from '../components/LineChart';
 import RNBluetoothClassic, {
@@ -24,6 +24,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {device} = route.params;
   const [chartData, setChartData] = useState<{y: number}[]>([{y: 135}]);
   let receiveData: {y: number}[] = [];
+  let backDisconnect = false;
 
   useEffect(() => {
     write(device!).catch(e => {
@@ -44,14 +45,18 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
       });
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      backDisconnect = true;
       readDataListener.remove();
       disconnect(device)
-        .then(() => showSuccessToast('디바이스 연결 종료 성공'))
-        .catch(() =>
-          showErrorToast(
-            '디바이스 연결 종료 실패',
-            '디바이스 초기화 버튼을 눌러주세요',
-          ),
+        .then(() => showInfoToast('디바이스 연결 종료'))
+        .catch(
+          () =>
+            backDisconnect &&
+            showErrorToast(
+              '디바이스 연결 종료 실패',
+              '디바이스 초기화 버튼을 눌러주세요',
+            ),
         );
     };
   }, []);
@@ -77,6 +82,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     receiveData.push({y: data});
     if (receiveData.length >= 5) {
       setChartData(prevChartData => [...prevChartData, ...receiveData]);
+      console.log(receiveData);
       receiveData = [];
     }
   };

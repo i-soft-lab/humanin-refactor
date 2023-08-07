@@ -37,26 +37,34 @@ const BluetoothScreen: React.FC<Props> = ({navigation}) => {
   }, [getPairedDevices, requestPermissions]);
 
   const handleBluetoothPress = (device: BluetoothDevice) => {
-    showInfoToast('info', '장치에 연결중입니다. 잠시만 기다려주세요.', false);
+    showInfoToast(
+      '장치에 연결중입니다. 잠시만 기다려주세요.',
+      '7초 이내로 완료됩니다.',
+      false,
+    );
     connect(device)
       .then((connection: boolean) => {
         if (connection) {
-          showSuccessToast('success', `${device.name} 장치에 연결되었습니다.`);
+          showSuccessToast(`${device.name} 장치에 연결되었습니다.`);
           navigation.push('Graph', {device: device});
         }
       })
       .catch(e => {
-        showErrorToast('error', '연결 오류!', e?.message);
+        showErrorToast('연결 오류!', e?.message);
       });
   };
 
   const handleScanDevice = () => {
-    showInfoToast('info', '장치를 검색중입니다. 잠시만 기다려주세요.', false);
+    showInfoToast(
+      '장치를 검색중입니다. 잠시만 기다려주세요.',
+      '7초 이내로 완료됩니다.',
+      false,
+    );
     getScanDevices()
       .then(count =>
         showSuccessToast('장치 검색 성공', `${count}개의 장치를 발견했습니다.`),
       )
-      .catch(e => showErrorToast('error', '장치 검색 실패', e.message));
+      .catch(e => showErrorToast('장치 검색 실패', e.message));
   };
 
   return (

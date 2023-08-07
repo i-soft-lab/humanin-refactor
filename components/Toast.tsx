@@ -32,7 +32,7 @@ export const showSuccessToast = (
 
 export const showInfoToast = (
   message: string | undefined,
-  description: string | undefined,
+  description: string | undefined = undefined,
   autoHide = true,
 ) => {
   Toast.show({
