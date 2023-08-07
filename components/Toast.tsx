@@ -1,4 +1,5 @@
 import Toast from 'react-native-toast-message';
+import hide = Toast.hide;
 
 export const showErrorToast = (
   message: string | undefined,
@@ -12,6 +13,9 @@ export const showErrorToast = (
     autoHide: autoHide,
     position: 'bottom',
     topOffset: 200,
+    onPress: () => {
+      hide();
+    },
   });
 };
 
@@ -27,6 +31,9 @@ export const showSuccessToast = (
     autoHide: autoHide,
     position: 'bottom',
     topOffset: 200,
+    onPress: () => {
+      hide();
+    },
   });
 };
 
@@ -42,5 +49,8 @@ export const showInfoToast = (
     autoHide: autoHide,
     position: 'bottom',
     topOffset: 200,
+    onPress: () => {
+      hide();
+    },
   });
 };
