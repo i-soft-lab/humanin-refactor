@@ -36,17 +36,10 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         ? setConnectedDevice(device)
         : showErrorToast('블루투스 연결이 끊어졌습니다.'),
     );
-    // onDisconnect(() => {
-    //   showErrorToast('블루투스 연결이 끊어졌습니다.');
-    //   navigation.goBack();
-    // });
-    return () => {
-      if (connectedDevice) {
-        disconnect(connectedDevice)
-          .then(() => showInfoToast('디바이스 연결 종료'))
-          .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
-      }
-    };
+    onDisconnect(() => {
+      showErrorToast('블루투스 연결이 끊어졌습니다.');
+      navigation.goBack();
+    });
   }, []);
 
   useEffect(() => {
@@ -57,14 +50,14 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         })
         .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
     }
+    return () => {
+      if (connectedDevice) {
+        disconnect(connectedDevice)
+          .then(() => showInfoToast('디바이스 연결 종료'))
+          .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
+      }
+    };
   }, [connectedDevice]);
-
-  useEffect(() => {
-    onDisconnect(() => {
-      showErrorToast('블루투스 연결이 끊어졌습니다.');
-      navigation.goBack();
-    });
-  }, [navigation, onDisconnect]);
 
   return (
     <SafeAreaView style={styles.container}>

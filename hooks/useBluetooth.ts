@@ -2,7 +2,7 @@ import RNBluetoothClassic, {
   BluetoothDevice,
   BluetoothEventSubscription,
 } from 'react-native-bluetooth-classic';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 export default function useBluetooth() {
   const [pairedDeviceList, setPairedDeviceList] = useState<BluetoothDevice[]>(
@@ -12,12 +12,12 @@ export default function useBluetooth() {
   let readDataListener: BluetoothEventSubscription;
   let disconnectListener: BluetoothEventSubscription;
 
-  // useEffect(() => {
-  //   return () => {
-  //     readDataListener.remove();
-  //     disconnectListener.remove();
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      readDataListener && readDataListener.remove();
+      disconnectListener && disconnectListener.remove();
+    };
+  }, []);
 
   const getPairedDevices = async () => {
     const paired = await RNBluetoothClassic.getBondedDevices();
