@@ -11,7 +11,7 @@ export const showErrorToast = (
     text2: description,
     autoHide: autoHide,
     position: 'bottom',
-    topOffset: 100,
+    topOffset: 200,
   });
 };
 
@@ -26,7 +26,7 @@ export const showSuccessToast = (
     text2: description,
     autoHide: autoHide,
     position: 'bottom',
-    topOffset: 100,
+    topOffset: 200,
   });
 };
 
@@ -41,6 +41,6 @@ export const showInfoToast = (
     text2: description,
     autoHide: autoHide,
     position: 'bottom',
-    topOffset: 100,
+    topOffset: 200,
   });
 };
