@@ -44,26 +44,22 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         });
       });
     }
+    console.log(device);
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      backDisconnect = true;
       readDataListener.remove();
       disconnect(device)
         .then(() => showInfoToast('디바이스 연결 종료'))
         .catch(
           () =>
             backDisconnect &&
-            showErrorToast(
-              '디바이스 연결 종료 실패',
-              '디바이스 초기화 버튼을 눌러주세요',
-            ),
+            showInfoToast('디바이스 초기화 버튼을 눌러주세요'),
         );
     };
   }, []);
 
   useEffect(() => {
     const disconnectListener = RNBluetoothClassic.onDeviceDisconnected(() => {
-      showErrorToast('블루투스 연결이 해제되었습니다.');
+      showErrorToast('블루투스 연결이 끊어졌습니다.');
       navigation.goBack();
     });
     return () => {
