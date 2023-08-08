@@ -1,7 +1,6 @@
-import {StyleSheet, Switch, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
-import {Text} from '@rneui/themed';
 import {
   GraphScreenNavigationProp,
   RootStackParamList,
@@ -16,6 +15,7 @@ import useBluetooth from '../hooks/useBluetooth';
 import LineChart from '../components/LineChart';
 import {BluetoothDevice} from 'react-native-bluetooth-classic';
 import usePlotData from '../hooks/usePlotData';
+import SwitchWithText from '../components/SwitchWithText';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -91,18 +91,12 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.statusContainer}>
-        <View style={styles.textContainer}>
-          <Text style={styles.toggleTitle}>연결된 기기</Text>
-          {isConnected ? (
-            <Text style={styles.deviceName}>{connectedDevice?.name}</Text>
-          ) : null}
-        </View>
-        <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          value={isConnected}
-          onChange={handleConnectTogglePress}></Switch>
-      </View>
+      <SwitchWithText
+        title="연결된 기기"
+        subTitle={connectedDevice?.name}
+        switchValue={isConnected}
+        onPress={handleConnectTogglePress}
+      />
       <LineChart data={chartData} />
     </SafeAreaView>
   );
@@ -117,22 +111,6 @@ const styles = StyleSheet.create({
   chartContainer: {
     height: '60%',
     width: '100%',
-  },
-  statusContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 6,
-  },
-  textContainer: {
-    display: 'flex',
-  },
-  toggleTitle: {
-    fontSize: 18,
-  },
-  deviceName: {
-    fontSize: 14,
-    color: 'gray',
   },
 });
 
