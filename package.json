@@ -26,8 +26,7 @@
     "react-native-toast-message": "^2.1.6",
     "react-native-touchable-scale": "^2.2.0",
     "react-native-vector-icons": "^10.0.0",
-    "redux": "^4.2.1",
-    "sp-react-native-mqtt": "^0.5.1"
+    "redux": "^4.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -50,13 +49,7 @@
   "engines": {
     "node": ">=16"
   },
-  "reactNativePermissionsIOS": {
-    "bluetooth": {
-      "title": "Bluetooth Access",
-      "message": "This app requires access to Bluetooth.",
-      "options": [
-        "alert"
-      ]
-    }
-  }
+  "reactNativePermissionsIOS": [
+    "BluetoothPeripheral"
+  ]
 }
