@@ -6,8 +6,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Button, Icon, ThemeProvider} from '@rneui/themed';
 import Toast from 'react-native-toast-message';
+import {RootStackParamList} from './types/navigationType';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Stack.Screen
               name={'Graph'}
               component={GraphScreen}
+              initialParams={{address: ''}}
               options={{
                 title: '그래프',
                 headerRight: () => (

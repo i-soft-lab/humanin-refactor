@@ -1,4 +1,4 @@
-import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Graph: {address: string};
