@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Switch, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import {Text} from '@rneui/themed';
@@ -24,6 +24,7 @@ interface GraphScreenProps {
 
 const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {
+    connect,
     disconnect,
     findConnectedDeviceByAddress,
     plotDataStreamStart,
@@ -31,7 +32,9 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     onDisconnect,
   } = useBluetooth();
   const {chartData, handleChartData} = usePlotData();
-  const [connectedDevice, setConnectedDevice] = useState<BluetoothDevice>();
+  const [connectedDevice, setConnectedDevice] =
+    useState<BluetoothDevice | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
   const {address} = route.params;
 
   useEffect(() => {
@@ -44,13 +47,13 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 
     // 블루투스 연결 해제 리스너 등록
     onDisconnect(() => {
-      showErrorToast('블루투스 연결이 끊어졌습니다.');
-      navigation.goBack();
+      setIsConnected(false);
     });
   }, []);
 
   useEffect(() => {
     if (connectedDevice) {
+      setIsConnected(true);
       plotDataStreamStart(connectedDevice)
         .then(() => {
           onStreamDataReceive(connectedDevice, handleChartData);
@@ -70,9 +73,36 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     }
   }, [connectedDevice]);
 
+  const handleConnectTogglePress = () => {
+    if (connectedDevice) {
+      if (!isConnected) {
+        setIsConnected(true);
+        connect(connectedDevice).then(() =>
+          showSuccessToast('디바이스에 다시 연결되었습니다.'),
+        );
+      } else {
+        setIsConnected(false);
+        disconnect(connectedDevice).then(() =>
+          showSuccessToast('디바이스 연결 종료'),
+        );
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text>연결된 장치: {connectedDevice?.name}</Text>
+      <View style={styles.statusContainer}>
+        <View style={styles.textContainer}>
+          <Text style={styles.toggleTitle}>연결된 기기</Text>
+          {isConnected ? (
+            <Text style={styles.deviceName}>{connectedDevice?.name}</Text>
+          ) : null}
+        </View>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          value={isConnected}
+          onChange={handleConnectTogglePress}></Switch>
+      </View>
       <LineChart data={chartData} />
     </SafeAreaView>
   );
@@ -87,6 +117,22 @@ const styles = StyleSheet.create({
   chartContainer: {
     height: '60%',
     width: '100%',
+  },
+  statusContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 6,
+  },
+  textContainer: {
+    display: 'flex',
+  },
+  toggleTitle: {
+    fontSize: 18,
+  },
+  deviceName: {
+    fontSize: 14,
+    color: 'gray',
   },
 });
 
