@@ -35,11 +35,14 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {address} = route.params;
 
   useEffect(() => {
+    // 연결된 디바이스 찾아서 state 설정
     findConnectedDeviceByAddress(address).then(device =>
       device
         ? setConnectedDevice(device)
         : showErrorToast('블루투스 연결이 끊어졌습니다.'),
     );
+
+    // 블루투스 연결 해제 리스너 등록
     onDisconnect(() => {
       showErrorToast('블루투스 연결이 끊어졌습니다.');
       navigation.goBack();
@@ -53,9 +56,8 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
           onStreamDataReceive(connectedDevice, handleChartData);
         })
         .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
-    }
-    return () => {
-      if (connectedDevice) {
+
+      return () => {
         disconnect(connectedDevice)
           .then(() =>
             showSuccessToast(
@@ -64,8 +66,8 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
             ),
           )
           .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
-      }
-    };
+      };
+    }
   }, [connectedDevice]);
 
   return (
