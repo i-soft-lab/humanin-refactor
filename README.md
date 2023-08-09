@@ -11,4 +11,4 @@
 
 ## 화면 플로우
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FglkpBPdDsXxoe4rSj7yQGI%2FhumanIn%3Ftype%3Dwhiteboard%26node-id%3D0%253A1%26t%3DpbbmFPA1Rs9dhfff-1" allowfullscreen></iframe>
+[](https://www.figma.com/file/glkpBPdDsXxoe4rSj7yQGI?embed_host=share&kind=&node-id=0%3A1&t=pbbmFPA1Rs9dhfff-1&type=whiteboard&viewer=1)
