@@ -29,7 +29,7 @@ const App = () => {
                 title: '그래프',
                 headerRight: () => (
                   <Button type="clear" color="gray">
-                    <Icon name="info" color="gray" />
+                    <Icon name="settings" color="#0389E3" />
                   </Button>
                 ),
               }}

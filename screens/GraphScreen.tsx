@@ -1,7 +1,10 @@
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
-import {RootStackParamList} from '../types/navigationType';
+import {
+  GraphScreenNavigationProp,
+  RootStackParamList,
+} from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
 import {
   showErrorToast,
@@ -12,12 +15,15 @@ import useBluetooth from '../hooks/useBluetooth';
 import LineChart from '../components/LineChart';
 import usePlotData from '../hooks/usePlotData';
 import SwitchWithText from '../components/SwitchWithText';
+import {Button, Icon} from '@rneui/themed';
+import GraphOptionDialog from '../components/GraphOptionDialog';
 
 interface GraphScreenProps {
+  navigation: GraphScreenNavigationProp;
   route: RouteProp<RootStackParamList, 'Graph'>;
 }
 
-const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
+const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {address} = route.params;
   const {
     connect,
@@ -32,6 +38,17 @@ const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
   } = useBluetooth(address);
   const {chartData, handleChartData} = usePlotData();
   const [isLoading, setIsLoading] = useState(false);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button type="clear" onPress={() => setIsDialogVisible(true)}>
+          <Icon name="settings" color="#0389E3" />
+        </Button>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     if (connectedDevice && isConnected) {
@@ -86,6 +103,10 @@ const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
     }
   };
 
+  const handleCompleteSetting = () => {
+    setIsDialogVisible(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <SwitchWithText
@@ -96,6 +117,11 @@ const GraphScreen: React.FC<GraphScreenProps> = ({route}) => {
         onPress={handleConnectTogglePress}
       />
       <LineChart data={chartData} />
+      <GraphOptionDialog
+        isVisible={isDialogVisible}
+        handleVisible={isVisible => setIsDialogVisible(!isVisible)}
+        handleComplete={handleCompleteSetting}
+      />
     </SafeAreaView>
   );
 };

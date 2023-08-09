@@ -5,9 +5,14 @@ import {StyleSheet, View} from 'react-native';
 type Props = {
   isVisible: boolean;
   handleVisible: (isVisible: boolean) => void;
+  handleComplete: () => void;
 };
 
-export default function GraphOptionDialog({isVisible, handleVisible}: Props) {
+export default function GraphOptionDialog({
+  isVisible,
+  handleVisible,
+  handleComplete,
+}: Props) {
   const [value, setValue] = useState(0);
 
   return (
@@ -46,10 +51,7 @@ export default function GraphOptionDialog({isVisible, handleVisible}: Props) {
         }}
       />
       <Dialog.Actions>
-        <Dialog.Button
-          title="완료"
-          onPress={() => console.log('Primary Action Clicked!')}
-        />
+        <Dialog.Button title="완료" onPress={handleComplete} />
         <Dialog.Button title="취소" onPress={() => handleVisible(isVisible)} />
       </Dialog.Actions>
     </Dialog>

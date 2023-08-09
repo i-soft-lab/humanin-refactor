@@ -4,9 +4,9 @@ import RNBluetoothClassic, {
 } from 'react-native-bluetooth-classic';
 import {useEffect, useState} from 'react';
 
-type Address = string;
+type Address = string | undefined;
 
-export default function useBluetooth(address: Address | undefined) {
+export default function useBluetooth(address: Address = undefined) {
   const [pairedDeviceList, setPairedDeviceList] = useState<BluetoothDevice[]>(
     [],
   );
