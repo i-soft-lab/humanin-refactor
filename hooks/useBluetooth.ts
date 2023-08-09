@@ -4,15 +4,26 @@ import RNBluetoothClassic, {
 } from 'react-native-bluetooth-classic';
 import {useEffect, useState} from 'react';
 
-export default function useBluetooth() {
+type Address = string;
+
+export default function useBluetooth(address: Address | undefined) {
   const [pairedDeviceList, setPairedDeviceList] = useState<BluetoothDevice[]>(
     [],
   );
   const [scanDeviceList, setScanDeviceList] = useState<BluetoothDevice[]>([]);
+  const [connectedDevice, setConnectedDevice] =
+    useState<BluetoothDevice | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
   let readDataListener: BluetoothEventSubscription;
   let disconnectListener: BluetoothEventSubscription;
 
   useEffect(() => {
+    if (address) {
+      findConnectedDeviceByAddress(address).then(device => {
+        setConnectedDevice(device);
+        setIsConnected(true);
+      });
+    }
     return () => {
       readDataListener && readDataListener.remove();
       disconnectListener && disconnectListener.remove();
@@ -38,6 +49,8 @@ export default function useBluetooth() {
       connection = await device.connect({
         delimiter: '\n',
       });
+      setIsConnected(true);
+      setConnectedDevice(device);
     }
     return connection;
   };
@@ -55,9 +68,7 @@ export default function useBluetooth() {
   };
 
   const findConnectedDeviceByAddress = async (address: string) => {
-    return await RNBluetoothClassic.getConnectedDevices().then(
-      devices => devices.find(device => device.address === address) ?? null,
-    );
+    return await RNBluetoothClassic.getConnectedDevice(address);
   };
 
   const plotDataStreamStart = async (device: BluetoothDevice) => {
@@ -77,9 +88,10 @@ export default function useBluetooth() {
   };
 
   const onDisconnect = (callback: () => void) => {
-    disconnectListener = RNBluetoothClassic.onDeviceDisconnected(() =>
-      callback(),
-    );
+    disconnectListener = RNBluetoothClassic.onDeviceDisconnected(() => {
+      callback();
+      setIsConnected(false);
+    });
   };
 
   return {
@@ -88,6 +100,9 @@ export default function useBluetooth() {
     scanDeviceList,
     getScanDevices,
     connect,
+    connectedDevice,
+    isConnected,
+    setIsConnected,
     write,
     readMessage,
     disconnect,
