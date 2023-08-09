@@ -11,4 +11,4 @@
 
 ## 화면 플로우
 
-[](https://www.figma.com/file/glkpBPdDsXxoe4rSj7yQGI?embed_host=share&kind=&node-id=0%3A1&t=pbbmFPA1Rs9dhfff-1&type=whiteboard&viewer=1)
+[FigZam](https://www.figma.com/file/glkpBPdDsXxoe4rSj7yQGI?embed_host=share&kind=&node-id=0%3A1&t=pbbmFPA1Rs9dhfff-1&type=whiteboard&viewer=1)
