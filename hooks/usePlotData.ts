@@ -15,7 +15,6 @@ export default function usePlotData() {
     receiveData.push({y: data});
     if (receiveData.length >= speed) {
       setChartData(prevChartData => [...prevChartData, ...receiveData]);
-      console.log(receiveData.length, speed);
       receiveData = [];
     }
   };

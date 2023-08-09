@@ -57,7 +57,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     if (connectedDevice && isConnected) {
       plotDataStreamStart(connectedDevice)
         .then(() => {
-          console.log('읽기 쓰기 완료?');
           onStreamDataReceive(connectedDevice, dataArr =>
             handleChartData(dataArr, renderSpeed),
           );
@@ -72,17 +71,15 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   useEffect(() => {
     return () => {
       findConnectedDeviceByAddress(address)
-        .then(
-          device =>
-            device &&
-            disconnect(device)
-              .then(() =>
-                showSuccessToast(
-                  '디바이스와 연결을 종료합니다.',
-                  '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
-                ),
-              )
-              .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요')),
+        .then(device =>
+          disconnect(device)
+            .then(() =>
+              showSuccessToast(
+                '디바이스와 연결을 종료합니다.',
+                '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
+              ),
+            )
+            .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요')),
         )
         .catch(() => console.warn('연결 해제할 디바이스가 없음'));
     };

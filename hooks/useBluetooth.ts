@@ -19,10 +19,12 @@ export default function useBluetooth(address: Address = undefined) {
 
   useEffect(() => {
     if (address) {
-      findConnectedDeviceByAddress(address).then(device => {
-        setConnectedDevice(device);
-        setIsConnected(true);
-      });
+      findConnectedDeviceByAddress(address)
+        .then(device => {
+          setConnectedDevice(device);
+          setIsConnected(true);
+        })
+        .catch(() => console.warn('연결중인 디바이스 없음'));
     }
     return () => {
       readDataListener && readDataListener.remove();
