@@ -10,12 +10,12 @@ export default function usePlotData() {
     }
   }, [chartData]);
 
-  const handleChartData = (dataArr: number[]) => {
+  const handleChartData = (dataArr: number[], speed: number) => {
     const [data, flag] = dataArr;
     receiveData.push({y: data});
-    if (receiveData.length >= 5) {
+    if (receiveData.length >= speed) {
       setChartData(prevChartData => [...prevChartData, ...receiveData]);
-      console.log(receiveData);
+      console.log(receiveData.length, speed);
       receiveData = [];
     }
   };

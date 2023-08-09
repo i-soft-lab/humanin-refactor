@@ -39,11 +39,14 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {chartData, handleChartData} = usePlotData();
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
+  let renderSpeed = 5;
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button type="clear" onPress={() => setIsDialogVisible(true)}>
+        <Button
+          type="clear"
+          onPress={() => handleDialogVisibility(isDialogVisible)}>
           <Icon name="settings" color="#0389E3" />
         </Button>
       ),
@@ -55,7 +58,9 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
       plotDataStreamStart(connectedDevice)
         .then(() => {
           console.log('읽기 쓰기 완료?');
-          onStreamDataReceive(connectedDevice, handleChartData);
+          onStreamDataReceive(connectedDevice, dataArr =>
+            handleChartData(dataArr, renderSpeed),
+          );
         })
         .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
     }
@@ -83,28 +88,50 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     };
   }, []);
 
-  const handleConnectTogglePress = () => {
-    setIsLoading(true);
-    if (!isConnected) {
-      connect(connectedDevice!)
-        .then(() => {
-          showSuccessToast('디바이스에 다시 연결되었습니다.');
-        })
-        .catch(e => showErrorToast('디바이스 연결 실패', e.message))
-        .finally(() => setIsLoading(false));
-    } else {
-      disconnect(connectedDevice!)
+  const handleReconnect = () => {
+    connect(connectedDevice!)
+      .then(() => {
+        showSuccessToast('디바이스에 다시 연결되었습니다.');
+      })
+      .catch(e => showErrorToast('디바이스 연결 실패', e.message))
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleDisconnect = () => {
+    findConnectedDeviceByAddress(address).then(device =>
+      disconnect(device)
         .then(() => {
           setIsConnected(false);
           showSuccessToast('디바이스와 연결을 종료합니다.');
         })
         .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
-        .finally(() => setIsLoading(false));
+        .finally(() => setIsLoading(false)),
+    );
+  };
+
+  const handleConnectTogglePress = () => {
+    setIsLoading(true);
+    if (!isConnected) {
+      handleReconnect();
+    } else {
+      handleDisconnect();
     }
   };
 
-  const handleCompleteSetting = () => {
+  const handleDialogVisibility = (isVisible: boolean) => {
+    if (isVisible) {
+      setIsDialogVisible(false);
+      handleReconnect();
+    } else {
+      setIsDialogVisible(true);
+      handleDisconnect();
+    }
+  };
+
+  const handleCompleteSetting = (speed: number) => {
     setIsDialogVisible(false);
+    handleReconnect();
+    renderSpeed = speed;
   };
 
   return (
@@ -119,8 +146,8 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
       <LineChart data={chartData} />
       <GraphOptionDialog
         isVisible={isDialogVisible}
-        handleVisible={isVisible => setIsDialogVisible(!isVisible)}
-        handleComplete={handleCompleteSetting}
+        handleVisible={isVisible => handleDialogVisibility(isVisible)}
+        handleComplete={speed => handleCompleteSetting(speed)}
       />
     </SafeAreaView>
   );
