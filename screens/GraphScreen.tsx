@@ -81,7 +81,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
             )
             .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요')),
         )
-        .catch(() => console.warn('연결 해제할 디바이스가 없음'));
+        .catch(() => console.warn('연결 해제할 디바이스 없음'));
     };
   }, []);
 
@@ -95,15 +95,17 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   };
 
   const handleDisconnect = () => {
-    findConnectedDeviceByAddress(address).then(device =>
-      disconnect(device)
-        .then(() => {
-          setIsConnected(false);
-          showSuccessToast('디바이스와 연결을 종료합니다.');
-        })
-        .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
-        .finally(() => setIsLoading(false)),
-    );
+    findConnectedDeviceByAddress(address)
+      .then(device =>
+        disconnect(device)
+          .then(() => {
+            setIsConnected(false);
+            showSuccessToast('디바이스와 연결을 종료합니다.');
+          })
+          .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
+          .finally(() => setIsLoading(false)),
+      )
+      .catch(() => console.warn('연결 해제할 디바이스 없음'));
   };
 
   const handleConnectTogglePress = () => {

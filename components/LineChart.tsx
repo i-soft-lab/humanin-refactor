@@ -11,6 +11,8 @@ const LineChart: React.FC<Props> = ({data}) => {
     <View style={styles.container}>
       <ImportLineChart
         style={styles.chart}
+        highlightPerTapEnabled={false}
+        doubleTapToZoomEnabled={false}
         data={{
           dataSets: [
             {
