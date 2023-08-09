@@ -13,6 +13,9 @@ const LineChart: React.FC<Props> = ({data}) => {
         style={styles.chart}
         highlightPerTapEnabled={false}
         doubleTapToZoomEnabled={false}
+        chartDescription={{
+          text: 'data from sender',
+        }}
         data={{
           dataSets: [
             {
