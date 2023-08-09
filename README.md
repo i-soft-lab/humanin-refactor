@@ -11,12 +11,4 @@
 
 ## 화면 플로우
 
-```mermaid
-graph LR
-    A(앱 실행) -- 권한이 이미 허용된 상태 --> B(블루투스 화면 진입) --> C(기기 연결 버튼 클릭)
-    A -- 앱 다운 후 첫실행 --> G(블루투스 권한 허용) -- 권한 허용 완료 --> B
-    C -- 기기 연결 시 자동으로 그래프화면 진입 --> D(데이터 받아와서 그래프에 표시함)
-    C -- 기기 연결 안되면 그래프 화면 안넘어감 --> C
-    D -- 뒤로가기 버튼 클릭 --> E(블루투스 연결 화면으로 이동)
-    D -- 블루투스 연결 끊김 or 초기화 버튼 누름 --> F(블루투스 연결 화면으로 이동)
-```
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FglkpBPdDsXxoe4rSj7yQGI%2FhumanIn%3Ftype%3Dwhiteboard%26node-id%3D0%253A1%26t%3DpbbmFPA1Rs9dhfff-1" allowfullscreen></iframe>
