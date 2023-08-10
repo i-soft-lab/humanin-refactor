@@ -5,6 +5,7 @@ import {
   DeviceId,
 } from 'react-native-ble-plx';
 import {useState} from 'react';
+import base64 from 'react-native-base64';
 
 const SERVICE_UUID = process.env.SERVICE_UUID!;
 const CHARACTERISTIC_UUID = process.env.CHARACTERISTIC_UUID!;
@@ -24,31 +25,41 @@ export default function useBle(bleManager: BleManager) {
 
   const getScanDevices = () => {
     setScanDeviceList([]);
-    bleManager.startDeviceScan(null, null, (error, device) => {
-      if (error) {
-        stopScan();
-      }
+    bleManager.startDeviceScan(
+      null,
+      {allowDuplicates: false},
+      (error, device) => {
+        if (error) {
+          stopScan();
+        }
 
-      if (device && device.name !== null) {
-        setScanDeviceList(prevState => {
-          if (!isDuplicateDevice(prevState, device)) {
-            return [...prevState, device];
-          }
-          return prevState;
-        });
-      }
-    });
+        if (device && device.name !== null) {
+          setScanDeviceList(prevState => {
+            if (!isDuplicateDevice(prevState, device)) {
+              return [...prevState, device];
+            }
+            return prevState;
+          });
+        }
+      },
+    );
+  };
+
+  const findServicesAndCharacteristics = async (id: DeviceId) => {
+    return await bleManager
+      .discoverAllServicesAndCharacteristicsForDevice(id)
+      .then(device => {
+        return device.services();
+      })
+      .then(services =>
+        services.map(async service => await service.characteristics()),
+      )
+      .then(async characteristics => await Promise.all(characteristics));
   };
 
   const connect = async (id: DeviceId) => {
     stopScan();
-    return await bleManager
-      .connectToDevice(id)
-      .then(async connection =>
-        (await bleManager.isDeviceConnected(id))
-          ? {deviceName: connection.name!, deviceId: connection.id}
-          : null,
-      );
+    return bleManager.connectToDevice(id);
   };
 
   const disconnect = async (id: DeviceId) => {
@@ -56,24 +67,12 @@ export default function useBle(bleManager: BleManager) {
   };
 
   const write = async (id: DeviceId, data: string) => {
-    await bleManager.writeCharacteristicWithoutResponseForDevice(
+    await bleManager.writeCharacteristicWithResponseForDevice(
       id,
       SERVICE_UUID,
       CHARACTERISTIC_UUID,
-      btoa(data),
+      base64.encode(data),
     );
-  };
-
-  const readMessage = async (id: DeviceId) => {
-    await bleManager.readCharacteristicForDevice(
-      id,
-      SERVICE_UUID,
-      CHARACTERISTIC_UUID,
-    );
-  };
-
-  const plotDataStreamStart = async (id: DeviceId) => {
-    await write(id, 'plot').then(async () => await readMessage(id));
   };
 
   const isConnectedDevice = async (id: DeviceId) => {
@@ -86,7 +85,7 @@ export default function useBle(bleManager: BleManager) {
     });
   };
 
-  const onStreamDataReceive = (
+  const subscribeCharacteristic = (
     id: DeviceId,
     callback: (dataArr: Characteristic | null) => void,
   ) => {
@@ -98,7 +97,6 @@ export default function useBle(bleManager: BleManager) {
         if (error) {
           return error;
         }
-        console.log(characteristic);
         callback(characteristic);
       },
     );
@@ -107,15 +105,14 @@ export default function useBle(bleManager: BleManager) {
   return {
     destroyManager,
     getScanDevices,
+    findServicesAndCharacteristics,
     stopScan,
     connect,
     disconnect,
     write,
-    readMessage,
-    plotDataStreamStart,
     isConnectedDevice,
     onDisconnect,
-    onStreamDataReceive,
+    subscribeCharacteristic,
     scanDeviceList,
   };
 }

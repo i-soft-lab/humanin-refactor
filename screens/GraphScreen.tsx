@@ -6,7 +6,11 @@ import {
   RootStackParamList,
 } from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
-import {showErrorToast, showSuccessToast} from '../components/Toast';
+import {
+  showErrorToast,
+  showInfoToast,
+  showSuccessToast,
+} from '../components/Toast';
 import LineChart from '../components/LineChart';
 import usePlotData from '../hooks/usePlotData';
 import SwitchWithText from '../components/SwitchWithText';
@@ -24,18 +28,20 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {bleManager} = useBleContext();
   const {id, name} = route.params;
   const {
+    destroyManager,
+    findServicesAndCharacteristics,
     connect,
     disconnect,
     isConnectedDevice,
-    plotDataStreamStart,
+    write,
     onDisconnect,
-    onStreamDataReceive,
+    subscribeCharacteristic,
   } = useBle(bleManager);
   const {chartData, handleChartData} = usePlotData();
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
-  let renderSpeed = 5;
+  let renderSpeed = 2;
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,35 +56,42 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   }, [navigation]);
 
   useEffect(() => {
-    console.log(isConnected);
     if (isConnected) {
-      // plotDataStreamStart(id)
-      //   .then(() => {
-      //     onStreamDataReceive(
-      //       id,
-      //       dataArr => {},
-      //       // handleChartData(dataArr, renderSpeed),
-      //     );
-      //   })
-      //   .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
+      findServicesAndCharacteristics(id).then(() => {
+        write(id, 'plot')
+          .then(data => {
+            subscribeCharacteristic(id, dataArr => {
+              handleChartData(dataArr, renderSpeed);
+            });
+          })
+          .catch(e => {
+            showErrorToast('데이터를 받아올 수 없습니다', e.message);
+          });
+      });
     }
 
     // 블루투스 연결 해제 리스너 등록
-    onDisconnect(id, () => {});
+    onDisconnect(id, () => {
+      setIsConnected(false);
+    });
   }, [isConnected]);
 
   useEffect(() => {
     isConnectedDevice(id).then((res: boolean) => setIsConnected(res));
-    // return () => {
-    //   disconnect(id)
-    //     .then(() =>
-    //       showSuccessToast(
-    //         '디바이스와 연결을 종료합니다.',
-    //         '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
-    //       ),
-    //     )
-    //     .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
-    // };
+    return () => {
+      isConnectedDevice(id).then((res: boolean) => {
+        if (res) {
+          disconnect(id)
+            .then(() =>
+              showSuccessToast(
+                '디바이스와 연결을 종료합니다.',
+                '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
+              ),
+            )
+            .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
+        }
+      });
+    };
   }, []);
 
   const handleReconnect = () => {
@@ -88,7 +101,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
           showSuccessToast('디바이스에 다시 연결되었습니다.');
           setIsConnected(true);
         } else {
-          showErrorToast('디바이스 연결 실패', e.message);
+          showErrorToast('디바이스 연결 실패');
         }
       })
       .catch(e => showErrorToast('디바이스 연결 실패', e.message))

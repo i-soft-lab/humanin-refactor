@@ -35,14 +35,12 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
     setIsScan(false);
     showInfoToast('장치에 연결중입니다. 잠시만 기다려주세요.');
     connect(id)
-      .then(res => {
-        if (res) {
-          const {deviceName, deviceId} = res;
-          showSuccessToast(`${deviceName} 장치에 연결되었습니다.`);
-          navigation.push('Graph', {id: deviceId, name: deviceName});
-        } else {
-          showErrorToast('장치에 연결할 수 없습니다.');
-        }
+      .then(connectedDevice => {
+        showSuccessToast(`${connectedDevice.name} 장치에 연결되었습니다.`);
+        navigation.push('Graph', {
+          id: connectedDevice.id,
+          name: connectedDevice.name!,
+        });
       })
       .catch(e => {
         showErrorToast('장치에 연결할 수 없습니다.', e?.message);
