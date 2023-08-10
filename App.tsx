@@ -7,6 +7,7 @@ import {Button, Icon, ThemeProvider} from '@rneui/themed';
 import Toast from 'react-native-toast-message';
 import {RootStackParamList} from './types/navigationType';
 import BleScreen from './screens/BleScreen';
+import {BleProvider} from './context/BleProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,27 +16,28 @@ const App = () => {
     <SafeAreaProvider>
       <ThemeProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={'Bluetooth'}>
-            <Stack.Screen
-              name={'Bluetooth'}
-              component={BleScreen}
-              options={{title: '블루투스'}}
-            />
-            <Stack.Screen
-              name={'Graph'}
-              component={GraphScreen}
-              initialParams={{address: ''}}
-              options={{
-                title: '그래프',
-                headerRight: () => (
-                  <Button type="clear" color="gray">
-                    <Icon name="settings" color="#0389E3" />
-                  </Button>
-                ),
-              }}
-            />
-          </Stack.Navigator>
-          <Toast />
+          <BleProvider>
+            <Stack.Navigator initialRouteName={'Bluetooth'}>
+              <Stack.Screen
+                name={'Bluetooth'}
+                component={BleScreen}
+                options={{title: '블루투스'}}
+              />
+              <Stack.Screen
+                name={'Graph'}
+                component={GraphScreen}
+                options={{
+                  title: '그래프',
+                  headerRight: () => (
+                    <Button type="clear" color="gray">
+                      <Icon name="settings" color="#0389E3" />
+                    </Button>
+                  ),
+                }}
+              />
+            </Stack.Navigator>
+            <Toast />
+          </BleProvider>
         </NavigationContainer>
       </ThemeProvider>
     </SafeAreaProvider>

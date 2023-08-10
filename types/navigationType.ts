@@ -1,7 +1,8 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {DeviceId} from 'react-native-ble-plx';
 
 export type RootStackParamList = {
-  Graph: {address: string};
+  Graph: {id: DeviceId; name: string};
   Bluetooth: undefined;
 };
 

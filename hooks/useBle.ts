@@ -1,20 +1,32 @@
-import {BleManager, Device, DeviceId} from 'react-native-ble-plx';
+import {
+  BleManager,
+  Characteristic,
+  Device,
+  DeviceId,
+} from 'react-native-ble-plx';
 import {useState} from 'react';
 
 const SERVICE_UUID = '';
 const CHARACTERRITIC_UUID = '';
-export default function useBle() {
-  const bleManager = new BleManager();
+export default function useBle(bleManager: BleManager) {
   const [scanDeviceList, setScanDeviceList] = useState<Device[]>([]);
 
   const isDuplicateDevice = (devices: Device[], nextDevice: Device) =>
     devices.findIndex(device => nextDevice.id === device.id) > -1;
 
+  const destroyManager = () => {
+    bleManager.destroy();
+  };
+
+  const stopScan = () => {
+    bleManager.stopDeviceScan();
+  };
+
   const getScanDevices = () => {
     setScanDeviceList([]);
     bleManager.startDeviceScan(null, null, (error, device) => {
       if (error) {
-        throw new Error('디바이스 스캔 오류 발생');
+        stopScan();
       }
 
       if (device && device.name !== null) {
@@ -28,15 +40,19 @@ export default function useBle() {
     });
   };
 
-  const stopScan = () => {
-    bleManager.stopDeviceScan();
+  const connect = async (id: DeviceId) => {
+    stopScan();
+    return await bleManager
+      .connectToDevice(id)
+      .then(async connection =>
+        (await bleManager.isDeviceConnected(id))
+          ? {deviceName: connection.name!, deviceId: connection.id}
+          : null,
+      );
   };
 
-  const connect = async (id: DeviceId) => {
-    const connection = await bleManager.connectToDevice(id);
-    await connection.discoverAllServicesAndCharacteristics();
-    bleManager.stopDeviceScan();
-    return {deviceName: connection.name, deviceId: connection.id};
+  const disconnect = async (id: DeviceId) => {
+    await bleManager.cancelDeviceConnection(id);
   };
 
   const write = async (id: DeviceId, data: string) => {
@@ -56,12 +72,50 @@ export default function useBle() {
     );
   };
 
+  const plotDataStreamStart = async (id: DeviceId) => {
+    await write(id, 'plot').then(async () => await readMessage(id));
+  };
+
+  const isConnectedDevice = async (id: DeviceId) => {
+    return await bleManager.isDeviceConnected(id);
+  };
+
+  const onDisconnect = (id: DeviceId, callback: () => void) => {
+    bleManager.onDeviceDisconnected(id, () => {
+      callback();
+    });
+  };
+
+  const onStreamDataReceive = (
+    id: DeviceId,
+    callback: (dataArr: Characteristic | null) => void,
+  ) => {
+    bleManager.monitorCharacteristicForDevice(
+      id,
+      SERVICE_UUID,
+      CHARACTERRITIC_UUID,
+      (error, characteristic) => {
+        if (error) {
+          return error;
+        }
+        console.log(characteristic);
+        callback(characteristic);
+      },
+    );
+  };
+
   return {
+    destroyManager,
     getScanDevices,
     stopScan,
     connect,
+    disconnect,
     write,
     readMessage,
+    plotDataStreamStart,
+    isConnectedDevice,
+    onDisconnect,
+    onStreamDataReceive,
     scanDeviceList,
   };
 }

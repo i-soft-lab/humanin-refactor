@@ -12,14 +12,17 @@ import {
 } from '../components/Toast';
 import useBle from '../hooks/useBle';
 import {DeviceId} from 'react-native-ble-plx';
+import {useBleContext} from '../context/BleProvider';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
 }
 
 const BleScreen: React.FC<Props> = ({navigation}) => {
+  const {bleManager} = useBleContext();
   const {requestPermissions} = usePermission();
-  const {scanDeviceList, getScanDevices, connect, stopScan} = useBle();
+  const {scanDeviceList, getScanDevices, connect, isConnectedDevice, stopScan} =
+    useBle(bleManager);
   const [isScan, setIsScan] = useState(false);
 
   useEffect(() => {
@@ -32,20 +35,23 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
     setIsScan(false);
     showInfoToast('장치에 연결중입니다. 잠시만 기다려주세요.');
     connect(id)
-      .then(({deviceName, deviceId}) => {
-        if (deviceName) {
+      .then(res => {
+        if (res) {
+          const {deviceName, deviceId} = res;
           showSuccessToast(`${deviceName} 장치에 연결되었습니다.`);
-          navigation.push('Graph', {address: deviceId});
+          navigation.push('Graph', {id: deviceId, name: deviceName});
+        } else {
+          showErrorToast('장치에 연결할 수 없습니다.');
         }
       })
       .catch(e => {
-        showErrorToast('연결 오류!', e?.message);
+        showErrorToast('장치에 연결할 수 없습니다.', e?.message);
       });
   };
 
   const handleScanDevice = () => {
     if (isScan) {
-      showInfoToast('장치 검색을 취소합니다.');
+      showInfoToast('장치 검색을 중단합니다.');
       setIsScan(false);
       stopScan();
     } else {
@@ -76,7 +82,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
         }}>
         {isScan ? (
           <View style={styles.loadingButton}>
-            <Text style={styles.buttonText}>장치 검색중</Text>
+            <Text style={styles.buttonText}>장치 검색 중단</Text>
             <ActivityIndicator size="small" />
           </View>
         ) : (

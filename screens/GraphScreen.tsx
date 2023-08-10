@@ -6,18 +6,14 @@ import {
   RootStackParamList,
 } from '../types/navigationType';
 import {RouteProp} from '@react-navigation/native';
-import {
-  showErrorToast,
-  showInfoToast,
-  showSuccessToast,
-} from '../components/Toast';
-import useBluetooth from '../hooks/useBluetooth';
+import {showErrorToast, showSuccessToast} from '../components/Toast';
 import LineChart from '../components/LineChart';
 import usePlotData from '../hooks/usePlotData';
 import SwitchWithText from '../components/SwitchWithText';
 import {Button, Icon} from '@rneui/themed';
 import GraphOptionDialog from '../components/GraphOptionDialog';
-import useMqtt from '../hooks/useMqtt';
+import useBle from '../hooks/useBle';
+import {useBleContext} from '../context/BleProvider';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -25,20 +21,18 @@ interface GraphScreenProps {
 }
 
 const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
-  const {address} = route.params;
+  const {bleManager} = useBleContext();
+  const {id, name} = route.params;
   const {
     connect,
-    connectedDevice,
-    isConnected,
-    setIsConnected,
     disconnect,
-    findConnectedDeviceByAddress,
+    isConnectedDevice,
     plotDataStreamStart,
-    onStreamDataReceive,
     onDisconnect,
-  } = useBluetooth(address);
+    onStreamDataReceive,
+  } = useBle(bleManager);
   const {chartData, handleChartData} = usePlotData();
-  const {sendMqttMessage} = useMqtt();
+  const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   let renderSpeed = 5;
@@ -56,58 +50,59 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   }, [navigation]);
 
   useEffect(() => {
-    if (connectedDevice && isConnected) {
-      plotDataStreamStart(connectedDevice)
-        .then(() => {
-          onStreamDataReceive(connectedDevice, dataArr =>
-            handleChartData(dataArr, renderSpeed),
-          );
-        })
-        .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
+    console.log(isConnected);
+    if (isConnected) {
+      // plotDataStreamStart(id)
+      //   .then(() => {
+      //     onStreamDataReceive(
+      //       id,
+      //       dataArr => {},
+      //       // handleChartData(dataArr, renderSpeed),
+      //     );
+      //   })
+      //   .catch(e => showErrorToast('데이터를 받아올 수 없습니다', e.message));
     }
 
     // 블루투스 연결 해제 리스너 등록
-    onDisconnect(() => {});
-  }, [connectedDevice, isConnected]);
+    onDisconnect(id, () => {});
+  }, [isConnected]);
 
   useEffect(() => {
-    return () => {
-      findConnectedDeviceByAddress(address)
-        .then(device =>
-          disconnect(device)
-            .then(() =>
-              showSuccessToast(
-                '디바이스와 연결을 종료합니다.',
-                '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
-              ),
-            )
-            .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요')),
-        )
-        .catch(() => console.warn('연결 해제할 디바이스 없음'));
-    };
+    isConnectedDevice(id).then((res: boolean) => setIsConnected(res));
+    // return () => {
+    //   disconnect(id)
+    //     .then(() =>
+    //       showSuccessToast(
+    //         '디바이스와 연결을 종료합니다.',
+    //         '뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.',
+    //       ),
+    //     )
+    //     .catch(() => showInfoToast('디바이스 초기화 버튼을 눌러주세요'));
+    // };
   }, []);
 
   const handleReconnect = () => {
-    connect(connectedDevice!)
-      .then(() => {
-        showSuccessToast('디바이스에 다시 연결되었습니다.');
+    connect(id)
+      .then(res => {
+        if (res) {
+          showSuccessToast('디바이스에 다시 연결되었습니다.');
+          setIsConnected(true);
+        } else {
+          showErrorToast('디바이스 연결 실패', e.message);
+        }
       })
       .catch(e => showErrorToast('디바이스 연결 실패', e.message))
       .finally(() => setIsLoading(false));
   };
 
   const handleDisconnect = () => {
-    findConnectedDeviceByAddress(address)
-      .then(device =>
-        disconnect(device)
-          .then(() => {
-            setIsConnected(false);
-            showSuccessToast('디바이스와 연결을 종료합니다.');
-          })
-          .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
-          .finally(() => setIsLoading(false)),
-      )
-      .catch(() => console.warn('연결 해제할 디바이스 없음'));
+    disconnect(id)
+      .then(() => {
+        setIsConnected(false);
+        showSuccessToast('디바이스와 연결을 종료합니다.');
+      })
+      .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
+      .finally(() => setIsLoading(false));
   };
 
   const handleConnectTogglePress = () => {
@@ -139,7 +134,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     <SafeAreaView style={styles.container}>
       <SwitchWithText
         title="연결된 기기"
-        subTitle={connectedDevice?.name}
+        subTitle={name}
         switchValue={isConnected}
         isLoading={isLoading}
         onPress={handleConnectTogglePress}
