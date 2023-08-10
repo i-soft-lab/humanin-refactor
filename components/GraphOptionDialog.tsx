@@ -25,14 +25,14 @@ export default function GraphOptionDialog({
       />
       <View style={styles.sliderContainer}>
         <Text style={styles.iconText}>🐢</Text>
-        <Text>{(18 - value) / 10}초마다 렌더링</Text>
+        <Text>{(16 - value) / 10}초마다 렌더링</Text>
         <Text style={styles.iconText}>🐇</Text>
       </View>
       <Slider
         value={value}
         onValueChange={setValue}
         maximumValue={15}
-        minimumValue={3}
+        minimumValue={1}
         step={1}
         allowTouchTrack
         trackStyle={{height: 5, backgroundColor: 'transparent'}}

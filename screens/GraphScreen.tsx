@@ -28,7 +28,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {bleManager} = useBleContext();
   const {id, name} = route.params;
   const {
-    destroyManager,
     findServicesAndCharacteristics,
     connect,
     disconnect,
@@ -59,7 +58,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     if (isConnected) {
       findServicesAndCharacteristics(id).then(() => {
         write(id, 'plot')
-          .then(data => {
+          .then(() => {
             subscribeCharacteristic(id, dataArr => {
               handleChartData(dataArr, renderSpeed);
             });
