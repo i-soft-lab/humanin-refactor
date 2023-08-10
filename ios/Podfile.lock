@@ -772,7 +772,7 @@ SPEC CHECKSUMS:
   ReactCommon: 3ccb8fb14e6b3277e38c73b0ff5e4a1b8db017a9
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
   RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
-  RNPermissions: d51880b53b6bbe12899f7afe23fb0d62316912a2
+  RNPermissions: 09010ab77268f92c9d34d8ab696532d6cdb8c2a3
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNVectorIcons: 8b5bb0fa61d54cd2020af4f24a51841ce365c7e9
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
