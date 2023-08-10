@@ -6,8 +6,8 @@ import {
 } from 'react-native-ble-plx';
 import {useState} from 'react';
 
-const SERVICE_UUID = '';
-const CHARACTERRITIC_UUID = '';
+const SERVICE_UUID = process.env.SERVICE_UUID!;
+const CHARACTERISTIC_UUID = process.env.CHARACTERISTIC_UUID!;
 export default function useBle(bleManager: BleManager) {
   const [scanDeviceList, setScanDeviceList] = useState<Device[]>([]);
 
@@ -59,7 +59,7 @@ export default function useBle(bleManager: BleManager) {
     await bleManager.writeCharacteristicWithoutResponseForDevice(
       id,
       SERVICE_UUID,
-      CHARACTERRITIC_UUID,
+      CHARACTERISTIC_UUID,
       btoa(data),
     );
   };
@@ -68,7 +68,7 @@ export default function useBle(bleManager: BleManager) {
     await bleManager.readCharacteristicForDevice(
       id,
       SERVICE_UUID,
-      CHARACTERRITIC_UUID,
+      CHARACTERISTIC_UUID,
     );
   };
 
@@ -93,7 +93,7 @@ export default function useBle(bleManager: BleManager) {
     bleManager.monitorCharacteristicForDevice(
       id,
       SERVICE_UUID,
-      CHARACTERRITIC_UUID,
+      CHARACTERISTIC_UUID,
       (error, characteristic) => {
         if (error) {
           return error;
