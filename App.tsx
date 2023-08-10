@@ -1,5 +1,4 @@
 import React from 'react';
-import BluetoothScreen from './screens/BluetoothScreen';
 import GraphScreen from './screens/GraphScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -7,6 +6,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Button, Icon, ThemeProvider} from '@rneui/themed';
 import Toast from 'react-native-toast-message';
 import {RootStackParamList} from './types/navigationType';
+import BleScreen from './screens/BleScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -18,7 +18,7 @@ const App = () => {
           <Stack.Navigator initialRouteName={'Bluetooth'}>
             <Stack.Screen
               name={'Bluetooth'}
-              component={BluetoothScreen}
+              component={BleScreen}
               options={{title: '블루투스'}}
             />
             <Stack.Screen
