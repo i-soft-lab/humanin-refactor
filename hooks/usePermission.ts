@@ -4,7 +4,7 @@ import {
   requestMultiple,
 } from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
-import {Linking, PermissionsAndroid, Platform} from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 
 export default function usePermission() {
   const androidPermission = async () => {
@@ -42,15 +42,9 @@ export default function usePermission() {
   };
 
   const iosPermission = async () => {
-    const results = await checkMultiple([
-      PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL,
-      PERMISSIONS.IOS.LOCATION_ALWAYS,
-    ]);
-
-    return (
-      results[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL] === 'granted' &&
-      results[PERMISSIONS.IOS.LOCATION_ALWAYS] === 'granted'
-    );
+    const results = await checkMultiple([PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL]);
+    console.log(results);
+    return results[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL] === 'granted';
   };
   const requestPermissions = async (cb: (isGranted: boolean) => void) => {
     if (Platform.OS === 'android') {
@@ -60,9 +54,9 @@ export default function usePermission() {
       const isGranted = await iosPermission();
 
       // 권한 미허용시 설정화면으로 이동
-      if (!isGranted) {
-        Linking.openSettings();
-      }
+      // if (!isGranted) {
+      //   Linking.openSettings();
+      // }
 
       cb(isGranted);
     }

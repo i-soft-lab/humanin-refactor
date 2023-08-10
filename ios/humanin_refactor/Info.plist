@@ -51,14 +51,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>UISupportedExternalAccessoryProtocols</key>
-    <array>
-      <string>com.apple.m1</string>
-    </array>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>블루투스 권한을 허용해주세요</string>
-
+	<key>NSBluetoothAlwaysUsageDescription</key>
+    <string>센더의 데이터를 그래프에 표시하고 리시버로 전송하기 위해 블루투스 권한이 필요합니다.</string>
     <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>블루투스 주변 기기 권한을 허용해주세요</string>
+    <string>센더의 데이터를 그래프에 표시하고 리시버로 전송하기 위해 블루투스 권한이 필요합니다.</string>
 </dict>
 </plist>
