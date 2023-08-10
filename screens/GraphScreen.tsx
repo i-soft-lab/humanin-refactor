@@ -17,6 +17,7 @@ import usePlotData from '../hooks/usePlotData';
 import SwitchWithText from '../components/SwitchWithText';
 import {Button, Icon} from '@rneui/themed';
 import GraphOptionDialog from '../components/GraphOptionDialog';
+import useMqtt from '../hooks/useMqtt';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -37,6 +38,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     onDisconnect,
   } = useBluetooth(address);
   const {chartData, handleChartData} = usePlotData();
+  const {sendMqttMessage} = useMqtt();
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   let renderSpeed = 5;
