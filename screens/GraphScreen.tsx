@@ -14,8 +14,6 @@ import {
 import LineChart from '../components/LineChart';
 import usePlotData from '../hooks/usePlotData';
 import SwitchWithText from '../components/SwitchWithText';
-import {Button, Icon} from '@rneui/themed';
-import GraphOptionDialog from '../components/GraphOptionDialog';
 import useBle from '../hooks/useBle';
 import {useBleContext} from '../context/BleProvider';
 import useMqtt from '../hooks/useMqtt';
@@ -41,20 +39,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const {sendMqttMessage} = useMqtt();
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-  let renderSpeed = 2;
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button
-          type="clear"
-          onPress={() => handleDialogVisibility(isDialogVisible)}>
-          <Icon name="settings" color="#0389E3" />
-        </Button>
-      ),
-    });
-  }, [navigation]);
 
   useEffect(() => {
     if (isConnected) {
@@ -62,7 +46,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         write(id, 'plot')
           .then(() => {
             subscribeCharacteristic(id, dataArr => {
-              handleChartData(dataArr, renderSpeed);
+              handleChartData(dataArr);
             });
           })
           .catch(e => {
@@ -128,22 +112,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     }
   };
 
-  const handleDialogVisibility = (isVisible: boolean) => {
-    if (isVisible) {
-      setIsDialogVisible(false);
-      handleReconnect();
-    } else {
-      setIsDialogVisible(true);
-      handleDisconnect();
-    }
-  };
-
-  const handleCompleteSetting = (speed: number) => {
-    setIsDialogVisible(false);
-    handleReconnect();
-    renderSpeed = speed;
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <SwitchWithText
@@ -154,11 +122,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         onPress={handleConnectTogglePress}
       />
       <LineChart data={chartData} />
-      <GraphOptionDialog
-        isVisible={isDialogVisible}
-        handleVisible={isVisible => handleDialogVisibility(isVisible)}
-        handleComplete={speed => handleCompleteSetting(speed)}
-      />
     </SafeAreaView>
   );
 };

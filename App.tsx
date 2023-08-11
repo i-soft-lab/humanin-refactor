@@ -3,7 +3,6 @@ import GraphScreen from './screens/GraphScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Button, Icon} from '@rneui/themed';
 import Toast from 'react-native-toast-message';
 import {RootStackParamList} from './types/navigationType';
 import BleScreen from './screens/BleScreen';
@@ -16,7 +15,13 @@ const App = () => {
     <SafeAreaProvider>
       <NavigationContainer>
         <BleProvider>
-          <Stack.Navigator initialRouteName={'Bluetooth'}>
+          <Stack.Navigator
+            initialRouteName={'Bluetooth'}
+            screenOptions={{
+              animation: 'slide_from_bottom',
+              gestureEnabled: true,
+              gestureDirection: 'vertical',
+            }}>
             <Stack.Screen
               name={'Bluetooth'}
               component={BleScreen}
@@ -27,11 +32,7 @@ const App = () => {
               component={GraphScreen}
               options={{
                 title: '그래프',
-                headerRight: () => (
-                  <Button type="clear" color="gray">
-                    <Icon name="settings" color="#0389E3" />
-                  </Button>
-                ),
+                headerShown: false,
               }}
             />
           </Stack.Navigator>
