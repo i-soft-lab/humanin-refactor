@@ -82,7 +82,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F0F0F0',
     display: 'flex',
     padding: 16,
     rowGap: 16,
