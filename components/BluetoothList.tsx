@@ -7,9 +7,10 @@ import {Text} from '@rneui/themed';
 type Props = {
   title: string;
   data: Device[];
+  isLoading: boolean;
   onPress: (id: DeviceId) => void;
 };
-const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
+const BluetoothList: React.FC<Props> = ({title, data, isLoading, onPress}) => {
   const handleItemPress = (id: DeviceId) => {
     onPress(id);
   };
@@ -24,6 +25,7 @@ const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
           <BluetoothListItem
             title={item.name ?? '이름 없음'}
             id={item.id}
+            isLoading={isLoading}
             onPress={() => handleItemPress(item.id)}
           />
         )}

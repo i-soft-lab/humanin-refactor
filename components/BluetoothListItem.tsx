@@ -1,5 +1,5 @@
 import {ListItem} from '@rneui/themed';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TouchableScale from 'react-native-touchable-scale';
 import {DeviceId} from 'react-native-ble-plx';
 import {ActivityIndicator, StyleSheet} from 'react-native';
@@ -7,11 +7,22 @@ import {ActivityIndicator, StyleSheet} from 'react-native';
 type Props = {
   title: string;
   id: DeviceId;
+  isLoading: boolean;
   onPress: (subTitle: string) => void;
 };
-const BluetoothListItem: React.FC<Props> = ({title, id, onPress}) => {
+const BluetoothListItem: React.FC<Props> = ({
+  title,
+  id,
+  isLoading,
+  onPress,
+}) => {
   const [pressItem, setPressItem] = useState<DeviceId | null>();
 
+  useEffect(() => {
+    if (!isLoading) {
+      setPressItem(null);
+    }
+  }, [isLoading]);
   const handleItemPress = (deviceId: DeviceId) => {
     setPressItem(deviceId);
     onPress(deviceId);

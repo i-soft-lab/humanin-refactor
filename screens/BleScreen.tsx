@@ -24,6 +24,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
   const {scanDeviceList, getScanDevices, connect, stopScan} =
     useBle(bleManager);
   const [isScan, setIsScan] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     requestPermissions(
@@ -33,10 +34,12 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 
   const handleBluetoothPress = (id: DeviceId) => {
     setIsScan(false);
+    setIsLoading(true);
     showInfoToast('장치에 연결중입니다. 잠시만 기다려주세요.');
     connect(id)
       .then(connectedDevice => {
         showSuccessToast(`${connectedDevice.name} 장치에 연결되었습니다.`);
+        setIsLoading(false);
         navigation.push('Graph', {
           id: connectedDevice.id,
           name: connectedDevice.name!,
@@ -72,6 +75,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
         <BluetoothList
           title={'검색된 디바이스'}
           data={scanDeviceList}
+          isLoading={isLoading}
           onPress={id => handleBluetoothPress(id)}
         />
       </View>
