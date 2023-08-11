@@ -54,8 +54,8 @@ const SwitchWithText: React.FC<Props> = ({
         <Switch
           disabled={disableTurnOff && switchValue}
           thumbColor={color}
-          trackColor={{false: '#b8b8b8', true: color.replace(/(FF)$/i, '70')}}
-          ios_backgroundColor="#b8b8b8"
+          trackColor={{false: '#b8b8b8', true: color.replace(/(FF)$/i, '80')}}
+          ios_backgroundColor="#fff"
           value={switchValue}
           onValueChange={onPress}
         />
