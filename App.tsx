@@ -21,6 +21,9 @@ const App = () => {
               animation: 'slide_from_bottom',
               gestureEnabled: true,
               gestureDirection: 'vertical',
+              headerBackVisible: false,
+              headerStyle: {backgroundColor: '#101945'},
+              headerShadowVisible: false,
             }}>
             <Stack.Screen
               name={'Bluetooth'}
@@ -31,8 +34,7 @@ const App = () => {
               name={'Graph'}
               component={GraphScreen}
               options={{
-                title: '그래프',
-                headerShown: false,
+                title: '',
               }}
             />
           </Stack.Navigator>

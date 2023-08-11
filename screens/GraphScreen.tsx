@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import {
@@ -13,10 +13,10 @@ import {
 } from '../components/Toast';
 import LineChart from '../components/LineChart';
 import usePlotData from '../hooks/usePlotData';
-import SwitchWithText from '../components/SwitchWithText';
 import useBle from '../hooks/useBle';
 import {useBleContext} from '../context/BleProvider';
 import useMqtt from '../hooks/useMqtt';
+import SwitchWithText from '../components/SwitchWithText';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -114,14 +114,29 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SwitchWithText
-        title="연결된 기기"
-        subTitle={name}
-        switchValue={isConnected}
-        isLoading={isLoading}
-        onPress={handleConnectTogglePress}
-      />
-      <LineChart data={chartData} />
+      <View style={styles.bottomContainer}>
+        <SwitchWithText
+          title="블루투스"
+          subTitle={name}
+          switchValue={isConnected}
+          isLoading={isLoading}
+          iconName="bluetooth"
+          iconType="font-awesome"
+          color="#0DA6FBFF"
+          onPress={handleConnectTogglePress}
+        />
+        <SwitchWithText
+          title="MQTT"
+          subTitle={name}
+          switchValue={isConnected}
+          isLoading={isLoading}
+          iconName="signal"
+          iconType="font-awesome"
+          color="#50D4B7FF"
+          onPress={handleConnectTogglePress}
+        />
+        <LineChart data={chartData} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -129,12 +144,14 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
-    padding: 16,
+    backgroundColor: '#101945',
   },
-  chartContainer: {
-    height: '60%',
-    width: '100%',
+  bottomContainer: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    borderTopStartRadius: 40,
+    borderTopEndRadius: 40,
+    paddingTop: 16,
   },
 });
 

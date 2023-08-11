@@ -26,7 +26,7 @@ const LineChart: React.FC<Props> = ({data}) => {
                 drawValues: false,
                 lineWidth: 1.4,
                 drawCircles: false,
-                drawCubicIntensity: 0.2,
+                drawCubicIntensity: 0.1,
               },
             },
           ],
@@ -36,9 +36,9 @@ const LineChart: React.FC<Props> = ({data}) => {
           position: 'BOTTOM',
           drawAxisLine: true,
           drawGridLines: false,
-          drawLabels: true,
+          drawLabels: false,
           textSize: 10,
-          textColor: processColor('gray'),
+          textColor: processColor('#000'),
           axisMaximum: 450,
         }}
         yAxis={{
@@ -48,7 +48,7 @@ const LineChart: React.FC<Props> = ({data}) => {
             drawGridLines: false,
             drawLabels: true,
             textSize: 10,
-            textColor: processColor('gray'),
+            textColor: processColor('#000'),
             axisMinimum: 80,
             axisMaximum: 200,
           },
@@ -67,10 +67,8 @@ const LineChart: React.FC<Props> = ({data}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#F4F8FB',
     padding: 8,
-    marginBottom: 8,
-    borderRadius: 8,
   },
   chart: {
     flex: 1,
