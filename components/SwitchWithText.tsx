@@ -1,5 +1,5 @@
-import {ActivityIndicator, StyleSheet} from 'react-native';
-import {Avatar, ListItem, Switch} from '@rneui/themed';
+import {ActivityIndicator, StyleSheet, Switch} from 'react-native';
+import {Avatar, ListItem} from '@rneui/themed';
 import React from 'react';
 import TouchableScale from 'react-native-touchable-scale';
 
@@ -11,6 +11,7 @@ type Props = {
   iconName: string;
   iconType: string;
   color: string;
+  disableTurnOff: boolean;
   onPress: () => void;
 };
 
@@ -22,6 +23,7 @@ const SwitchWithText: React.FC<Props> = ({
   iconName,
   iconType,
   color,
+  disableTurnOff,
   onPress,
 }) => {
   return (
@@ -32,7 +34,8 @@ const SwitchWithText: React.FC<Props> = ({
       friction={90}
       tension={100}
       activeScale={0.95}
-      onPress={onPress}>
+      onPress={onPress}
+      disabled={disableTurnOff && switchValue}>
       <Avatar
         size={40}
         icon={{name: iconName, type: iconType}}
@@ -49,8 +52,10 @@ const SwitchWithText: React.FC<Props> = ({
         <ActivityIndicator size="large" />
       ) : (
         <Switch
+          disabled={disableTurnOff && switchValue}
           thumbColor={color}
-          trackColor={{false: '#b8b8b8', true: color.replace(/(FF)$/i, '90')}}
+          trackColor={{false: '#b8b8b8', true: color.replace(/(FF)$/i, '70')}}
+          ios_backgroundColor="#b8b8b8"
           value={switchValue}
           onValueChange={onPress}
         />

@@ -15,7 +15,6 @@ import LineChart from '../components/LineChart';
 import usePlotData from '../hooks/usePlotData';
 import useBle from '../hooks/useBle';
 import {useBleContext} from '../context/BleProvider';
-import useMqtt from '../hooks/useMqtt';
 import SwitchWithText from '../components/SwitchWithText';
 
 interface GraphScreenProps {
@@ -36,12 +35,14 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     subscribeCharacteristic,
   } = useBle(bleManager);
   const {chartData, handleChartData} = usePlotData();
-  const {sendMqttMessage} = useMqtt();
-  const [isConnected, setIsConnected] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const {sendMqttMessage} = useMqtt();
+  const [isBluetoothConnected, setIsBluetoothConnected] = useState(false);
+  const [isBluetoothLoading, setIsBluetoothLoading] = useState(false);
+  const [isMqttConnected, setIsMqttConnected] = useState(true);
+  const [isMqttLoading, setIsMqttLoading] = useState(false);
 
   useEffect(() => {
-    if (isConnected) {
+    if (isBluetoothConnected) {
       findServicesAndCharacteristics(id).then(() => {
         write(id, 'plot')
           .then(() => {
@@ -57,12 +58,12 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 
     // 블루투스 연결 해제 리스너 등록
     onDisconnect(id, () => {
-      setIsConnected(false);
+      setIsBluetoothConnected(false);
     });
-  }, [isConnected]);
+  }, [isBluetoothConnected]);
 
   useEffect(() => {
-    isConnectedDevice(id).then((res: boolean) => setIsConnected(res));
+    isConnectedDevice(id).then((res: boolean) => setIsBluetoothConnected(res));
     return () => {
       isConnectedDevice(id).then((res: boolean) => {
         if (res) {
@@ -84,32 +85,36 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
       .then(res => {
         if (res) {
           showSuccessToast('디바이스에 다시 연결되었습니다.');
-          setIsConnected(true);
+          setIsBluetoothConnected(true);
         } else {
           showErrorToast('디바이스 연결 실패');
         }
       })
       .catch(e => showErrorToast('디바이스 연결 실패', e.message))
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsBluetoothLoading(false));
   };
 
   const handleDisconnect = () => {
     disconnect(id)
       .then(() => {
-        setIsConnected(false);
+        setIsBluetoothConnected(false);
         showSuccessToast('디바이스와 연결을 종료합니다.');
       })
       .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsBluetoothLoading(false));
   };
 
-  const handleConnectTogglePress = () => {
-    setIsLoading(true);
-    if (!isConnected) {
+  const handleBluetoothTogglePress = () => {
+    setIsBluetoothLoading(true);
+    if (!isBluetoothConnected) {
       handleReconnect();
     } else {
       handleDisconnect();
     }
+  };
+
+  const handleMqttTogglePress = () => {
+    setIsMqttLoading(true);
   };
 
   return (
@@ -118,22 +123,24 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         <SwitchWithText
           title="블루투스"
           subTitle={name}
-          switchValue={isConnected}
-          isLoading={isLoading}
+          switchValue={isBluetoothConnected}
+          isLoading={isBluetoothLoading}
           iconName="bluetooth"
           iconType="font-awesome"
           color="#0DA6FBFF"
-          onPress={handleConnectTogglePress}
+          disableTurnOff={false}
+          onPress={handleBluetoothTogglePress}
         />
         <SwitchWithText
           title="MQTT"
-          subTitle={name}
-          switchValue={isConnected}
-          isLoading={isLoading}
+          subTitle={`gbrain/${name}`}
+          switchValue={isMqttConnected}
+          isLoading={isMqttLoading}
           iconName="signal"
           iconType="font-awesome"
           color="#50D4B7FF"
-          onPress={handleConnectTogglePress}
+          disableTurnOff={true}
+          onPress={handleMqttTogglePress}
         />
         <LineChart data={chartData} />
       </View>
