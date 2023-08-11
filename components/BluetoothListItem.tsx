@@ -30,7 +30,8 @@ const BluetoothListItem: React.FC<Props> = ({title, id, onPress}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E6EFFC',
+    flex: 1,
+    backgroundColor: '#FFF',
   },
 });
 

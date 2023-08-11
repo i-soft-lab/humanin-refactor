@@ -1,8 +1,8 @@
 import {FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {Text} from '@rneui/themed';
 import BluetoothListItem from './BluetoothListItem';
 import {Device, DeviceId} from 'react-native-ble-plx';
+import {Text} from '@rneui/themed';
 
 type Props = {
   title: string;
@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#FFF',
-    paddingTop: 12,
     borderRadius: 16,
   },
   title: {
+    textAlign: 'center',
+    marginTop: 24,
+    marginBottom: 16,
     fontFamily: 'Pretendard-SemiBold',
   },
   list: {

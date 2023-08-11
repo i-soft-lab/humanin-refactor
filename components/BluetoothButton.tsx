@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 16,
-    fontSize: 18,
-    fontFamily: 'Pretendard-Bold',
+    fontSize: 16,
+    fontFamily: 'Pretendard-SemiBold',
   },
 });
 export default BluetoothButton;

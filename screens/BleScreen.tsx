@@ -21,7 +21,7 @@ interface Props {
 const BleScreen: React.FC<Props> = ({navigation}) => {
   const {bleManager} = useBleContext();
   const {requestPermissions} = usePermission();
-  const {scanDeviceList, getScanDevices, connect, isConnectedDevice, stopScan} =
+  const {scanDeviceList, getScanDevices, connect, stopScan} =
     useBle(bleManager);
   const [isScan, setIsScan] = useState(false);
 
@@ -84,17 +84,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F0F0F0',
     display: 'flex',
-    padding: 16,
+    padding: 24,
     rowGap: 16,
   },
   avatarContainer: {
-    flex: 1,
+    flex: 2,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   listContainer: {
-    flex: 2,
+    flex: 3,
     display: 'flex',
   },
 });

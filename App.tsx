@@ -20,7 +20,7 @@ const App = () => {
             <Stack.Screen
               name={'Bluetooth'}
               component={BleScreen}
-              options={{title: '블루투스'}}
+              options={{title: '블루투스', headerShown: false}}
             />
             <Stack.Screen
               name={'Graph'}
