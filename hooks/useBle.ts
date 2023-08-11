@@ -36,7 +36,6 @@ export default function useBle(bleManager: BleManager) {
         if (device && device.name !== null) {
           setScanDeviceList(prevState => {
             if (!isDuplicateDevice(prevState, device)) {
-              console.log(device);
               return [...prevState, device];
             }
             return prevState;
