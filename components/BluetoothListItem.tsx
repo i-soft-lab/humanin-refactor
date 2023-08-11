@@ -2,6 +2,7 @@ import {ListItem} from '@rneui/themed';
 import React from 'react';
 import TouchableScale from 'react-native-touchable-scale';
 import {DeviceId} from 'react-native-ble-plx';
+import {StyleSheet} from 'react-native';
 
 type Props = {
   title: string;
@@ -12,6 +13,7 @@ const BluetoothListItem: React.FC<Props> = ({title, id, onPress}) => {
   return (
     <ListItem
       Component={TouchableScale}
+      containerStyle={styles.container}
       // @ts-ignore
       friction={90}
       tension={100}
@@ -25,5 +27,11 @@ const BluetoothListItem: React.FC<Props> = ({title, id, onPress}) => {
     </ListItem>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#E6EFFC',
+  },
+});
 
 export default BluetoothListItem;

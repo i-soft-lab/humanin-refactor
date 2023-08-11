@@ -1,4 +1,4 @@
-import {FlatList, Platform, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Card} from '@rneui/themed';
 import BluetoothListItem from './BluetoothListItem';
@@ -15,7 +15,7 @@ const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
   };
 
   return (
-    <View style={[styles.container, shadowStyle]}>
+    <View style={[styles.container]}>
       <Card.Title>{title}</Card.Title>
       <FlatList
         style={styles.list}
@@ -35,24 +35,12 @@ const BluetoothList: React.FC<Props> = ({title, data, onPress}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#E6EFFC',
     paddingTop: 12,
     borderRadius: 16,
   },
   list: {
     borderRadius: 16,
-  },
-});
-const shadowStyle = Platform.select({
-  ios: {
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  android: {
-    elevation: 4,
-    overflow: 'hidden' as 'hidden',
   },
 });
 export default BluetoothList;

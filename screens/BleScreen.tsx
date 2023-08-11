@@ -1,10 +1,9 @@
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {BluetoothScreenNavigationProp} from '../types/navigationType';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import BluetoothList from '../components/BluetoothList';
 import usePermission from '../hooks/usePermission';
-import {Button, Text} from '@rneui/themed';
 import {
   showErrorToast,
   showInfoToast,
@@ -13,6 +12,7 @@ import {
 import useBle from '../hooks/useBle';
 import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
+import BluetoothButton from '../components/BluetoothButton';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
@@ -65,6 +65,9 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.avatarContainer}>
+        <BluetoothButton onPress={handleScanDevice} isScan={isScan} />
+      </View>
       <View style={styles.listContainer}>
         <BluetoothList
           title={'검색된 디바이스'}
@@ -72,21 +75,6 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
           onPress={id => handleBluetoothPress(id)}
         />
       </View>
-      <Button
-        onPress={handleScanDevice}
-        titleStyle={{fontWeight: 'bold', fontSize: 18}}
-        buttonStyle={{
-          height: 50,
-        }}>
-        {isScan ? (
-          <View style={styles.loadingButton}>
-            <Text style={styles.buttonText}>장치 검색 중단</Text>
-            <ActivityIndicator size="small" />
-          </View>
-        ) : (
-          <Text style={styles.buttonText}>장치 검색 시작</Text>
-        )}
-      </Button>
     </SafeAreaView>
   );
 };
@@ -94,22 +82,20 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    display: 'flex',
+    padding: 16,
+    rowGap: 16,
   },
-  listContainer: {
+  avatarContainer: {
     flex: 1,
     display: 'flex',
-    rowGap: 16,
-    margin: 16,
-  },
-  loadingButton: {
-    display: 'flex',
     justifyContent: 'center',
-    flexDirection: 'row',
-    columnGap: 16,
+    alignItems: 'center',
   },
-  buttonText: {
-    color: 'white',
+  listContainer: {
+    flex: 2,
+    display: 'flex',
   },
 });
 
