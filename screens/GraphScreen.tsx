@@ -85,7 +85,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     connect(id)
       .then(res => {
         if (res) {
-          showSuccessToast('디바이스에 다시 연결되었습니다.');
           setIsBluetoothConnected(true);
         } else {
           showErrorToast('디바이스 연결 실패');
@@ -99,7 +98,6 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     disconnect(id)
       .then(() => {
         setIsBluetoothConnected(false);
-        showSuccessToast('디바이스와 연결을 종료합니다.');
       })
       .catch(e => showErrorToast('디바이스 연결 종료 실패', e.message))
       .finally(() => setIsBluetoothLoading(false));
