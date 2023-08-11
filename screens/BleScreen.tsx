@@ -4,11 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import BluetoothList from '../components/BluetoothList';
 import usePermission from '../hooks/usePermission';
-import {
-  showErrorToast,
-  showInfoToast,
-  showSuccessToast,
-} from '../components/Toast';
+import {showErrorToast} from '../components/Toast';
 import useBle from '../hooks/useBle';
 import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
@@ -35,10 +31,8 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
   const handleBluetoothPress = (id: DeviceId) => {
     setIsScan(false);
     setIsLoading(true);
-    showInfoToast('장치에 연결중입니다. 잠시만 기다려주세요.');
     connect(id)
       .then(connectedDevice => {
-        showSuccessToast(`${connectedDevice.name} 장치에 연결되었습니다.`);
         setIsLoading(false);
         navigation.push('Graph', {
           id: connectedDevice.id,
@@ -52,11 +46,9 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 
   const handleScanDevice = () => {
     if (isScan) {
-      showInfoToast('장치 검색을 중단합니다.');
       setIsScan(false);
       stopScan();
     } else {
-      showInfoToast('장치를 검색중입니다.');
       setIsScan(true);
       try {
         getScanDevices();
