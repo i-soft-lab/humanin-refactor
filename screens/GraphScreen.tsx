@@ -18,6 +18,7 @@ import {Button, Icon} from '@rneui/themed';
 import GraphOptionDialog from '../components/GraphOptionDialog';
 import useBle from '../hooks/useBle';
 import {useBleContext} from '../context/BleProvider';
+import useMqtt from '../hooks/useMqtt';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -37,6 +38,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     subscribeCharacteristic,
   } = useBle(bleManager);
   const {chartData, handleChartData} = usePlotData();
+  const {sendMqttMessage} = useMqtt();
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogVisible, setIsDialogVisible] = useState(false);

@@ -1,5 +1,11 @@
-import {ActivityIndicator, StyleSheet, Switch, View} from 'react-native';
-import {Button, Text} from '@rneui/themed';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Switch,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Text} from '@rneui/themed';
 import React from 'react';
 
 type Props = {
@@ -10,19 +16,15 @@ type Props = {
   onPress: () => void;
 };
 
-export default function SwitchWithText({
+const SwitchWithText: React.FC<Props> = ({
   title,
   subTitle,
   switchValue,
   isLoading,
   onPress,
-}: Props) {
+}) => {
   return (
-    <Button
-      onPress={onPress}
-      containerStyle={styles.statusContainer}
-      buttonStyle={styles.statusButton}
-      type={'clear'}>
+    <TouchableOpacity onPress={onPress} style={styles.statusContainer}>
       <View style={styles.textContainer}>
         <Text style={styles.toggleTitle}>{title}</Text>
         {switchValue ? <Text style={styles.deviceName}>{subTitle}</Text> : null}
@@ -33,23 +35,23 @@ export default function SwitchWithText({
         <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
           value={switchValue}
-          onChange={onPress}
+          onValueChange={onPress}
         />
       )}
-    </Button>
+    </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   statusContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  statusButton: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
   },
   loadingButton: {
     flex: 1,
@@ -68,3 +70,5 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 });
+
+export default SwitchWithText;
