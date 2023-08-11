@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import {
@@ -16,6 +16,7 @@ import usePlotData from '../hooks/usePlotData';
 import useBle from '../hooks/useBle';
 import {useBleContext} from '../context/BleProvider';
 import SwitchWithText from '../components/SwitchWithText';
+import {Icon} from '@rneui/themed';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -120,6 +121,11 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.bottomContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}>
+          <Icon name="chevrons-down" type="feather" size={30} />
+        </TouchableOpacity>
         <SwitchWithText
           title="블루투스"
           subTitle={name}
@@ -153,12 +159,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#101945',
   },
+  backButton: {
+    paddingTop: 8,
+  },
   bottomContainer: {
     flex: 1,
     backgroundColor: '#FFF',
     borderTopStartRadius: 40,
     borderTopEndRadius: 40,
-    paddingTop: 16,
   },
 });
 

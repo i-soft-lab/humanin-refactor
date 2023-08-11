@@ -33,7 +33,6 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
     setIsLoading(true);
     connect(id)
       .then(connectedDevice => {
-        setIsLoading(false);
         navigation.push('Graph', {
           id: connectedDevice.id,
           name: connectedDevice.name!,
@@ -41,7 +40,8 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
       })
       .catch(e => {
         showErrorToast('장치에 연결할 수 없습니다.', e?.message);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const handleScanDevice = () => {
