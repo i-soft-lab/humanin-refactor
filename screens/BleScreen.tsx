@@ -82,9 +82,8 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#101945',
     display: 'flex',
-    padding: 24,
     rowGap: 16,
   },
   avatarContainer: {
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 24,
   },
   listContainer: {
     flex: 3,

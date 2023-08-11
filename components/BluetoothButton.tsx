@@ -18,7 +18,7 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
       <View style={styles.container}>
         {isScan ? (
           <Pulse
-            color="blue"
+            color="#0592FF"
             numPulses={3}
             diameter={250}
             speed={20}
@@ -29,7 +29,7 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
           size={80}
           rounded
           icon={{name: 'bluetooth'}}
-          containerStyle={{backgroundColor: '#2A60FF'}}
+          containerStyle={{backgroundColor: '#0592FF'}}
         />
       </View>
     </TouchableOpacity>
@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 16,
     fontSize: 16,
-    fontFamily: 'Pretendard-SemiBold',
+    fontFamily: 'Pretendard-Bold',
+    color: 'white',
   },
 });
 export default BluetoothButton;

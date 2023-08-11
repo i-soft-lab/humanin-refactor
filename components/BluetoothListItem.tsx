@@ -1,8 +1,8 @@
 import {ListItem} from '@rneui/themed';
-import React from 'react';
+import React, {useState} from 'react';
 import TouchableScale from 'react-native-touchable-scale';
 import {DeviceId} from 'react-native-ble-plx';
-import {StyleSheet} from 'react-native';
+import {ActivityIndicator, StyleSheet} from 'react-native';
 
 type Props = {
   title: string;
@@ -10,6 +10,13 @@ type Props = {
   onPress: (subTitle: string) => void;
 };
 const BluetoothListItem: React.FC<Props> = ({title, id, onPress}) => {
+  const [pressItem, setPressItem] = useState<DeviceId | null>();
+
+  const handleItemPress = (deviceId: DeviceId) => {
+    setPressItem(deviceId);
+    onPress(deviceId);
+  };
+
   return (
     <ListItem
       Component={TouchableScale}
@@ -18,12 +25,14 @@ const BluetoothListItem: React.FC<Props> = ({title, id, onPress}) => {
       friction={90}
       tension={100}
       activeScale={0.95}
-      onPress={() => onPress(id)}
-      bottomDivider>
+      onPress={() => handleItemPress(id)}>
       <ListItem.Content>
-        <ListItem.Title>{title}</ListItem.Title>
-        <ListItem.Subtitle>{id}</ListItem.Subtitle>
+        <ListItem.Title style={styles.title}>{title}</ListItem.Title>
+        <ListItem.Subtitle style={styles.subTitle}>{id}</ListItem.Subtitle>
       </ListItem.Content>
+      {pressItem === id ? (
+        <ActivityIndicator size="large" color="#0592FF" />
+      ) : null}
     </ListItem>
   );
 };
@@ -32,6 +41,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
+    borderRadius: 16,
+    marginVertical: 4,
+    marginHorizontal: 8,
+  },
+  title: {
+    fontFamily: 'Pretendard-Regular',
+    fontSize: 16,
+  },
+  subTitle: {
+    fontFamily: 'Pretendard-Thin',
+    fontSize: 12,
   },
 });
 

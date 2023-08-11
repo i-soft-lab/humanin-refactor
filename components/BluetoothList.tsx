@@ -37,13 +37,14 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     backgroundColor: '#FFF',
-    borderRadius: 16,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
   },
   title: {
     textAlign: 'center',
     marginTop: 24,
     marginBottom: 16,
-    fontFamily: 'Pretendard-SemiBold',
+    fontFamily: 'Pretendard-Bold',
   },
   list: {
     borderRadius: 16,
