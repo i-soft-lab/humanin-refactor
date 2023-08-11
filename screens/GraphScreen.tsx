@@ -166,7 +166,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F0F0F0',
     padding: 16,
   },
   chartContainer: {

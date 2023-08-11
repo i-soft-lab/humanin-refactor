@@ -67,8 +67,10 @@ const LineChart: React.FC<Props> = ({data}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFF',
+    padding: 8,
     marginBottom: 8,
+    borderRadius: 8,
   },
   chart: {
     flex: 1,

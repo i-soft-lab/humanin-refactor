@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: '#FFF',
     borderRadius: 8,
     padding: 8,
-    marginBottom: 8,
+    marginBottom: 16,
   },
   loadingButton: {
     flex: 1,
