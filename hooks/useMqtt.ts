@@ -15,7 +15,7 @@ const useMqtt = (topic: string) => {
       protocol: 'mqtt',
       clientId: 'gbrain717',
     })
-      .then(function (client) {
+      .then(client => {
         client.on('closed', function () {
           setIsMqttConnected(false);
           setIsMqttLoading(false);
@@ -32,10 +32,18 @@ const useMqtt = (topic: string) => {
         setConnectedClient(client);
         client.connect();
       })
-      .catch(function (err) {
-        console.log(err);
+      .catch(err => {
+        showErrorToast('MQTT 오류 발생', err.message);
       });
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (connectedClient) {
+        MQTT.removeClient(connectedClient);
+      }
+    };
+  }, [connectedClient]);
 
   const mqttConnect = () => {
     connectedClient?.connect();
