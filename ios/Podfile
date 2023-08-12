@@ -45,6 +45,8 @@ target 'humanin_refactor' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'MQTTClient'
+
   target 'humanin_refactorTests' do
     inherit! :complete
     # Pods for testing

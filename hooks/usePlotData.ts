@@ -15,11 +15,13 @@ export default function usePlotData() {
   const handleChartData = (dataArr: Characteristic | null) => {
     // const [data, flag] = dataArr;
     const data = Number.parseInt(base64.decode(dataArr?.value!)) + 150;
+    const flag = data > 168;
     receiveData.push({y: data});
     if (receiveData.length >= 2) {
       setChartData(prevChartData => [...prevChartData, ...receiveData]);
       receiveData = [];
     }
+    return flag;
   };
 
   return {

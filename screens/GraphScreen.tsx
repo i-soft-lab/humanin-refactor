@@ -17,6 +17,7 @@ import useBle from '../hooks/useBle';
 import {useBleContext} from '../context/BleProvider';
 import SwitchWithText from '../components/SwitchWithText';
 import {Icon} from '@rneui/themed';
+import useMqtt from '../hooks/useMqtt';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -36,11 +37,16 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     subscribeCharacteristic,
   } = useBle(bleManager);
   const {chartData, handleChartData} = usePlotData();
-  // const {sendMqttMessage} = useMqtt();
+  const {
+    isMqttConnected,
+    isMqttLoading,
+    setIsMqttLoading,
+    mqttConnect,
+    mqttDisconnect,
+    sendMessage,
+  } = useMqtt(name);
   const [isBluetoothConnected, setIsBluetoothConnected] = useState(false);
   const [isBluetoothLoading, setIsBluetoothLoading] = useState(false);
-  const [isMqttConnected, setIsMqttConnected] = useState(true);
-  const [isMqttLoading, setIsMqttLoading] = useState(false);
 
   useEffect(() => {
     if (isBluetoothConnected) {
@@ -48,7 +54,8 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         write(id, 'plot')
           .then(() => {
             subscribeCharacteristic(id, dataArr => {
-              handleChartData(dataArr);
+              const flag = handleChartData(dataArr);
+              sendMessage(flag);
             });
           })
           .catch(e => {
@@ -65,6 +72,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 
   useEffect(() => {
     isConnectedDevice(id).then((res: boolean) => setIsBluetoothConnected(res));
+
     return () => {
       isConnectedDevice(id).then((res: boolean) => {
         if (res) {
@@ -81,7 +89,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     };
   }, []);
 
-  const handleReconnect = () => {
+  const handleBluetoothConnect = () => {
     connect(id)
       .then(res => {
         if (res) {
@@ -94,7 +102,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
       .finally(() => setIsBluetoothLoading(false));
   };
 
-  const handleDisconnect = () => {
+  const handleBluetoothDisconnect = () => {
     disconnect(id)
       .then(() => {
         setIsBluetoothConnected(false);
@@ -106,14 +114,19 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const handleBluetoothTogglePress = () => {
     setIsBluetoothLoading(true);
     if (!isBluetoothConnected) {
-      handleReconnect();
+      handleBluetoothConnect();
     } else {
-      handleDisconnect();
+      handleBluetoothDisconnect();
     }
   };
 
   const handleMqttTogglePress = () => {
     setIsMqttLoading(true);
+    if (isMqttConnected) {
+      mqttDisconnect();
+    } else {
+      mqttConnect();
+    }
   };
 
   return (
@@ -143,7 +156,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
           iconName="signal"
           iconType="font-awesome"
           color="#50D4B7FF"
-          disableTurnOff={true}
+          disableTurnOff={false}
           onPress={handleMqttTogglePress}
         />
         <LineChart data={chartData} />

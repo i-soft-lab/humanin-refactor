@@ -15,11 +15,11 @@
 		3F88D1CF4EDC4407BE528BE0 /* Pretendard-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6E1315C1E4F434DA05D33C3 /* Pretendard-Thin.ttf */; };
 		40CD2F0CFF2F4F9082F6DDE7 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F281934B384348BF91A28121 /* Pretendard-Bold.ttf */; };
 		49EEC06F757140898A9B8D5F /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1EC02C4A3A164C1CBE186297 /* Pretendard-Black.ttf */; };
-		7210A4507752C04BA3C3B45D /* libPods-humanin_refactor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F45E17863678B476674362B6 /* libPods-humanin_refactor.a */; };
+		6BF9322B41AAF244D6BF78B7 /* libPods-humanin_refactor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3DA8CCB87F229AF62DD5ED /* libPods-humanin_refactor.a */; };
 		79F767B39C224EB38990D5A2 /* Pretendard-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F1009B33F8247A3AF67E11F /* Pretendard-ExtraBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A10E24995345421DBB93BBC5 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AE04D13726442948A970160 /* Pretendard-Medium.ttf */; };
-		D6F26CABC891E35F2918E0E8 /* libPods-humanin_refactor-humanin_refactorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3B7A2038AED70785BAB8B7 /* libPods-humanin_refactor-humanin_refactorTests.a */; };
+		A16A14946BA41323DDE85BFA /* libPods-humanin_refactor-humanin_refactorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC0DAD70BF95DC665B5DE21 /* libPods-humanin_refactor-humanin_refactorTests.a */; };
 		D957200C7A534AD1BD4D3717 /* Pretendard-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7E7CB2FF3624FF7A1CFD16E /* Pretendard-SemiBold.ttf */; };
 		E8465F4811A44D46B2E0353D /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAF03E18996C4CAEB7488587 /* Pretendard-Regular.ttf */; };
 		F098E17448584983914B88B1 /* Pretendard-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8CAF606BCFA4AA5BAE529FD /* Pretendard-Light.ttf */; };
@@ -46,21 +46,21 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = humanin_refactor/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = humanin_refactor/main.m; sourceTree = "<group>"; };
 		1AE04D13726442948A970160 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
-		1D3B7A2038AED70785BAB8B7 /* libPods-humanin_refactor-humanin_refactorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-humanin_refactor-humanin_refactorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC02C4A3A164C1CBE186297 /* Pretendard-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.ttf"; path = "../assets/fonts/Pretendard-Black.ttf"; sourceTree = "<group>"; };
-		3A0B915A6076278397544D71 /* Pods-humanin_refactor-humanin_refactorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor-humanin_refactorTests.release.xcconfig"; path = "Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests.release.xcconfig"; sourceTree = "<group>"; };
+		34C3306B09ED4920BFF8B516 /* Pods-humanin_refactor-humanin_refactorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor-humanin_refactorTests.release.xcconfig"; path = "Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests.release.xcconfig"; sourceTree = "<group>"; };
+		57F7E4784FDC9897158C2C4D /* Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig"; path = "Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		637CFC4D3601F72536F14350 /* Pods-humanin_refactor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor.release.xcconfig"; path = "Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = humanin_refactor/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		94AD4FA1E6D97DEBCAB30C4D /* Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig"; path = "Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig"; sourceTree = "<group>"; };
-		96A4DC8BABCD36C984FFD6EA /* Pods-humanin_refactor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor.debug.xcconfig"; path = "Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor.debug.xcconfig"; sourceTree = "<group>"; };
 		9F1009B33F8247A3AF67E11F /* Pretendard-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.ttf"; path = "../assets/fonts/Pretendard-ExtraBold.ttf"; sourceTree = "<group>"; };
-		A93B7F662294F1B45D919541 /* Pods-humanin_refactor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor.release.xcconfig"; path = "Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor.release.xcconfig"; sourceTree = "<group>"; };
+		AFC0DAD70BF95DC665B5DE21 /* libPods-humanin_refactor-humanin_refactorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-humanin_refactor-humanin_refactorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6E1315C1E4F434DA05D33C3 /* Pretendard-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Thin.ttf"; path = "../assets/fonts/Pretendard-Thin.ttf"; sourceTree = "<group>"; };
 		C7E7CB2FF3624FF7A1CFD16E /* Pretendard-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.ttf"; path = "../assets/fonts/Pretendard-SemiBold.ttf"; sourceTree = "<group>"; };
+		CE3DA8CCB87F229AF62DD5ED /* libPods-humanin_refactor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-humanin_refactor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D29A0D1098AF428DBE7C422D /* Pretendard-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraLight.ttf"; path = "../assets/fonts/Pretendard-ExtraLight.ttf"; sourceTree = "<group>"; };
 		D8CAF606BCFA4AA5BAE529FD /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
+		E5FB8C86FB3424ABCC8D0582 /* Pods-humanin_refactor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-humanin_refactor.debug.xcconfig"; path = "Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F281934B384348BF91A28121 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.ttf"; path = "../assets/fonts/Pretendard-Bold.ttf"; sourceTree = "<group>"; };
-		F45E17863678B476674362B6 /* libPods-humanin_refactor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-humanin_refactor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF03E18996C4CAEB7488587 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.ttf"; path = "../assets/fonts/Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6F26CABC891E35F2918E0E8 /* libPods-humanin_refactor-humanin_refactorTests.a in Frameworks */,
+				A16A14946BA41323DDE85BFA /* libPods-humanin_refactor-humanin_refactorTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7210A4507752C04BA3C3B45D /* libPods-humanin_refactor.a in Frameworks */,
+				6BF9322B41AAF244D6BF78B7 /* libPods-humanin_refactor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,8 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				F45E17863678B476674362B6 /* libPods-humanin_refactor.a */,
-				1D3B7A2038AED70785BAB8B7 /* libPods-humanin_refactor-humanin_refactorTests.a */,
+				CE3DA8CCB87F229AF62DD5ED /* libPods-humanin_refactor.a */,
+				AFC0DAD70BF95DC665B5DE21 /* libPods-humanin_refactor-humanin_refactorTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -159,10 +159,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				96A4DC8BABCD36C984FFD6EA /* Pods-humanin_refactor.debug.xcconfig */,
-				A93B7F662294F1B45D919541 /* Pods-humanin_refactor.release.xcconfig */,
-				94AD4FA1E6D97DEBCAB30C4D /* Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig */,
-				3A0B915A6076278397544D71 /* Pods-humanin_refactor-humanin_refactorTests.release.xcconfig */,
+				E5FB8C86FB3424ABCC8D0582 /* Pods-humanin_refactor.debug.xcconfig */,
+				637CFC4D3601F72536F14350 /* Pods-humanin_refactor.release.xcconfig */,
+				57F7E4784FDC9897158C2C4D /* Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig */,
+				34C3306B09ED4920BFF8B516 /* Pods-humanin_refactor-humanin_refactorTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -191,12 +191,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "humanin_refactorTests" */;
 			buildPhases = (
-				7EB165277C03AAEDDE21D59E /* [CP] Check Pods Manifest.lock */,
+				88852C58A975E385FD293E84 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				40041895DA6EB741C1E906A2 /* [CP] Embed Pods Frameworks */,
-				13DB1B20C919D3DA8FA3010E /* [CP] Copy Pods Resources */,
+				B087E4265A2497A8EC6C5BAC /* [CP] Embed Pods Frameworks */,
+				599E735879E8615F7ABE6A08 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -212,14 +212,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "humanin_refactor" */;
 			buildPhases = (
-				3BEFFC100830E0B34C709F6E /* [CP] Check Pods Manifest.lock */,
+				D13AB0C69334D221DDEB6CFF /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				84816DA4BD619E182397DAA1 /* [CP] Embed Pods Frameworks */,
-				90F1D80EDA17F4FCE3860398 /* [CP] Copy Pods Resources */,
+				2F40D7F8C275781FFFAC2C23 /* [CP] Embed Pods Frameworks */,
+				5D344AAF16BB3B5C57AD20A7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -311,7 +311,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		13DB1B20C919D3DA8FA3010E /* [CP] Copy Pods Resources */ = {
+		2F40D7F8C275781FFFAC2C23 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		599E735879E8615F7ABE6A08 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -328,46 +345,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3BEFFC100830E0B34C709F6E /* [CP] Check Pods Manifest.lock */ = {
+		5D344AAF16BB3B5C57AD20A7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-humanin_refactor-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		40041895DA6EB741C1E906A2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7EB165277C03AAEDDE21D59E /* [CP] Check Pods Manifest.lock */ = {
+		88852C58A975E385FD293E84 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -389,38 +384,43 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		84816DA4BD619E182397DAA1 /* [CP] Embed Pods Frameworks */ = {
+		B087E4265A2497A8EC6C5BAC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor-humanin_refactorTests/Pods-humanin_refactor-humanin_refactorTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		90F1D80EDA17F4FCE3860398 /* [CP] Copy Pods Resources */ = {
+		D13AB0C69334D221DDEB6CFF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-humanin_refactor-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-humanin_refactor/Pods-humanin_refactor-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -475,7 +475,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94AD4FA1E6D97DEBCAB30C4D /* Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig */;
+			baseConfigurationReference = 57F7E4784FDC9897158C2C4D /* Pods-humanin_refactor-humanin_refactorTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -502,7 +502,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A0B915A6076278397544D71 /* Pods-humanin_refactor-humanin_refactorTests.release.xcconfig */;
+			baseConfigurationReference = 34C3306B09ED4920BFF8B516 /* Pods-humanin_refactor-humanin_refactorTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -526,7 +526,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96A4DC8BABCD36C984FFD6EA /* Pods-humanin_refactor.debug.xcconfig */;
+			baseConfigurationReference = E5FB8C86FB3424ABCC8D0582 /* Pods-humanin_refactor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -555,7 +555,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A93B7F662294F1B45D919541 /* Pods-humanin_refactor.release.xcconfig */;
+			baseConfigurationReference = 637CFC4D3601F72536F14350 /* Pods-humanin_refactor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
