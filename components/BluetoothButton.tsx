@@ -21,7 +21,7 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
             color="#0592FF"
             numPulses={3}
             diameter={250}
-            speed={20}
+            speed={10}
             duration={1500}
           />
         ) : null}
