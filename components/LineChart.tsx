@@ -13,6 +13,7 @@ const LineChart: React.FC<Props> = ({data}) => {
         style={styles.chart}
         highlightPerTapEnabled={false}
         doubleTapToZoomEnabled={false}
+        touchEnabled={false}
         chartDescription={{
           text: 'data from sender',
         }}
@@ -24,9 +25,10 @@ const LineChart: React.FC<Props> = ({data}) => {
               config: {
                 mode: 'CUBIC_BEZIER',
                 drawValues: false,
-                lineWidth: 1.4,
+                lineWidth: 0.8,
+                color: processColor('#FF5082'),
                 drawCircles: false,
-                drawCubicIntensity: 0.1,
+                drawCubicIntensity: 0,
               },
             },
           ],
@@ -38,8 +40,8 @@ const LineChart: React.FC<Props> = ({data}) => {
           drawGridLines: false,
           drawLabels: false,
           textSize: 10,
-          textColor: processColor('#000'),
-          axisMaximum: 450,
+          axisLineColor: processColor('#000'),
+          axisMaximum: 500,
         }}
         yAxis={{
           left: {
@@ -48,7 +50,8 @@ const LineChart: React.FC<Props> = ({data}) => {
             drawGridLines: false,
             drawLabels: true,
             textSize: 10,
-            textColor: processColor('#000'),
+            textColor: processColor('#1f1f1f'),
+            axisLineColor: processColor('#000'),
             axisMinimum: 80,
             axisMaximum: 200,
           },

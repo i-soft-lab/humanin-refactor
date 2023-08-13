@@ -17,7 +17,7 @@ export default function usePlotData() {
     const data = Number.parseInt(base64.decode(dataArr?.value!)) + 150;
     const flag = data > 168;
     receiveData.push({y: data});
-    if (receiveData.length >= 2) {
+    if (receiveData.length >= 1) {
       setChartData(prevChartData => [...prevChartData, ...receiveData]);
       receiveData = [];
     }

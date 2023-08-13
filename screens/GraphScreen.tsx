@@ -137,28 +137,30 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
           onPress={() => navigation.goBack()}>
           <Icon name="chevrons-down" type="feather" size={30} />
         </TouchableOpacity>
-        <SwitchWithText
-          title="블루투스"
-          subTitle={name}
-          switchValue={isBluetoothConnected}
-          isLoading={isBluetoothLoading}
-          iconName="bluetooth"
-          iconType="font-awesome"
-          color="#0DA6FBFF"
-          disableTurnOff={false}
-          onPress={handleBluetoothTogglePress}
-        />
-        <SwitchWithText
-          title="MQTT"
-          subTitle={`gbrain/${name}`}
-          switchValue={isMqttConnected}
-          isLoading={isMqttLoading}
-          iconName="signal"
-          iconType="font-awesome"
-          color="#50D4B7FF"
-          disableTurnOff={false}
-          onPress={handleMqttTogglePress}
-        />
+        <View style={styles.switchButtonContainer}>
+          <SwitchWithText
+            title="블루투스"
+            subTitle={name}
+            switchValue={isBluetoothConnected}
+            isLoading={isBluetoothLoading}
+            iconName="bluetooth"
+            iconType="font-awesome"
+            color="#0DA6FBFF"
+            disableTurnOff={false}
+            onPress={handleBluetoothTogglePress}
+          />
+          <SwitchWithText
+            title="MQTT"
+            subTitle={`gbrain/${name}`}
+            switchValue={isMqttConnected}
+            isLoading={isMqttLoading}
+            iconName="signal"
+            iconType="font-awesome"
+            color="#50D4B7FF"
+            disableTurnOff={false}
+            onPress={handleMqttTogglePress}
+          />
+        </View>
         <LineChart data={chartData} />
       </View>
     </SafeAreaView>
@@ -178,6 +180,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderTopStartRadius: 40,
     borderTopEndRadius: 40,
+  },
+  switchButtonContainer: {
+    paddingBottom: 8,
   },
 });
 
