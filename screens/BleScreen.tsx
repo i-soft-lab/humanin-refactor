@@ -9,6 +9,7 @@ import useBle from '../hooks/useBle';
 import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
 import BluetoothButton from '../components/BluetoothButton';
+import SplashScreen from 'react-native-splash-screen';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
@@ -21,6 +22,10 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
     useBle(bleManager);
   const [isScan, setIsScan] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   useEffect(() => {
     requestPermissions(
