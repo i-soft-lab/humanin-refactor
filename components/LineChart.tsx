@@ -15,7 +15,7 @@ const LineChart: React.FC<Props> = ({data}) => {
         doubleTapToZoomEnabled={false}
         touchEnabled={false}
         chartDescription={{
-          text: 'data from sender',
+          text: '',
         }}
         data={{
           dataSets: [
@@ -26,7 +26,7 @@ const LineChart: React.FC<Props> = ({data}) => {
                 mode: 'CUBIC_BEZIER',
                 drawValues: false,
                 lineWidth: 0.8,
-                color: processColor('#FF5082'),
+                color: processColor('#FFAE2A'),
                 drawCircles: false,
                 drawCubicIntensity: 0,
               },
@@ -40,7 +40,10 @@ const LineChart: React.FC<Props> = ({data}) => {
           drawGridLines: false,
           drawLabels: false,
           textSize: 10,
-          axisLineColor: processColor('#000'),
+          textColor: processColor('#040C3A'),
+          fontFamily: 'Pretendard-Light',
+          axisLineColor: processColor('#040C3A'),
+          axisLineWidth: 1,
           axisMaximum: 500,
         }}
         yAxis={{
@@ -50,8 +53,10 @@ const LineChart: React.FC<Props> = ({data}) => {
             drawGridLines: false,
             drawLabels: true,
             textSize: 10,
-            textColor: processColor('#1f1f1f'),
-            axisLineColor: processColor('#000'),
+            textColor: processColor('#040C3A'),
+            fontFamily: 'Pretendard-Light',
+            axisLineColor: processColor('#040C3A'),
+            axisLineWidth: 1,
             axisMinimum: 80,
             axisMaximum: 200,
           },
@@ -71,7 +76,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F4F8FB',
-    padding: 8,
+    paddingTop: 8,
+    paddingBottom: 16,
+    paddingHorizontal: 8,
   },
   chart: {
     flex: 1,
