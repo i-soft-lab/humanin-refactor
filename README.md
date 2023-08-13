@@ -11,4 +11,4 @@
 
 ## 화면 플로우
 
-![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/ab635ce5-d005-4f6b-a4c5-9e95b345396a)
+![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/ac97056e-d832-4c9c-81a1-d2767f4c73db)
