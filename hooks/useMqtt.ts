@@ -53,10 +53,10 @@ const useMqtt = (topic: string) => {
     connectedClient?.disconnect();
   };
 
-  const sendMessage = (flag: boolean) => {
-    // connectedClient?.publish(`gbrain/${topic}`, message, 0, false);
+  const sendMessage = ({flag, flagStr}: {flag: boolean; flagStr: string}) => {
     if (flag) {
-      connectedClient?.publish(`gbrain`, 'true', 0, false);
+      console.log(flag, flagStr);
+      connectedClient?.publish(`gbrain`, flagStr, 0, false);
     }
   };
 

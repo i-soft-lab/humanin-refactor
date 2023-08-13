@@ -49,19 +49,31 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const [isBluetoothLoading, setIsBluetoothLoading] = useState(false);
 
   useEffect(() => {
+    // if (isBluetoothConnected) {
+    //   findServicesAndCharacteristics(id).then(() => {
+    //     write(id, 'plot')
+    //       .then(() => {
+    //         subscribeCharacteristic(id, dataArr => {
+    //           const flag = handleChartData(dataArr);
+    //           sendMessage(flag);
+    //         });
+    //       })
+    //       .catch(e => {
+    //         showErrorToast('데이터를 받아올 수 없습니다', e.message);
+    //       });
+    //   });
+    // }
     if (isBluetoothConnected) {
-      findServicesAndCharacteristics(id).then(() => {
-        write(id, 'plot')
-          .then(() => {
-            subscribeCharacteristic(id, dataArr => {
-              const flag = handleChartData(dataArr);
-              sendMessage(flag);
-            });
-          })
-          .catch(e => {
-            showErrorToast('데이터를 받아올 수 없습니다', e.message);
+      findServicesAndCharacteristics(id)
+        .then(() => {
+          subscribeCharacteristic(id, dataArr => {
+            const res = handleChartData(dataArr);
+            sendMessage(res);
           });
-      });
+        })
+        .catch(e => {
+          showErrorToast('데이터를 받아올 수 없습니다', e.message);
+        });
     }
 
     // 블루투스 연결 해제 리스너 등록
