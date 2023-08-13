@@ -12,3 +12,7 @@
 ## 화면 플로우
 
 ![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/ac97056e-d832-4c9c-81a1-d2767f4c73db)
+
+## 전체 시스템 구조
+
+![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/003dd440-f426-465e-bf53-f1141c820211)
