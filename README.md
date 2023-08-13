@@ -11,4 +11,4 @@
 
 ## 화면 플로우
 
-[FigZam](https://www.figma.com/file/glkpBPdDsXxoe4rSj7yQGI?embed_host=share&kind=&node-id=0%3A1&t=pbbmFPA1Rs9dhfff-1&type=whiteboard&viewer=1)
+![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/ab635ce5-d005-4f6b-a4c5-9e95b345396a)
