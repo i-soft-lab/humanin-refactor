@@ -4,7 +4,7 @@ import {showErrorToast} from '../components/Toast';
 
 const useMqtt = (topic: string) => {
   const [connectedClient, setConnectedClient] = useState<IMqttClient>();
-  const [isMqttConnected, setIsMqttConnected] = useState(false);
+  const [isMqttConnected, setIsMqttConnected] = useState(true);
   const [isMqttLoading, setIsMqttLoading] = useState(false);
 
   useEffect(() => {
