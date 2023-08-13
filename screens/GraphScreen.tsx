@@ -18,6 +18,7 @@ import {useBleContext} from '../context/BleProvider';
 import SwitchWithText from '../components/SwitchWithText';
 import {Icon} from '@rneui/themed';
 import useMqtt from '../hooks/useMqtt';
+import ThresholdLimitSlider from '../components/thresholdLimitSlider';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -47,22 +48,9 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   } = useMqtt(name);
   const [isBluetoothConnected, setIsBluetoothConnected] = useState(false);
   const [isBluetoothLoading, setIsBluetoothLoading] = useState(false);
+  const [thresholdLimit, setThresholdLimit] = useState(155);
 
   useEffect(() => {
-    // if (isBluetoothConnected) {
-    //   findServicesAndCharacteristics(id).then(() => {
-    //     write(id, 'plot')
-    //       .then(() => {
-    //         subscribeCharacteristic(id, dataArr => {
-    //           const flag = handleChartData(dataArr);
-    //           sendMessage(flag);
-    //         });
-    //       })
-    //       .catch(e => {
-    //         showErrorToast('데이터를 받아올 수 없습니다', e.message);
-    //       });
-    //   });
-    // }
     if (isBluetoothConnected) {
       findServicesAndCharacteristics(id)
         .then(() => {
@@ -171,6 +159,10 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
             color="#50D4B7FF"
             disableTurnOff={false}
             onPress={handleMqttTogglePress}
+          />
+          <ThresholdLimitSlider
+            value={thresholdLimit}
+            setValue={setThresholdLimit}
           />
         </View>
         <LineChart data={chartData} />
