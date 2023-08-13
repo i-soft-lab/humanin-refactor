@@ -129,6 +129,12 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
     }
   };
 
+  const handleThresholdLimitCheckButtonPress = () => {
+    write(id, thresholdLimit.toString())
+      .then(() => showSuccessToast('임계값 설정이 완료되었습니다.'))
+      .catch(e => showErrorToast('임계값 설정에 실패했습니다.', e.message));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.bottomContainer}>
@@ -156,16 +162,17 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
             isLoading={isMqttLoading}
             iconName="signal"
             iconType="font-awesome"
-            color="#50D4B7FF"
+            color="#36BE9EFF"
             disableTurnOff={false}
             onPress={handleMqttTogglePress}
           />
           <ThresholdLimitSlider
             value={thresholdLimit}
             setValue={setThresholdLimit}
+            onPress={handleThresholdLimitCheckButtonPress}
           />
         </View>
-        <LineChart data={chartData} />
+        <LineChart data={chartData} limit={thresholdLimit} />
       </View>
     </SafeAreaView>
   );

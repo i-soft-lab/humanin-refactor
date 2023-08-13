@@ -1,21 +1,22 @@
 import {Avatar, Icon, Slider} from '@rneui/themed';
 import React, {Dispatch, SetStateAction} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 type Props = {
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
+  onPress: () => void;
 };
 
-const ThresholdLimitSlider: React.FC<Props> = ({value, setValue}) => {
+const ThresholdLimitSlider: React.FC<Props> = ({value, setValue, onPress}) => {
   return (
     <View style={styles.container}>
       <View style={styles.sliderContainer}>
         <Slider
           value={value}
           onValueChange={setValue}
-          maximumValue={10}
-          minimumValue={0}
+          maximumValue={200}
+          minimumValue={140}
           step={1}
           allowTouchTrack
           trackStyle={{height: 5, backgroundColor: 'transparent'}}
@@ -23,30 +24,31 @@ const ThresholdLimitSlider: React.FC<Props> = ({value, setValue}) => {
           thumbProps={{
             children: (
               <Icon
-                name="heartbeat"
-                type="font-awesome"
+                name="electric-bolt"
                 size={20}
                 reverse
                 containerStyle={{bottom: 20, right: 20}}
-                color={'#FF497A'}
+                color={'#FFAE2A'}
               />
             ),
           }}
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Avatar
-          size={40}
-          icon={{
-            name: 'save',
-            type: 'material',
-            color: 'white',
-          }}
-          containerStyle={{
-            backgroundColor: '#FFAE2A',
-            borderRadius: 16,
-          }}
-        />
+        <TouchableOpacity onPress={onPress}>
+          <Avatar
+            size={40}
+            icon={{
+              name: 'check',
+              type: 'font-awesome',
+              color: 'white',
+            }}
+            containerStyle={{
+              backgroundColor: '#7A77D3',
+              borderRadius: 16,
+            }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -58,9 +60,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    columnGap: 16,
+    columnGap: 12,
     marginVertical: 12,
-    marginHorizontal: 24,
+    marginLeft: 28,
+    marginRight: 20,
   },
   sliderContainer: {
     flex: 4,

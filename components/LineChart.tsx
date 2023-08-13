@@ -4,9 +4,10 @@ import {LineChart as ImportLineChart} from 'react-native-charts-wrapper';
 
 type Props = {
   data: {y: number}[];
+  limit: number;
 };
 
-const LineChart: React.FC<Props> = ({data}) => {
+const LineChart: React.FC<Props> = ({data, limit = 155}) => {
   return (
     <View style={styles.container}>
       <ImportLineChart
@@ -29,6 +30,17 @@ const LineChart: React.FC<Props> = ({data}) => {
                 color: processColor('#FFAE2A'),
                 drawCircles: false,
                 drawCubicIntensity: 0,
+              },
+            },
+            {
+              label: 'limit',
+              values: [{y: limit}, {x: 500, y: limit}],
+              config: {
+                mode: 'LINEAR',
+                drawValues: false,
+                lineWidth: 1,
+                color: processColor('#FF4D7F'),
+                drawCircles: false,
               },
             },
           ],
