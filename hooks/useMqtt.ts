@@ -10,10 +10,13 @@ const useMqtt = (topic: string) => {
   useEffect(() => {
     // @ts-ignore
     MQTT.createClient({
-      host: 'broker.mqtt-dashboard.com',
+      host: process.env.MQTT_HOST,
       port: 1883,
       protocol: 'mqtt',
-      clientId: 'gbrain717',
+      clientId: topic,
+      auth: true,
+      user: process.env.MQTT_USER,
+      pass: process.env.MQTT_PASSWORD,
     })
       .then(client => {
         client.on('closed', function () {
@@ -23,6 +26,8 @@ const useMqtt = (topic: string) => {
 
         client.on('error', function (msg) {
           showErrorToast('MQTT 오류 발생', msg);
+          setIsMqttConnected(false);
+          setIsMqttLoading(false);
         });
 
         client.on('connect', function () {
