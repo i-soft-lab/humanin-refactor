@@ -38,6 +38,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
     setIsLoading(true);
     connect(id)
       .then(connectedDevice => {
+        /** Graph로 이동 */
         navigation.push('Graph', {
           id: connectedDevice.id,
           name: connectedDevice.name!,
