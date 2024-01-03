@@ -4,7 +4,6 @@ import { RootStackParamList } from "./navigationType";
 import { BleProvider } from "../context/BleProvider";
 import BleScreen from "../screens/BleScreen";
 import GraphScreen from "../screens/GraphScreen";
-import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,7 +33,6 @@ const StackNav : React.FC = () => {
                 }}
             />
             </Stack.Navigator>
-            <Toast />
         </BleProvider>
     );
 };

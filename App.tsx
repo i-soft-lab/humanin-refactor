@@ -15,33 +15,8 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        {/* <BleProvider>
-          <Stack.Navigator
-            initialRouteName={'Bluetooth'}
-            screenOptions={{
-              animation: 'slide_from_bottom',
-              gestureEnabled: true,
-              gestureDirection: 'vertical',
-              headerBackVisible: false,
-              headerStyle: {backgroundColor: '#101945'},
-              headerShadowVisible: false,
-            }}>
-            <Stack.Screen
-              name={'Bluetooth'}
-              component={BleScreen}
-              options={{title: '블루투스', headerShown: false}}
-            />
-            <Stack.Screen
-              name={'Graph'}
-              component={GraphScreen}
-              options={{
-                title: '',
-              }}
-            />
-          </Stack.Navigator>
-          <Toast />
-        </BleProvider> */}
         <BottomTabs/>
+        <Toast/>
       </NavigationContainer>
     </SafeAreaProvider>
   );

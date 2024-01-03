@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator initialRouteName="Main">
             <Tab.Screen
                 name = "Main"
                 component = {StackNav}

@@ -18,9 +18,7 @@ interface NetInfoDetails{
 
 const SettingsScreen : React.FC = () => {
 
-    const [mySsid, setMySsid] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const navigation = useNavigation();
+    const [checkWifi, setCheckWifi] = useState<Boolean>(false);
 
     const [sendForm, setSendForm] = useState<SendForm>({
         ssid: '',
@@ -30,22 +28,22 @@ const SettingsScreen : React.FC = () => {
 
     // 입력에 대한 유효성 검사
     const handleCheckForm = (sendForm : SendForm) => {
-        if (sendForm.ssid !== null){
-            if ((sendForm.passwd !== null) && (sendForm.topic !== null)) {
+        if (sendForm.ssid !== null && sendForm.passwd !== null && sendForm.topic !== null){
+            if (checkWifi){
                 return true;
             } else {
-                showErrorToast("입력 오류", "모든 칸에 공백 없이 입력해주세요.")
-            } 
+                showErrorToast("Wifi", "와이파이 형식 오류");
+                return false;
+            }
         } else {
-            showErrorToast("Wifi 오류", "Wifi가 연결되지 않았습니다.");
+            showErrorToast("입력 형식 오류", "모든 칸에 공백 없이 입력해주세요.");
+            return false;
         }
     }
 
     // 전송
     const handleSendPress = async (sendForm : SendForm) => {
-        console.log("press submit");
         if (handleCheckForm(sendForm)){
-            console.log("isHandleCheck : true");
             try {
                 const dataForm = {
                     ssid: sendForm.ssid,
@@ -56,10 +54,12 @@ const SettingsScreen : React.FC = () => {
                     'http://192.168.4.1/api/ssid',
                     dataForm
                 );
-                if (response.data === null){
-                    console.log("전송 오류", "data is NULL");
+                if (response.status === 200){
+                    showSuccessToast("Wifi 연결 성공")
+                    
+                } else if (response.status === 400){
+                    showErrorToast("Network 오류", '${response.data}')
                 }
-                console.log(response.data)
             } catch (error) {
                 console.error('Error send form:', error);
                 showErrorToast("Network 오류", "서버와의 전송이 실패했습니다.");
@@ -83,15 +83,11 @@ const SettingsScreen : React.FC = () => {
         const handleNetInfoChange = (state: NetInfoState) => {
             if (state.isConnected && state.details){
                 const { ssid } : NetInfoDetails = state.details as NetInfoDetails;
-                if (ssid?.includes("G-BRAIN")){
-                    setMySsid(ssid || 'N/A');
+                if (!ssid?.includes("G-BRAIN")){
+                    setCheckWifi(false);
                 } else {
-                    console.log("ssid not includes G-BRAIN");
-                    showErrorToast("Wifi 오류", "올바르지 않은 Wifi 형식입니다.");
+                    setCheckWifi(true);
                 }
-                console.log("my ssid " + ssid);
-            } else {
-                setMySsid(null);
             }
         }
 
@@ -105,18 +101,21 @@ const SettingsScreen : React.FC = () => {
                 <Text style={styles.title}>리시버 아두이노 설정</Text>
             </View>
             <View style={styles.body}>
-            <TextInput
+                <Text style={styles.label}>*필수 (네트워크 이름)</Text>
+                <TextInput
                     style={styles.input}
                     placeholder = "SSID"
                     value = {sendForm.ssid}
-                    onChangeText = {(text) => setSendForm((props) => ({...props, ssid: text}))}
+                    onChangeText = {(text) => setSendForm((props) => ({...props, ssid: text}))}  
                 />
+                <Text style={styles.label}>*필수 (네트워크 비밀번호)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder = "password"
                     value = {sendForm.passwd}
                     onChangeText = {(text) => setSendForm((props) => ({...props, passwd: text}))}
                 />
+                <Text style={styles.label}>*필수 (topic)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder = "topic"
@@ -162,27 +161,39 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#101945',
         borderWidth: 1,
-        marginBottom: 16,
+        marginBottom: 50,
+        paddingHorizontal: 10,
+        fontFamily: 'Pretendard-Regular',
     },
     title: {
         fontSize: 30,
         width: '100%',
         height: 60,
         textAlign: 'center',
-        
+        fontFamily: 'Pretendard-Regular',
     },
     button: {
-        width: '35%',
+        width: '70%',
         height: 50,
         backgroundColor: '#101945',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 20,
     },
     text: {
         fontSize: 16,
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'Pretendard-Regular',
+    },
+    label: {
+        width: '70%',
+        fontSize: 12,
+        textAlign: 'left',
+        color: 'red',
+        marginStart: 5,
+        fontFamily: 'Pretendard-Regular',
     }
   });
 
