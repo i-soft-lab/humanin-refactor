@@ -7,6 +7,7 @@ import Toast from 'react-native-toast-message';
 import {RootStackParamList} from './types/navigationType';
 import BleScreen from './screens/BleScreen';
 import {BleProvider} from './context/BleProvider';
+import BottomTabs from './types/bottomTabs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -14,7 +15,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <BleProvider>
+        {/* <BleProvider>
           <Stack.Navigator
             initialRouteName={'Bluetooth'}
             screenOptions={{
@@ -39,7 +40,8 @@ const App = () => {
             />
           </Stack.Navigator>
           <Toast />
-        </BleProvider>
+        </BleProvider> */}
+        <BottomTabs/>
       </NavigationContainer>
     </SafeAreaProvider>
   );
