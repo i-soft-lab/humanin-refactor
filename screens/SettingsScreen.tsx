@@ -5,8 +5,12 @@ import { useNavigation } from "@react-navigation/native";
 import { showErrorToast, showSuccessToast } from "../components/Toast";
 import axios from "axios";
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
+import WifiInfoInput from "../components/WifiInfoInput";
+import WifiIcon from "../components/WifiIcon";
+import OpenDrawer from "../components/OpenDrawer";
+import InfoList from "../components/InfoList";
 
-interface SendForm{
+export interface SendForm{
     ssid: string,
     passwd: string,
     topic: string,
@@ -18,13 +22,19 @@ interface NetInfoDetails{
 
 const SettingsScreen : React.FC = () => {
 
-    const [checkWifi, setCheckWifi] = useState<Boolean>(false);
-
+    const [checkWifi, setCheckWifi] = useState<boolean>(false);
+    const [isScan, setIsScan] = useState<boolean>(false);
     const [sendForm, setSendForm] = useState<SendForm>({
         ssid: '',
         passwd: '',
         topic: ''
     })
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    // is Open
+    const handleOpen = () => {
+        setIsOpen(!isOpen);
+    };
 
     // 입력에 대한 유효성 검사
     const handleCheckForm = (sendForm : SendForm) => {
@@ -43,6 +53,7 @@ const SettingsScreen : React.FC = () => {
 
     // 전송
     const handleSendPress = async (sendForm : SendForm) => {
+        console.log("test","handleSendPress")
         if (handleCheckForm(sendForm)){
             try {
                 const dataForm = {
@@ -95,39 +106,58 @@ const SettingsScreen : React.FC = () => {
         
     }, []);
     
+    // return (
+    //     <SafeAreaView style={styles.container}>
+    //         <View style={styles.header}>
+    //             <Text style={styles.title}>리시버 아두이노 설정</Text>
+    //         </View>
+    //         <View style={styles.body}>
+    //             <Text style={styles.label}>*필수 (네트워크 이름)</Text>
+    //             <TextInput
+    //                 style={styles.input}
+    //                 placeholder = "SSID"
+    //                 value = {sendForm.ssid}
+    //                 onChangeText = {(text) => setSendForm((props) => ({...props, ssid: text}))}  
+    //             />
+    //             <Text style={styles.label}>*필수 (네트워크 비밀번호)</Text>
+    //             <TextInput
+    //                 style={styles.input}
+    //                 placeholder = "password"
+    //                 value = {sendForm.passwd}
+    //                 onChangeText = {(text) => setSendForm((props) => ({...props, passwd: text}))}
+    //             />
+    //             <Text style={styles.label}>*필수 (topic)</Text>
+    //             <TextInput
+    //                 style={styles.input}
+    //                 placeholder = "topic"
+    //                 value = {sendForm.topic}
+    //                 onChangeText = {(text) => setSendForm((props) => ({...props, topic: text}))}
+    //             />
+    //             <TouchableOpacity
+    //                 style={styles.button}
+    //                 onPress={()=>handleSendPress(sendForm)}
+    //             >
+    //                 <Text style={styles.text}>전송</Text>
+    //             </TouchableOpacity>
+    //         </View>
+    //     </SafeAreaView>
+    // );
+
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>리시버 아두이노 설정</Text>
+            <View style={styles.avatarContainer}>
+                <WifiIcon onPress={() => handleSendPress} isScan={isScan}/>
             </View>
-            <View style={styles.body}>
-                <Text style={styles.label}>*필수 (네트워크 이름)</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder = "SSID"
-                    value = {sendForm.ssid}
-                    onChangeText = {(text) => setSendForm((props) => ({...props, ssid: text}))}  
+            <View style={styles.listContainer}>
+                <OpenDrawer onPress={handleOpen}/>
+                <InfoList/>
+                <WifiInfoInput
+                    SSID={sendForm.ssid}
+                    passwd={sendForm.passwd}
+                    topic={sendForm.topic}
+                    onChangeOpenValue={handleOpen}
+                    isOpen={isOpen}
                 />
-                <Text style={styles.label}>*필수 (네트워크 비밀번호)</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder = "password"
-                    value = {sendForm.passwd}
-                    onChangeText = {(text) => setSendForm((props) => ({...props, passwd: text}))}
-                />
-                <Text style={styles.label}>*필수 (topic)</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder = "topic"
-                    value = {sendForm.topic}
-                    onChangeText = {(text) => setSendForm((props) => ({...props, topic: text}))}
-                />
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={()=>handleSendPress(sendForm)}
-                >
-                    <Text style={styles.text}>전송</Text>
-                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
@@ -136,10 +166,27 @@ const SettingsScreen : React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#101945',
         display: 'flex',
         rowGap: 16,
+    },
+    avatarContainer: {
+        flex: 2,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 24,
+    },
+    listContainer: {
+        flex: 3,
+        flexDirection: 'column',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        width: '100%',
+        alignItems: 'center',
+        backgroundColor: '#FFF',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
     },
     header: {
         height: 50,
@@ -173,8 +220,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Regular',
     },
     button: {
-        width: '70%',
-        height: 50,
+        width: '20%',
+        height: 10,
         backgroundColor: '#101945',
         borderRadius: 10,
         justifyContent: 'center',
