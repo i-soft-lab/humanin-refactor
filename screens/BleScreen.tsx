@@ -10,6 +10,7 @@ import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
 import BluetoothButton from '../components/BluetoothButton';
 import SplashScreen from 'react-native-splash-screen';
+import { useLanguage } from '../context/LanguageProvider';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
@@ -23,14 +24,22 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
   const [isScan, setIsScan] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const {language} = useLanguage();
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   useEffect(() => {
     requestPermissions(
-      isGranted => !isGranted && showErrorToast('블루투스 권한을 허용해주세요'),
-    ).catch(e => showErrorToast('권한 허용 오류', e.message));
+      isGranted => {
+        const errorMsg = language === 'ko' ? '블루투스 권한을 허용해주세요' : 'Please allow Bluetooth permission';
+        !isGranted && showErrorToast(errorMsg);
+      },
+    ).catch(e => {
+      const errorMsg = language === 'ko' ? '권한 허용 오류' : 'Permission Error';
+      showErrorToast(errorMsg, e.message)
+    });
   }, [requestPermissions]);
 
   const handleBluetoothPress = (id: DeviceId) => {
@@ -45,7 +54,9 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
         });
       })
       .catch(e => {
-        showErrorToast('장치에 연결할 수 없습니다.', e?.message);
+        const errMsg = language === 'ko' ? '장치에 연결할 수 없습니다.' : 'Unable to connect to the device.';
+
+        showErrorToast(errMsg, e?.message);
       })
       .finally(() => setIsLoading(false));
   };
@@ -59,7 +70,8 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
       try {
         getScanDevices();
       } catch (e: any) {
-        showErrorToast('장치 검색 실패', e.message);
+        const errMsg = language === 'ko' ? '장치 검색 실패' : 'Device discovery failed';
+        showErrorToast(errMsg, e.message);
       }
     }
   };
@@ -71,7 +83,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
       </View>
       <View style={styles.listContainer}>
         <BluetoothList
-          title={'검색된 디바이스'}
+          title={language === 'ko' ? '검색된 디바이스' : 'Discovered Devices'}
           data={scanDeviceList}
           isLoading={isLoading}
           onPress={id => handleBluetoothPress(id)}

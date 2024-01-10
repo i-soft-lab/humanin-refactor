@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TouchableOpacity, View, Text, TextInput, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { View, Animated, StyleSheet } from "react-native";
 import { showErrorToast, showSuccessToast } from "../components/Toast";
 import axios from "axios";
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
@@ -9,8 +8,12 @@ import WifiInfoInput from "../components/WifiInfoInput";
 import WifiIcon from "../components/WifiIcon";
 import OpenDrawer from "../components/OpenDrawer";
 import InfoList from "../components/InfoList";
+import { FAB } from "react-native-paper";
+import { Icon } from "@rneui/base";
+import {Directions, FlingGestureHandler, PanGestureHandler, State} from 'react-native-gesture-handler'
+import { useLanguage } from "../context/LanguageProvider";
 
-export interface SendForm{
+export type SendForm = {
     ssid: string,
     passwd: string,
     topic: string,
@@ -31,9 +34,48 @@ const SettingsScreen : React.FC = () => {
     })
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    // is Open
+    const {language} = useLanguage();
+
+    const translateY = useRef(new Animated.Value(0)).current;
+
+    // Bottom Sheet 상태 변경
     const handleOpen = () => {
         setIsOpen(!isOpen);
+    };
+
+    // SSID 변경
+    const handleSSIDChange = (newSsid : string) => {
+        setSendForm((props) => ({...props, ssid: newSsid}))
+    }
+
+    // passwd 변경
+    const handlePasswdChange = (newPasswd : string) => {
+        setSendForm((props) => ({...props, passwd: newPasswd}))
+    }
+
+    // topic 변경
+    const handleTopicChange = (newTopic : string) => {
+        setSendForm((props) => ({...props, topic: newTopic}))
+    }
+
+    // 설정 초기화
+    const handleResetOption = () => {
+        console.log("Test", "FAB Clicked");
+    }
+
+    const handleUpEvent = (event: any) => {
+
+        const translationY = event.nativeEvent.translationY;
+        if (event.nativeEvent.state === State.ACTIVE){
+            if (translationY < -50 && translationY > -150) {
+                console.log("Test", "Gesture reconnize");
+                handleOpen();
+            }
+        }
+        Animated.spring(translateY, {
+            toValue: 0,
+            useNativeDriver: false,
+        }).start();
     };
 
     // 입력에 대한 유효성 검사
@@ -42,18 +84,28 @@ const SettingsScreen : React.FC = () => {
             if (checkWifi){
                 return true;
             } else {
-                showErrorToast("Wifi", "와이파이 형식 오류");
+                if (language == 'ko'){
+                    showErrorToast("Wifi", "와이파이 형식 오류");
+                } else {
+                    showErrorToast("Wifi", "Wi-Fi format error");
+                }
+                
                 return false;
             }
         } else {
-            showErrorToast("입력 형식 오류", "모든 칸에 공백 없이 입력해주세요.");
+            if (language == 'ko'){
+                showErrorToast("입력 형식 오류", "모든 칸에 공백 없이 입력해주세요.");
+            } else {
+                showErrorToast("Input format error", "Please fill in all the blanks without spaces.");
+            }
             return false;
         }
     }
 
     // 전송
-    const handleSendPress = async (sendForm : SendForm) => {
-        console.log("test","handleSendPress")
+    const handleSendPress = async () => {
+        console.log("Test", "Wifi Clicked");
+        setIsScan(true);
         if (handleCheckForm(sendForm)){
             try {
                 const dataForm = {
@@ -66,18 +118,35 @@ const SettingsScreen : React.FC = () => {
                     dataForm
                 );
                 if (response.status === 200){
-                    showSuccessToast("Wifi 연결 성공")
-                    
+                    if (language == 'ko'){
+                        showSuccessToast("Wifi 연결 성공")
+                    } else {
+                        showSuccessToast("WiFi connection successful")
+                    }
                 } else if (response.status === 400){
-                    showErrorToast("Network 오류", '${response.data}')
+                    if (language == 'ko'){
+                        showErrorToast("Network 오류", '${response.data}')
+                    } else {
+                        showErrorToast("Network Error", '${response.data}')
+                    }
                 }
             } catch (error) {
                 console.error('Error send form:', error);
-                showErrorToast("Network 오류", "서버와의 전송이 실패했습니다.");
+                if (language == 'ko'){
+                    showErrorToast("Network 오류", "서버와의 전송이 실패했습니다.");
+                } else {
+                    showErrorToast("Network Error", "Transfer to server failed.");
+                }
             }
         }
+        setIsScan(false);
     }
     
+    // test 코드
+    useEffect(() => {
+        console.log("Test", {isScan});
+    }, [isScan]);
+
     /** Wifi SSID 알아오는 방식 */
     useEffect(() => {
         const initializeNetInfo = async () => {
@@ -105,60 +174,40 @@ const SettingsScreen : React.FC = () => {
         initializeNetInfo();
         
     }, []);
-    
-    // return (
-    //     <SafeAreaView style={styles.container}>
-    //         <View style={styles.header}>
-    //             <Text style={styles.title}>리시버 아두이노 설정</Text>
-    //         </View>
-    //         <View style={styles.body}>
-    //             <Text style={styles.label}>*필수 (네트워크 이름)</Text>
-    //             <TextInput
-    //                 style={styles.input}
-    //                 placeholder = "SSID"
-    //                 value = {sendForm.ssid}
-    //                 onChangeText = {(text) => setSendForm((props) => ({...props, ssid: text}))}  
-    //             />
-    //             <Text style={styles.label}>*필수 (네트워크 비밀번호)</Text>
-    //             <TextInput
-    //                 style={styles.input}
-    //                 placeholder = "password"
-    //                 value = {sendForm.passwd}
-    //                 onChangeText = {(text) => setSendForm((props) => ({...props, passwd: text}))}
-    //             />
-    //             <Text style={styles.label}>*필수 (topic)</Text>
-    //             <TextInput
-    //                 style={styles.input}
-    //                 placeholder = "topic"
-    //                 value = {sendForm.topic}
-    //                 onChangeText = {(text) => setSendForm((props) => ({...props, topic: text}))}
-    //             />
-    //             <TouchableOpacity
-    //                 style={styles.button}
-    //                 onPress={()=>handleSendPress(sendForm)}
-    //             >
-    //                 <Text style={styles.text}>전송</Text>
-    //             </TouchableOpacity>
-    //         </View>
-    //     </SafeAreaView>
-    // );
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
-                <WifiIcon onPress={() => handleSendPress} isScan={isScan}/>
+                <WifiIcon onPress={handleSendPress} isScan={isScan}/>
             </View>
-            <View style={styles.listContainer}>
-                <OpenDrawer onPress={handleOpen}/>
-                <InfoList/>
-                <WifiInfoInput
-                    SSID={sendForm.ssid}
-                    passwd={sendForm.passwd}
-                    topic={sendForm.topic}
-                    onChangeOpenValue={handleOpen}
-                    isOpen={isOpen}
-                />
-            </View>
+            <PanGestureHandler
+                onGestureEvent={handleUpEvent}
+                onHandlerStateChange={handleUpEvent}
+            >
+                <View style={styles.listContainer}>               
+                    <View style={styles.tmp}>
+                        <OpenDrawer onPress={handleOpen} isOpen={isOpen} onChangeOpenValue={handleOpen}/>
+                        <InfoList
+                            sendForm={sendForm}
+                        />
+                        <WifiInfoInput
+                            sendForm={sendForm}
+                            onChangeOpenValue={handleOpen}
+                            isOpen={isOpen}
+                            onChangeSSID={handleSSIDChange}
+                            onChangePasswd={handlePasswdChange}
+                            onChangeTopic={handleTopicChange}
+                        />
+                        <View style={{width: '100%', alignItems: 'flex-end', justifyContent: 'center', marginEnd: 20, marginBottom: 20}}>
+                            <FAB 
+                                style={styles.fab}
+                                icon={() => <Icon name='refresh' color='white'/> }
+                                onPress={handleResetOption}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </PanGestureHandler>
         </SafeAreaView>
     );
 }
@@ -183,23 +232,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'flex-start',
         width: '100%',
-        alignItems: 'center',
-        backgroundColor: '#FFF',
-        borderTopLeftRadius: 40,
-        borderTopRightRadius: 40,
-    },
-    header: {
-        height: 50,
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginTop: 24,
-    },
-    body: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginHorizontal: 10
+        alignItems: 'flex-end',
     },
     input: {
         fontSize: 24,
@@ -241,7 +274,21 @@ const styles = StyleSheet.create({
         color: 'red',
         marginStart: 5,
         fontFamily: 'Pretendard-Regular',
+    },
+    fab: {
+        borderRadius: 50, 
+        backgroundColor: '#87ceeb', 
+        color: 'white',
+    },
+    tmp: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        width: '100%',
+        backgroundColor: '#FFF',
     }
-  });
+});
 
 export default SettingsScreen;

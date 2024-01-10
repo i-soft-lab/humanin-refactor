@@ -1,20 +1,54 @@
-import React from "react";
-import { Button, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, {useRef, useEffect} from "react";
+import { Text, StyleSheet, TouchableOpacity, View, Animated, Easing } from "react-native";
+import {GestureHandlerRootView, PanGestureHandler, State} from 'react-native-gesture-handler'
 
-interface Props{
+type Props = {
     onPress: () => void;
+    isOpen: boolean;
+    onChangeOpenValue: () => void,
 }
 
-const OpenDrawer: React.FC<Props> = ({onPress}) => {
+const OpenDrawer: React.FC<Props> = ({onPress, isOpen, onChangeOpenValue}) => {
+
+    const translateY = useRef(new Animated.Value(0)).current;
+
+    const handleGestureEvent = (event: any) => {
+        if (event.nativeEvent.state === State.END && event.nativeEvent.translateY < -100){
+            console.log("Test", "gesture recongnize");
+            onChangeOpenValue();
+        }
+    }
+
+    useEffect(() => {
+        console.log("Test", {isOpen})
+        if (!isOpen) {
+            const upAni = Animated.timing(translateY, {
+                toValue: -10,
+                duration: 150,
+                useNativeDriver: true,
+                easing: Easing.linear
+            });
+    
+            const downAni = Animated.timing(translateY, {
+                toValue: 0,
+                duration: 600,
+                useNativeDriver: true,
+                easing: Easing.linear
+            });
+    
+            const fullAni = Animated.sequence([upAni, downAni]);
+    
+            const baseAni = Animated.loop(fullAni);
+            baseAni.start();
+            return () => baseAni.stop();
+        }
+    }, [isOpen]);
+
     return (
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.button}>
-                <Button 
-                    color='gray'
-                    title=''
-                    onPress={onPress}
-                />
-            </TouchableOpacity>
+        <View style={styles.animateContainer} onTouchEnd={onPress}>
+            <Animated.View style={[styles.button, {transform: [{translateY}]}]}>
+                <Text style={styles.text}></Text>
+            </Animated.View>
         </View>
     );
 }
@@ -25,8 +59,19 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
-    button: {
+    animateContainer: {
         width: '20%',
+        height: 10
+    },
+    button: {
+        width: '100%',
+        height: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    text: {
+        backgroundColor: 'gray',
+        width: '100%',
         height: 10
     }
 });

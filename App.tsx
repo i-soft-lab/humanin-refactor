@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect, createContext} from 'react';
 import GraphScreen from './screens/GraphScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,17 +8,24 @@ import {RootStackParamList} from './types/navigationType';
 import BleScreen from './screens/BleScreen';
 import {BleProvider} from './context/BleProvider';
 import BottomTabs from './types/bottomTabs';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { LanguageProvider } from './context/LanguageProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const App = () => {
+const App: React.FC = () => {
+
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <BottomTabs/>
-        <Toast/>
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <LanguageProvider>
+      <SafeAreaProvider>      
+        <GestureHandlerRootView style={{flex: 1}}>
+          <NavigationContainer>
+            <BottomTabs/>
+            <Toast/>
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
+    </LanguageProvider>
   );
 };
 

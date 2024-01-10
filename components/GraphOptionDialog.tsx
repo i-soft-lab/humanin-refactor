@@ -1,6 +1,7 @@
 import {Dialog, Icon, Slider, Text} from '@rneui/themed';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
+import { useLanguage } from '../context/LanguageProvider';
 
 type Props = {
   isVisible: boolean;
@@ -15,17 +16,19 @@ export default function GraphOptionDialog({
 }: Props) {
   const [value, setValue] = useState(5);
 
+  const {language} = useLanguage();
+
   return (
     <Dialog
       isVisible={isVisible}
       onBackdropPress={() => handleVisible(isVisible)}>
       <Dialog.Title
-        title="그래프 렌더링 주기 설정"
+        title={ language==='ko' ? "그래프 렌더링 주기 설정" : 'Setting the graph rendering period'}
         titleStyle={{color: 'black', marginBottom: 24}}
       />
       <View style={styles.sliderContainer}>
         <Text style={styles.iconText}>🐢</Text>
-        <Text>{(16 - value) / 10}초마다 렌더링</Text>
+        <Text>{language==='ko' ? `${(16 - value) / 10}초마다 렌더링` : `Rendering every ${(16 - value) / 10} seconds`}</Text>
         <Text style={styles.iconText}>🐇</Text>
       </View>
       <Slider
@@ -52,10 +55,10 @@ export default function GraphOptionDialog({
       />
       <Dialog.Actions>
         <Dialog.Button
-          title="완료"
+          title={language==='ko' ? "완료" : "Done"}
           onPress={() => handleComplete(18 - value)}
         />
-        <Dialog.Button title="취소" onPress={() => handleVisible(isVisible)} />
+        <Dialog.Button title={language==='ko' ? "취소" : "Cancel"} onPress={() => handleVisible(isVisible)} />
       </Dialog.Actions>
     </Dialog>
   );

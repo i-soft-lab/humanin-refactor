@@ -2,16 +2,19 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import OpenDrawer from "./OpenDrawer";
 import Modal from "react-native-modal";
+import { SendForm } from "../screens/SettingsScreen";
+import InputForm from "./InputForm";
 
-interface Props{
-    SSID: string;
-    passwd: string;
-    topic: string;
+type WifiInfoInputProps = {
+    sendForm: SendForm;
     onChangeOpenValue: () => void;
     isOpen: boolean;
+    onChangeSSID: (ssid: string) => void,
+    onChangePasswd: (passwd: string) => void,
+    onChangeTopic: (topic: string) => void
 }
 
-const WifiInfoInput : React.FC<Props> = ({SSID, passwd, topic, onChangeOpenValue, isOpen}) => {
+const WifiInfoInput : React.FC<WifiInfoInputProps> = ({sendForm, onChangeOpenValue, isOpen, onChangeSSID, onChangePasswd, onChangeTopic}) => {
     return(
         <Modal
             isVisible={isOpen}
@@ -19,11 +22,16 @@ const WifiInfoInput : React.FC<Props> = ({SSID, passwd, topic, onChangeOpenValue
             onBackdropPress={onChangeOpenValue}
             onBackButtonPress={onChangeOpenValue}
         >
+            <View style={styles.space}></View>
             <View style={styles.bottomModalContent}>
-                <OpenDrawer onPress={onChangeOpenValue}/>
-                <Text style={styles.text}>{SSID}</Text>
-                <Text style={styles.text}>{passwd}</Text>
-                <Text style={styles.text}>{topic}</Text>
+                <OpenDrawer onPress={onChangeOpenValue} isOpen={isOpen} onChangeOpenValue={onChangeOpenValue}/>
+                <InputForm
+                    sendForm={sendForm} 
+                    onChangeSSID={onChangeSSID} 
+                    onChangePasswd={onChangePasswd}
+                    onChangeTopic={onChangeTopic}
+                    onDismiss={onChangeOpenValue}
+                />
             </View>
         </Modal>
     );
@@ -33,11 +41,10 @@ export default WifiInfoInput;
 
 const styles = StyleSheet.create({
     bottomModalContent: {
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: 'white',
-        padding: 16,
-        marginTop: 50,
+        paddingHorizontal: 16,
         flex: 9,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -52,4 +59,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         margin: 0
     },
+    space: {
+        flex: 1
+    }
 })
