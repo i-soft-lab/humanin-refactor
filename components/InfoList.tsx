@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { SendForm } from "../screens/SettingsScreen";
+import { Avatar } from "@rneui/themed";
 
 type Props = {
     sendForm : SendForm;
@@ -10,7 +11,8 @@ const InfoList : React.FC<Props> = ({sendForm}) => {
 
     return(
         <View style={styles.container}>
-            <View style={styles.space}></View>
+            <View style={styles.space}>          
+            </View>
             <View style={styles.row}>
                 <Text style={styles.textTag}>SSID : </Text>
                 <Text style={styles.textContent}>{sendForm.ssid}</Text>
@@ -23,7 +25,6 @@ const InfoList : React.FC<Props> = ({sendForm}) => {
                 <Text style={styles.textTag}>TOPIC : </Text>
                 <Text style={styles.textContent}>{sendForm.topic}</Text>
             </View>
-            <View style={styles.space}></View>
         </View>
     );
 };
@@ -40,7 +41,10 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     space: {
-        flex: 1
+        flex: 1,
+        width: '100%',
+        alignItems: 'flex-end',
+        marginEnd: 20
     },
     row : {
         flex: 1,

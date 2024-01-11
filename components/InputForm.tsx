@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import { TouchableOpacity, StyleSheet, View, TextInput, Text, Animated } from "react-native";
+import { TouchableOpacity, StyleSheet, View, TextInput, Text, Animated, KeyboardAvoidingView } from "react-native";
 import { SendForm } from "../screens/SettingsScreen";
 import { State, PanGestureHandler } from "react-native-gesture-handler";
 import { useLanguage } from "../context/LanguageProvider";
@@ -16,27 +16,8 @@ const InputForm : React.FC<InputFormProps> = ({sendForm, onChangeSSID, onChangeP
 
     const {language} = useLanguage();
 
-    // const translateY = useRef(new Animated.Value(0)).current;
-
-    // const handleDownEvent = (event: any) => {
-
-    //     const translationY = event.nativeEvent.translationY;
-    //     console.log("Test", "Gesture Recognize")
-    //     if (event.nativeEvent.state === State.ACTIVE){
-    //         if (translationY > 50 && translationY < 150) {
-    //             console.log("Test", "Gesture recognize");
-    //             onDismiss();
-    //         }
-    //     }
-
-    //     Animated.spring(translateY, {
-    //         toValue: 0,
-    //         useNativeDriver: false,
-    //     }).start();
-    // };
-
     return(
-        <View style={styles.container}>
+        <KeyboardAvoidingView  style={styles.container} behavior="height" enabled>
             <Text style={styles.label}>
                 {language == 'ko' ? '*필수 (네트워크 이름)' : '*Required (Network Name)' }                
             </Text>
@@ -72,7 +53,7 @@ const InputForm : React.FC<InputFormProps> = ({sendForm, onChangeSSID, onChangeP
                     {language == 'ko' ? '완료' : 'Done'}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 

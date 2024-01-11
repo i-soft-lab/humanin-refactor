@@ -105,7 +105,15 @@ const SettingsScreen : React.FC = () => {
     // 전송
     const handleSendPress = async () => {
         console.log("Test", "Wifi Clicked");
+        if (isScan){
+            setIsScan(false);
+            return;
+        } 
+        
         setIsScan(true);
+
+        let cancelFlag = false;
+
         if (handleCheckForm(sendForm)){
             try {
                 const dataForm = {
@@ -113,10 +121,18 @@ const SettingsScreen : React.FC = () => {
                     password: sendForm.passwd,
                     topic: sendForm.topic
                 }
+
+                console.log("Test", {dataForm})
+
+                if (cancelFlag) return;
+
                 const response = await axios.post<SendForm>(
                     'http://192.168.4.1/api/ssid',
                     dataForm
                 );
+
+                if (cancelFlag) return;
+
                 if (response.status === 200){
                     if (language == 'ko'){
                         showSuccessToast("Wifi 연결 성공")
@@ -137,6 +153,8 @@ const SettingsScreen : React.FC = () => {
                 } else {
                     showErrorToast("Network Error", "Transfer to server failed.");
                 }
+            } finally {
+                cancelFlag = true;
             }
         }
         setIsScan(false);
@@ -198,7 +216,7 @@ const SettingsScreen : React.FC = () => {
                             onChangePasswd={handlePasswdChange}
                             onChangeTopic={handleTopicChange}
                         />
-                        <View style={{width: '100%', alignItems: 'flex-end', justifyContent: 'center', marginEnd: 20, marginBottom: 20}}>
+                        <View style={{width: '100%', alignItems: 'flex-end', justifyContent: 'center', marginEnd: 40, marginBottom: 20}}>
                             <FAB 
                                 style={styles.fab}
                                 icon={() => <Icon name='refresh' color='white'/> }
