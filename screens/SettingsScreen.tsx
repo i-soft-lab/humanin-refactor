@@ -59,8 +59,35 @@ const SettingsScreen : React.FC = () => {
     }
 
     // 설정 초기화
-    const handleResetOption = () => {
-        console.log("Test", "FAB Clicked");
+    const handleResetOption = async () => {
+        console.log("Reset Click")
+        try {
+            const response = await axios.get(
+                'http://192.168.4.1/api/restart'
+            );
+
+            if (response.status === 200){
+                if (language == 'ko'){
+                    showSuccessToast("Reset 성공","Wi-Fi를 다시 연결해주세요")
+                } else {
+                    showSuccessToast("Reset Success")
+                }
+            } else if (response.status === 400){
+                if (language == 'ko'){
+                    showErrorToast("Network 오류", '${response.data}')
+                } else {
+                    showErrorToast("Network Error", '${response.data}')
+                }
+            }
+        } catch (error) {
+            console.error('Error send form:', error);
+            if (language == 'ko'){
+                showErrorToast("Reset 오류", "Reset에 실패했습니다.");
+            } else {
+                showErrorToast("Network Error", "Failed to reset.");
+            }
+        } finally {
+        }
     }
 
     const handleUpEvent = (event: any) => {
@@ -113,50 +140,91 @@ const SettingsScreen : React.FC = () => {
         setIsScan(true);
 
         let cancelFlag = false;
-
-        if (handleCheckForm(sendForm)){
-            try {
-                const dataForm = {
-                    ssid: sendForm.ssid,
-                    password: sendForm.passwd,
-                    topic: sendForm.topic
-                }
-
-                console.log("Test", {dataForm})
-
-                if (cancelFlag) return;
-
-                const response = await axios.post<SendForm>(
-                    'http://192.168.4.1/api/ssid',
-                    dataForm
-                );
-
-                if (cancelFlag) return;
-
-                if (response.status === 200){
-                    if (language == 'ko'){
-                        showSuccessToast("Wifi 연결 성공")
-                    } else {
-                        showSuccessToast("WiFi connection successful")
-                    }
-                } else if (response.status === 400){
-                    if (language == 'ko'){
-                        showErrorToast("Network 오류", '${response.data}')
-                    } else {
-                        showErrorToast("Network Error", '${response.data}')
-                    }
-                }
-            } catch (error) {
-                console.error('Error send form:', error);
-                if (language == 'ko'){
-                    showErrorToast("Network 오류", "서버와의 전송이 실패했습니다.");
-                } else {
-                    showErrorToast("Network Error", "Transfer to server failed.");
-                }
-            } finally {
-                cancelFlag = true;
+        try {
+            const dataForm = {
+                ssid: sendForm.ssid,
+                password: sendForm.passwd,
+                topic: sendForm.topic
             }
+
+            console.log("Test", {dataForm})
+
+            if (cancelFlag) return;
+
+            const response = await axios.post<SendForm>(
+                'http://192.168.4.1/api/ssid',
+                dataForm
+            );
+
+            if (cancelFlag) return;
+
+            if (response.status === 200){
+                if (language == 'ko'){
+                    showSuccessToast("Wifi 연결 성공")
+                } else {
+                    showSuccessToast("WiFi connection successful")
+                }
+            } else if (response.status === 400){
+                if (language == 'ko'){
+                    showErrorToast("Network 오류", '${response.data}')
+                } else {
+                    showErrorToast("Network Error", '${response.data}')
+                }
+            }
+        } catch (error) {
+            console.error('Error send form:', error);
+            if (language == 'ko'){
+                showErrorToast("Network 오류", "서버와의 전송이 실패했습니다.");
+            } else {
+                showErrorToast("Network Error", "Transfer to server failed.");
+            }
+        } finally {
+            cancelFlag = true;
         }
+
+        // if (handleCheckForm(sendForm)){
+        //     try {
+        //         const dataForm = {
+        //             ssid: sendForm.ssid,
+        //             password: sendForm.passwd,
+        //             topic: sendForm.topic
+        //         }
+
+        //         console.log("Test", {dataForm})
+
+        //         if (cancelFlag) return;
+
+        //         const response = await axios.post<SendForm>(
+        //             'http://192.168.4.1/api/ssid',
+        //             dataForm
+        //         );
+
+        //         if (cancelFlag) return;
+
+        //         if (response.status === 200){
+        //             if (language == 'ko'){
+        //                 showSuccessToast("Wifi 연결 성공")
+        //             } else {
+        //                 showSuccessToast("WiFi connection successful")
+        //             }
+        //         } else if (response.status === 400){
+        //             if (language == 'ko'){
+        //                 showErrorToast("Network 오류", '${response.data}')
+        //             } else {
+        //                 showErrorToast("Network Error", '${response.data}')
+        //             }
+        //         }
+        //     } catch (error) {
+        //         console.error('Error send form:', error);
+        //         if (language == 'ko'){
+        //             showErrorToast("Network 오류", "서버와의 전송이 실패했습니다.");
+        //         } else {
+        //             showErrorToast("Network Error", "Transfer to server failed.");
+        //         }
+        //     } finally {
+        //         cancelFlag = true;
+        //     }
+        // }
         setIsScan(false);
     }
     
