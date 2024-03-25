@@ -19,7 +19,7 @@ import SwitchWithText from '../components/SwitchWithText';
 import {Icon} from '@rneui/themed';
 import useMqtt from '../hooks/useMqtt';
 import ThresholdLimitSlider from '../components/thresholdLimitSlider';
-import { useLanguage } from '../context/LanguageProvider';
+import {useLanguage} from '../context/LanguageProvider';
 
 interface GraphScreenProps {
   navigation: GraphScreenNavigationProp;
@@ -63,7 +63,10 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
           });
         })
         .catch(e => {
-          const errMsg = language === 'ko' ? '데이터를 받아올 수 없습니다' : 'cannot get the data.'
+          const errMsg =
+            language === 'ko'
+              ? '데이터를 받아올 수 없습니다'
+              : 'cannot get the data.';
           showErrorToast(errMsg, e.message);
         });
     }
@@ -92,8 +95,8 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
                   'Disconnecting the device.',
                   'Press back to finish disconnecting the device.',
                 );
-              }}
-            )
+              }
+            })
             .catch(() => {
               if (language === 'ko') {
                 showInfoToast('디바이스 초기화 버튼을 눌러주세요');
@@ -112,12 +115,16 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         if (res) {
           setIsBluetoothConnected(true);
         } else {
-          const errMsg = language === 'ko' ? '디바이스 연결 실패' : 'Device connection failed';
+          const errMsg =
+            language === 'ko'
+              ? '디바이스 연결 실패'
+              : 'Device connection failed';
           showErrorToast(errMsg);
         }
       })
       .catch(e => {
-        const errMsg = language === 'ko' ? '디바이스 연결 실패' : 'Device connection failed';
+        const errMsg =
+          language === 'ko' ? '디바이스 연결 실패' : 'Device connection failed';
         showErrorToast(errMsg, e.message);
       })
       .finally(() => setIsBluetoothLoading(false));
@@ -129,8 +136,11 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         setIsBluetoothConnected(false);
       })
       .catch(e => {
-        const errMsg = language === 'ko' ? '디바이스 연결 종료 실패' : 'Device shutdown failed'
-        showErrorToast(errMsg, e.message)
+        const errMsg =
+          language === 'ko'
+            ? '디바이스 연결 종료 실패'
+            : 'Device shutdown failed';
+        showErrorToast(errMsg, e.message);
       })
       .finally(() => setIsBluetoothLoading(false));
   };
@@ -156,11 +166,17 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
   const handleThresholdLimitCheckButtonPress = () => {
     write(id, thresholdLimit.toString())
       .then(() => {
-        const successMsg = language === 'ko' ? '임계값 설정이 완료되었습니다.' : 'Threshold setting is complete.'
+        const successMsg =
+          language === 'ko'
+            ? '임계값 설정이 완료되었습니다.'
+            : 'Threshold setting is complete.';
         showSuccessToast(successMsg);
       })
       .catch(e => {
-        const errMsg = language === 'ko' ? '임계값 설정에 실패했습니다.' : 'Threshold setting failed.'
+        const errMsg =
+          language === 'ko'
+            ? '임계값 설정에 실패했습니다.'
+            : 'Threshold setting failed.';
         showErrorToast(errMsg, e.message);
       });
   };
@@ -175,7 +191,7 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
         </TouchableOpacity>
         <View style={styles.switchButtonContainer}>
           <SwitchWithText
-            title={language === 'ko' ? "블루투스" : "Bluetooth"}
+            title={language === 'ko' ? '블루투스' : 'Bluetooth'}
             subTitle={name}
             switchValue={isBluetoothConnected}
             isLoading={isBluetoothLoading}

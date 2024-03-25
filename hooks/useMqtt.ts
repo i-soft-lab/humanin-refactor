@@ -1,7 +1,7 @@
 import MQTT, {IMqttClient} from 'sp-react-native-mqtt';
 import {useEffect, useState} from 'react';
 import {showErrorToast} from '../components/Toast';
-import { useLanguage } from '../context/LanguageProvider';
+import {useLanguage} from '../context/LanguageProvider';
 
 const useMqtt = (topic: string) => {
   const [connectedClient, setConnectedClient] = useState<IMqttClient>();
@@ -28,7 +28,7 @@ const useMqtt = (topic: string) => {
         });
 
         client.on('error', function (msg) {
-          const errMsg = language === 'ko' ? 'MQTT 오류 발생' : 'MQTT Error'
+          const errMsg = language === 'ko' ? 'MQTT 오류 발생' : 'MQTT Error';
           showErrorToast(errMsg, msg);
           setIsMqttConnected(false);
           setIsMqttLoading(false);
@@ -42,7 +42,7 @@ const useMqtt = (topic: string) => {
         client.connect();
       })
       .catch(err => {
-        const errMsg = language === 'ko' ? 'MQTT 오류 발생' : 'MQTT Error'
+        const errMsg = language === 'ko' ? 'MQTT 오류 발생' : 'MQTT Error';
         showErrorToast(errMsg, err.message);
       });
   }, []);

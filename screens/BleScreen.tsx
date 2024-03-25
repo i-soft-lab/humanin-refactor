@@ -10,7 +10,7 @@ import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
 import BluetoothButton from '../components/BluetoothButton';
 import SplashScreen from 'react-native-splash-screen';
-import { useLanguage } from '../context/LanguageProvider';
+import {useLanguage} from '../context/LanguageProvider';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
@@ -31,14 +31,16 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    requestPermissions(
-      isGranted => {
-        const errorMsg = language === 'ko' ? '블루투스 권한을 허용해주세요' : 'Please allow Bluetooth permission';
-        !isGranted && showErrorToast(errorMsg);
-      },
-    ).catch(e => {
-      const errorMsg = language === 'ko' ? '권한 허용 오류' : 'Permission Error';
-      showErrorToast(errorMsg, e.message)
+    requestPermissions(isGranted => {
+      const errorMsg =
+        language === 'ko'
+          ? '블루투스 권한을 허용해주세요'
+          : 'Please allow Bluetooth permission';
+      !isGranted && showErrorToast(errorMsg);
+    }).catch(e => {
+      const errorMsg =
+        language === 'ko' ? '권한 허용 오류' : 'Permission Error';
+      showErrorToast(errorMsg, e.message);
     });
   }, [requestPermissions]);
 
@@ -54,7 +56,10 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
         });
       })
       .catch(e => {
-        const errMsg = language === 'ko' ? '장치에 연결할 수 없습니다.' : 'Unable to connect to the device.';
+        const errMsg =
+          language === 'ko'
+            ? '장치에 연결할 수 없습니다.'
+            : 'Unable to connect to the device.';
 
         showErrorToast(errMsg, e?.message);
       })
@@ -70,7 +75,8 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
       try {
         getScanDevices();
       } catch (e: any) {
-        const errMsg = language === 'ko' ? '장치 검색 실패' : 'Device discovery failed';
+        const errMsg =
+          language === 'ko' ? '장치 검색 실패' : 'Device discovery failed';
         showErrorToast(errMsg, e.message);
       }
     }
