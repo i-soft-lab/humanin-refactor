@@ -524,6 +524,10 @@ PODS:
     - React-Core
   - RNPermissions (3.8.4):
     - React-Core
+  - RNReanimated (3.8.1):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
   - RNScreens (3.24.0):
     - React-Core
     - React-RCTImage
@@ -615,6 +619,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - RNWifi (from `../node_modules/react-native-wifi-reborn`)
@@ -743,6 +748,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
@@ -819,6 +826,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNLocalize: a725877f311db45acc6bff2382b3283e744a3945
   RNPermissions: d51880b53b6bbe12899f7afe23fb0d62316912a2
+  RNReanimated: f4798af7dede23d41039f0bc372710ead86e90c7
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNVectorIcons: 8b5bb0fa61d54cd2020af4f24a51841ce365c7e9
   RNWifi: 3319fbb8c18a18aa452f0a198283404066b86c41
