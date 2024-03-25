@@ -20,8 +20,8 @@ const ListItem: React.FC<ListItemProps> = ({
       friction={90}
       tension={100}
       activeScale={0.95}>
-      <Text className="text-xl text-black">{title}</Text>
-      <Text className="text-sm text-gray-400">{subTitle}</Text>
+      <Text className="font-pnormal text-xl text-black">{title}</Text>
+      <Text className="font-plight text-sm text-gray-400">{subTitle}</Text>
     </TouchableScale>
   );
 };
