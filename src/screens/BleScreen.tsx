@@ -84,10 +84,10 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.avatarContainer}>
+      <View className="flex basis-2/5 justify-center items-center mt-6">
         <BluetoothButton onPress={handleScanDevice} isScan={isScan} />
       </View>
-      <View style={styles.listContainer}>
+      <View className="flex basis-3/5">
         <BluetoothList
           title={language === 'ko' ? '검색된 디바이스' : 'Discovered Devices'}
           data={scanDeviceList}
@@ -105,17 +105,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#101945',
     display: 'flex',
     rowGap: 16,
-  },
-  avatarContainer: {
-    flex: 2,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 24,
-  },
-  listContainer: {
-    flex: 3,
-    display: 'flex',
   },
 });
 

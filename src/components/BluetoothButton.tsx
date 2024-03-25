@@ -1,6 +1,6 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Avatar, Text} from '@rneui/themed';
+import {Avatar} from '@rneui/themed';
 import {useLanguage} from '../context/LanguageProvider';
 
 type Props = {
@@ -15,7 +15,7 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Text style={styles.title}>
+      <Text className="text-lg font-semibold text-white">
         {isScan
           ? language === 'ko'
             ? '기기를 검색중입니다.'
@@ -24,8 +24,8 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
           ? '버튼을 눌러 기기를 검색하세요.'
           : 'Press the button to search for the device.'}
       </Text>
-      <View style={styles.container}>
-        {isScan ? (
+      <View className="flex flex-1 items-center justify-center">
+        {isScan && (
           <Pulse
             color="#0592FF"
             numPulses={3}
@@ -33,7 +33,7 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
             speed={10}
             duration={1500}
           />
-        ) : null}
+        )}
         <Avatar
           size={80}
           rounded
@@ -48,14 +48,9 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    marginBottom: 16,
-    fontSize: 16,
-    fontFamily: 'Pretendard-Bold',
-    color: 'white',
   },
 });
 export default BluetoothButton;

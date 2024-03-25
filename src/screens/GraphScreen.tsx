@@ -183,13 +183,11 @@ const GraphScreen: React.FC<GraphScreenProps> = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}>
+      <View style={styles.bottomContainer} className="rounded-t-4xl bg-white">
+        <TouchableOpacity className="pt-2" onPress={() => navigation.goBack()}>
           <Icon name="chevrons-down" type="feather" size={30} />
         </TouchableOpacity>
-        <View style={styles.switchButtonContainer}>
+        <View className="pb-2">
           <SwitchWithText
             title={language === 'ko' ? '블루투스' : 'Bluetooth'}
             subTitle={name}
@@ -229,17 +227,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#101945',
   },
-  backButton: {
-    paddingTop: 8,
-  },
   bottomContainer: {
     flex: 1,
-    backgroundColor: '#FFF',
-    borderTopStartRadius: 40,
-    borderTopEndRadius: 40,
-  },
-  switchButtonContainer: {
-    paddingBottom: 8,
   },
 });
 
