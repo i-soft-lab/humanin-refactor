@@ -11,12 +11,13 @@ const WifiScreen = () => {
   const StyledSafeAreaView = cssInterop(SafeAreaView, {className: 'style'});
 
   return (
-    <StyledSafeAreaView className="bg-white h-screen">
-      <Text>WIFI</Text>
+    <StyledSafeAreaView className="flex gap-y-2 h-screen py-2 bg-blue-950">
+      <Text className="font-psemibold text-lg text-white text-center py-2">
+        1. 리시버와 연결할 WIFI를 선택하세요
+      </Text>
       <FlatList
         data={wifiList}
-        className="px-4"
-        contentContainerClassName="flex gap-y-1"
+        contentContainerClassName="flex gap-y-1 bg-white p-4 rounded-t-3xl"
         renderItem={({item: {SSID, BSSID}}) => (
           <ListItem title={SSID} subTitle={BSSID} />
         )}
