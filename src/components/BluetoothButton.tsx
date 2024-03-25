@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Avatar} from '@rneui/themed';
-import {useLanguage} from '../context/LanguageProvider';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   onPress: () => void;
@@ -11,18 +11,12 @@ type Props = {
 const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
   const Pulse = require('react-native-pulse').default;
 
-  const {language} = useLanguage();
+  const {t} = useTranslation();
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text className="text-lg font-semibold text-white">
-        {isScan
-          ? language === 'ko'
-            ? '기기를 검색중입니다.'
-            : 'Searching for a device.'
-          : language === 'ko'
-          ? '버튼을 눌러 기기를 검색하세요.'
-          : 'Press the button to search for the device.'}
+        {isScan ? t('searching_device') : t('press_to_search')}
       </Text>
       <View className="flex flex-1 items-center justify-center">
         {isScan && (

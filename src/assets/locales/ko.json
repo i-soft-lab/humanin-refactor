@@ -1,0 +1,22 @@
+{
+  "bluetooth_permission": "블루투스 권한을 허용해주세요",
+  "permission_error": "권한 허용 오류",
+  "connect_failure": "장치에 연결할 수 없습니다.",
+  "discovery_failure": "장치 검색 실패",
+  "discovered_devices": "검색된 디바이스",
+  "searching_device": "기기를 검색중입니다.",
+  "press_to_search": "버튼을 눌러 기기를 검색하세요.",
+  "graph_rendering_period_setting": "그래프 렌더링 주기 설정",
+  "rendering_every_seconds": "{{value}}초마다 렌더링",
+  "done": "완료",
+  "cancel": "취소",
+  "cannot_get_data": "데이터를 받아올 수 없습니다",
+  "disconnecting_device": "디바이스와 연결을 종료합니다.",
+  "press_back_to_disconnect": "뒤로가기를 눌러서 디바이스 연결이 종료되었습니다.",
+  "press_device_reset": "디바이스 초기화 버튼을 눌러주세요",
+  "device_connection_failed": "디바이스 연결 실패",
+  "device_shutdown_failed": "디바이스 연결 종료 실패",
+  "threshold_setting_complete": "임계값 설정이 완료되었습니다.",
+  "threshold_setting_failed": "임계값 설정에 실패했습니다.",
+  "bluetooth": "블루투스"
+}

@@ -10,13 +10,14 @@ import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
 import BluetoothButton from '../components/BluetoothButton';
 import SplashScreen from 'react-native-splash-screen';
-import {useLanguage} from '../context/LanguageProvider';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
 }
 
 const BleScreen: React.FC<Props> = ({navigation}) => {
+  const {t} = useTranslation();
   const {bleManager} = useBleContext();
   const {requestPermissions} = usePermission();
   const {scanDeviceList, getScanDevices, connect, stopScan} =
@@ -24,25 +25,17 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
   const [isScan, setIsScan] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const {language} = useLanguage();
-
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   useEffect(() => {
     requestPermissions(isGranted => {
-      const errorMsg =
-        language === 'ko'
-          ? '블루투스 권한을 허용해주세요'
-          : 'Please allow Bluetooth permission';
-      !isGranted && showErrorToast(errorMsg);
+      !isGranted && showErrorToast(t('bluetooth_permission'));
     }).catch(e => {
-      const errorMsg =
-        language === 'ko' ? '권한 허용 오류' : 'Permission Error';
-      showErrorToast(errorMsg, e.message);
+      showErrorToast(t('permission_error'), e.message);
     });
-  }, [requestPermissions]);
+  }, [requestPermissions, t]);
 
   const handleBluetoothPress = (id: DeviceId) => {
     setIsScan(false);
@@ -56,12 +49,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
         });
       })
       .catch(e => {
-        const errMsg =
-          language === 'ko'
-            ? '장치에 연결할 수 없습니다.'
-            : 'Unable to connect to the device.';
-
-        showErrorToast(errMsg, e?.message);
+        showErrorToast(t('connect_failure'), e?.message);
       })
       .finally(() => setIsLoading(false));
   };
@@ -75,9 +63,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
       try {
         getScanDevices();
       } catch (e: any) {
-        const errMsg =
-          language === 'ko' ? '장치 검색 실패' : 'Device discovery failed';
-        showErrorToast(errMsg, e.message);
+        showErrorToast(t('discovery_failure'), e.message);
       }
     }
   };
@@ -89,7 +75,7 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
       </View>
       <View className="flex basis-3/5">
         <BluetoothList
-          title={language === 'ko' ? '검색된 디바이스' : 'Discovered Devices'}
+          title={t('discovered_devices')}
           data={scanDeviceList}
           isLoading={isLoading}
           onPress={id => handleBluetoothPress(id)}
