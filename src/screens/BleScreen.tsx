@@ -70,10 +70,10 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View className="flex basis-2/5 justify-center items-center mt-6">
+      <View className="flex flex-1 basis-2/5 justify-center items-center mt-6">
         <BluetoothButton onPress={handleScanDevice} isScan={isScan} />
       </View>
-      <View className="flex basis-3/5">
+      <View className="flex flex-1 basis-3/5">
         <BluetoothList
           title={t('discovered_devices')}
           data={scanDeviceList}

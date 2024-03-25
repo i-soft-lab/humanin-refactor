@@ -1,8 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import SettingsScreen from '../screens/SettingsScreen';
 import StackNav from './stackNav';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import WifiScreen from '../screens/WifiScreen';
 
 interface TabIconProps {
   name: string;
@@ -29,7 +29,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
+        component={WifiScreen}
         options={{
           headerShown: false,
           tabBarIcon: props => TabIcon({...props, name: 'wifi'}),
