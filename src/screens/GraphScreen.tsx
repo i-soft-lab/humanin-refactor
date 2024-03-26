@@ -18,7 +18,7 @@ import {useBleContext} from '../context/BleProvider';
 import SwitchWithText from '../components/SwitchWithText';
 import {Icon} from '@rneui/themed';
 import useMqtt from '../hooks/useMqtt';
-import ThresholdLimitSlider from '../components/thresholdLimitSlider';
+import ThresholdLimitSlider from '../components/ThresholdLimitSlider';
 import {useTranslation} from 'react-i18next';
 
 interface GraphScreenProps {
