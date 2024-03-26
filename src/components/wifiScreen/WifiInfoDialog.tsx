@@ -5,15 +5,16 @@ import {Text, TextInput, TouchableHighlight} from 'react-native';
 type WifiInfoDialogProps = {
   visible: boolean;
   ssid?: string;
+  closeDialog: () => void;
   onClose: (form: FormData) => void;
 };
 
 const WifiInfoDialog: React.FC<WifiInfoDialogProps> = ({
   visible,
   ssid,
+  closeDialog,
   onClose,
 }) => {
-  const [isVisible, setIsVisible] = useState(visible);
   const [isNotValid, setIsNotValid] = useState(false);
   const [form, setForm] = useState({
     ssid: ssid,
@@ -35,8 +36,6 @@ const WifiInfoDialog: React.FC<WifiInfoDialogProps> = ({
     return !form.passwd || !form.topic;
   };
 
-  const toggleDialogVisibility = () => setIsVisible(prev => !prev);
-
   const handleFormChange = (value: string, key: string) => {
     setForm(prev => ({...prev, [key]: value}));
   };
@@ -48,12 +47,12 @@ const WifiInfoDialog: React.FC<WifiInfoDialogProps> = ({
     }
 
     const formData = getFormData();
-    toggleDialogVisibility();
+    closeDialog();
     onClose(formData);
   };
 
   return (
-    <Dialog isVisible={isVisible} onBackdropPress={toggleDialogVisibility}>
+    <Dialog isVisible={visible} onBackdropPress={closeDialog}>
       <Text className="mb-4 font-psemibold text-gray-800">
         2. 연결에 필요한 정보를 입력하세요
       </Text>

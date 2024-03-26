@@ -5,7 +5,7 @@ import {Avatar} from '@rneui/themed';
 type IconPulseButtonProps = {
   text: string;
   iconName?: string;
-  onPress: () => void;
+  onPress?: () => void;
   isPulse: boolean;
 };
 
@@ -38,7 +38,7 @@ const IconPulseButton: React.FC<IconPulseButtonProps> = ({
           containerStyle={styles.avatar}
           size={80}
           rounded
-          icon={{name: iconName ?? 'bluetooth'}}
+          icon={{name: iconName ?? 'bluetooth', type: 'material'}}
         />
       </View>
     </TouchableOpacity>
