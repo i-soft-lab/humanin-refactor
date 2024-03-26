@@ -1,25 +1,31 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Avatar} from '@rneui/themed';
-import {useTranslation} from 'react-i18next';
 
-type Props = {
+type IconPulseButtonProps = {
+  text: string;
+  iconName?: string;
   onPress: () => void;
-  isScan: boolean;
+  isPulse: boolean;
 };
 
-const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
+const IconPulseButton: React.FC<IconPulseButtonProps> = ({
+  text,
+  iconName,
+  isPulse,
+  onPress,
+}) => {
   const Pulse = require('react-native-pulse').default;
 
-  const {t} = useTranslation();
-
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Text className="text-lg font-semibold text-white">
-        {isScan ? t('searching_device') : t('press_to_search')}
+    <TouchableOpacity
+      className="flex flex-1 justify-center items-center"
+      onPress={onPress}>
+      <Text className="text-lg font-semibold text-white font-pbold">
+        {text}
       </Text>
       <View className="flex flex-1 items-center justify-center">
-        {isScan && (
+        {isPulse && (
           <Pulse
             color="#0592FF"
             numPulses={3}
@@ -29,10 +35,10 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
           />
         )}
         <Avatar
+          containerStyle={styles.avatar}
           size={80}
           rounded
-          icon={{name: 'bluetooth'}}
-          containerStyle={{backgroundColor: '#0592FF'}}
+          icon={{name: iconName ?? 'bluetooth'}}
         />
       </View>
     </TouchableOpacity>
@@ -40,11 +46,8 @@ const BluetoothButton: React.FC<Props> = ({onPress, isScan}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  avatar: {
+    backgroundColor: '#0592FF',
   },
 });
-export default BluetoothButton;
+export default IconPulseButton;

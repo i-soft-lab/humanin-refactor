@@ -1,6 +1,5 @@
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {BluetoothScreenNavigationProp} from '../types/navigationType';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 import BluetoothList from '../components/BluetoothList';
 import usePermission from '../hooks/usePermission';
@@ -8,9 +7,10 @@ import {showErrorToast} from '../components/Toast';
 import useBle from '../hooks/useBle';
 import {DeviceId} from 'react-native-ble-plx';
 import {useBleContext} from '../context/BleProvider';
-import BluetoothButton from '../components/BluetoothButton';
 import SplashScreen from 'react-native-splash-screen';
 import {useTranslation} from 'react-i18next';
+import IconPulseButton from '../components/common/IconPulseButton';
+import ScreenLayout from '../components/common/ScreenLayout';
 
 interface Props {
   navigation: BluetoothScreenNavigationProp;
@@ -69,11 +69,14 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View className="flex flex-1 basis-2/5 justify-center items-center mt-6">
-        <BluetoothButton onPress={handleScanDevice} isScan={isScan} />
-      </View>
-      <View className="flex flex-1 basis-3/5">
+    <ScreenLayout>
+      <IconPulseButton
+        text={isScan ? t('searching_device') : t('press_to_search')}
+        iconName="bluetooth"
+        onPress={handleScanDevice}
+        isPulse={isScan}
+      />
+      <View className="flex basis-3/5">
         <BluetoothList
           title={t('discovered_devices')}
           data={scanDeviceList}
@@ -81,17 +84,8 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
           onPress={id => handleBluetoothPress(id)}
         />
       </View>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#101945',
-    display: 'flex',
-    rowGap: 16,
-  },
-});
 
 export default BleScreen;
