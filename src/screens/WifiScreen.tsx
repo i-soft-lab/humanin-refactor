@@ -1,13 +1,13 @@
-import {FlatList, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import useWifiList from '../hooks/useWifiList';
 import ListItem from '../components/common/ListItem';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import WifiInfoDialog from '../components/wifiScreen/WifiInfoDialog';
-import IconPulseButton from '../components/common/IconPulseButton';
 import ScreenLayout from '../components/common/ScreenLayout';
 import {SendForm} from './SettingsScreen';
 import axios from 'axios';
-import {showErrorToast} from '../components/Toast';
+import {showErrorToast, showSuccessToast} from '../components/Toast';
+import ResetReceiver from '../components/wifiScreen/ResetReceiver';
 
 const WifiScreen = () => {
   const {wifiList} = useWifiList();
@@ -26,6 +26,8 @@ const WifiScreen = () => {
         setSelectedSSID(undefined);
         showErrorToast('와이파이 설정 실패');
       });
+    showSuccessToast('와이파이 설정 완료');
+    console.log(response);
     setIsLoading(false);
   };
 
@@ -36,19 +38,16 @@ const WifiScreen = () => {
     setSelectedSSID(value);
   };
 
-  const iconName = isError ? 'priority-high' : 'wifi';
-
   return (
     <ScreenLayout>
-      <IconPulseButton
-        text={'리시버와 연결할 WIFI를 선택하세요'}
-        iconName={iconName}
-        isPulse={isLoading}
-      />
-      <View className="flex basis-3/5">
+      <ResetReceiver />
+      <View className="flex basis-3/5 bg-white rounded-t-3xl">
+        <Text className="mt-6 mb-4 text-center font-pbold text-black">
+          리시버와 연결할 WIFI를 선택하세요
+        </Text>
         <FlatList
           data={wifiList}
-          contentContainerClassName="flex gap-y-1 bg-white p-4 rounded-t-3xl"
+          contentContainerClassName="flex gap-y-1 p-4 "
           renderItem={({item: {SSID, BSSID}}) => (
             <ListItem
               title={SSID}
