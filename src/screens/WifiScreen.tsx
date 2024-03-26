@@ -35,6 +35,7 @@ const WifiScreen = () => {
 
   const handleResetInfo = () => {
     setSelectedSSID(undefined);
+    setIsSuccess(false);
   };
 
   return (
