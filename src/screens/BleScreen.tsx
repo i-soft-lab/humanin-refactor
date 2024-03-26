@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {BluetoothScreenNavigationProp} from '../types/navigationType';
 import React, {useEffect, useState} from 'react';
 import BluetoothList from '../components/BluetoothList';
@@ -76,9 +76,11 @@ const BleScreen: React.FC<Props> = ({navigation}) => {
         onPress={handleScanDevice}
         isPulse={isScan}
       />
-      <View className="flex basis-3/5">
+      <View className="flex basis-3/5 bg-white rounded-t-3xl">
+        <Text className="mt-6 mb-4 text-center font-pbold text-black">
+          {t('discovered_devices')}
+        </Text>
         <BluetoothList
-          title={t('discovered_devices')}
           data={scanDeviceList}
           isLoading={isLoading}
           onPress={id => handleBluetoothPress(id)}
