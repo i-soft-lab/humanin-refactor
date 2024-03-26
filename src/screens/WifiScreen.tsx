@@ -4,29 +4,32 @@ import ListItem from '../components/common/ListItem';
 import React, {useState} from 'react';
 import ScreenLayout from '../components/common/ScreenLayout';
 import axios from 'axios';
-import {showErrorToast, showSuccessToast} from '../components/Toast';
-import ResetReceiver from '../components/wifiScreen/ResetReceiver';
 import WifiInfoInput from '../components/wifiScreen/WifiInfoInput';
 import {PostSSIDRequestBody} from '../types/common';
+import {showErrorToast} from '../components/Toast';
+import ResetReceiver from '../components/wifiScreen/ResetReceiver';
 
 const WifiScreen = () => {
   const {wifiList} = useWifiList();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [selectedSSID, setSelectedSSID] = useState<string | undefined>();
+  const [topic, setTopic] = useState<string>('');
 
   const handleSubmitForm = async (body: PostSSIDRequestBody) => {
     setIsLoading(true);
-    const response = await axios
-      .post('http://192.168.4.1/api/ssid', body)
-      .then(_ => showSuccessToast('와이파이 설정 완료'))
-      .catch(_ => {
-        setIsError(false);
-        setSelectedSSID(undefined);
-        showErrorToast('와이파이 설정 실패');
-      });
-    console.log(response);
-    setIsLoading(false);
+    try {
+      const response = await axios.post('http://192.168.4.1/api/ssid', body);
+      setIsSuccess(response.data === 'Connect Success!!');
+      setTopic(body.topic);
+      console.log(response);
+    } catch (e) {
+      setIsError(true);
+      showErrorToast('와이파이 설정 실패');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSSIDPress = (value: string) => {
@@ -38,13 +41,28 @@ const WifiScreen = () => {
       <ResetReceiver />
       <View className="flex basis-3/5 bg-white rounded-t-3xl">
         {selectedSSID ? (
-          <View className="flex py-6">
-            <WifiInfoInput
-              ssid={selectedSSID}
-              onCancel={() => setSelectedSSID(undefined)}
-              onSubmit={handleSubmitForm}
-            />
-          </View>
+          isSuccess ? (
+            <View className="p-6">
+              <Text className="mb-12 text-center font-pbold text-black">
+                리시버 정보
+              </Text>
+              <Text className="font-pnormal text-center text-xl">
+                연결된 WIFI: {selectedSSID}
+              </Text>
+              <Text className="font-pnormal text-center text-xl">
+                구독한 Topic: {topic}
+              </Text>
+            </View>
+          ) : (
+            <View className="flex py-6">
+              <WifiInfoInput
+                ssid={selectedSSID}
+                isLoading={isLoading}
+                onCancel={() => setSelectedSSID(undefined)}
+                onSubmit={handleSubmitForm}
+              />
+            </View>
+          )
         ) : (
           <>
             <Text className="mt-6 mb-4 text-center font-pbold text-black">

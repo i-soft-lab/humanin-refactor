@@ -517,11 +517,6 @@ PODS:
     - React-Core
   - RNDeviceInfo (10.8.0):
     - React-Core
-  - RNGestureHandler (2.14.0):
-    - RCT-Folly (= 2021.07.22.00)
-    - React-Core
-  - RNLocalize (3.0.5):
-    - React-Core
   - RNPermissions (3.8.4):
     - React-Core
   - RNReanimated (3.8.1):
@@ -616,8 +611,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
-  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -742,10 +735,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
-  RNGestureHandler:
-    :path: "../node_modules/react-native-gesture-handler"
-  RNLocalize:
-    :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -823,8 +812,6 @@ SPEC CHECKSUMS:
   ReactCommon: 3ccb8fb14e6b3277e38c73b0ff5e4a1b8db017a9
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
   RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
-  RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
-  RNLocalize: a725877f311db45acc6bff2382b3283e744a3945
   RNPermissions: d51880b53b6bbe12899f7afe23fb0d62316912a2
   RNReanimated: f4798af7dede23d41039f0bc372710ead86e90c7
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7

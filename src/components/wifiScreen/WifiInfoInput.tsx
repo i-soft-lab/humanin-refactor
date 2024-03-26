@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Text,
   TextInput,
   TouchableHighlight,
@@ -11,12 +12,14 @@ import {PostSSIDRequestBody} from '../../types/common';
 
 type WifiInfoInputProps = {
   ssid: string;
+  isLoading: boolean;
   onCancel: () => void;
   onSubmit: (body: PostSSIDRequestBody) => void;
 };
 
 const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
   ssid,
+  isLoading,
   onCancel,
   onSubmit,
 }) => {
@@ -88,9 +91,13 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
         </Text>
       )}
       <TouchableHighlight
-        className="bg-blue-950 py-2.5 rounded w-20 self-end"
+        className="bg-blue-950 py-2.5 rounded w-20 h-20 self-end"
         onPress={handleSubmitButtonPress}>
-        <Text className="text-white text-center font-psemibold">전송</Text>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text className="text-white text-center font-psemibold">전송</Text>
+        )}
       </TouchableHighlight>
     </View>
   );

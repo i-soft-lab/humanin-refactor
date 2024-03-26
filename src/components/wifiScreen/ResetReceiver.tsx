@@ -11,11 +11,17 @@ const ResetReceiver = () => {
 
   const handleResetReceiver = async () => {
     setIsLoading(true);
-    await axios.get('http://192.168.4.1/api/ssid').catch(_ => {
+    setIsError(false);
+    console.log('ResetReceiver');
+    try {
+      const response = await axios.get('http://192.168.4.2/api/ssid');
+      response.status === 200 && showSuccessToast('리시버 초기화 완료');
+    } catch (e) {
+      console.log(e);
       setIsError(true);
       showErrorToast('리시버 초기화 실패');
-    });
-    showSuccessToast('리시버 초기화 완료');
+    }
+
     setIsLoading(false);
   };
 
