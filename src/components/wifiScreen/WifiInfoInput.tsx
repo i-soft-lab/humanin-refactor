@@ -7,11 +7,12 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Icon} from '@rneui/base';
+import {PostSSIDRequestBody} from '../../types/common';
 
 type WifiInfoInputProps = {
-  ssid?: string;
+  ssid: string;
   onCancel: () => void;
-  onSubmit: (form: FormData) => void;
+  onSubmit: (body: PostSSIDRequestBody) => void;
 };
 
 const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
@@ -20,28 +21,18 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
   onSubmit,
 }) => {
   const [isNotValid, setIsNotValid] = useState(false);
-  const [form, setForm] = useState({
+  const [body, setBody] = useState({
     ssid: ssid,
     passwd: '',
     topic: '',
   });
 
-  const getFormData = () => {
-    const formData = new FormData();
-
-    formData.append('ssid', form.ssid);
-    formData.append('passwd', form.passwd);
-    formData.append('topic', form.topic);
-
-    return formData;
-  };
-
   const isNotValidForm = () => {
-    return !form.passwd || !form.topic;
+    return !body.passwd || !body.topic;
   };
 
   const handleFormChange = (value: string, key: string) => {
-    setForm(prev => ({...prev, [key]: value}));
+    setBody(prev => ({...prev, [key]: value}));
   };
 
   const handleSubmitButtonPress = () => {
@@ -50,8 +41,7 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
       return;
     }
 
-    const formData = getFormData();
-    onSubmit(formData);
+    onSubmit(body);
   };
 
   return (
@@ -75,7 +65,7 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
         placeholder="password"
         placeholderTextColor="#bbb"
         onChangeText={e => handleFormChange(e, 'passwd')}
-        value={form.passwd}
+        value={body.passwd}
       />
       <Text
         className={`mb-1 font-pnormal text-sm ${
@@ -90,7 +80,7 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
         placeholderTextColor="#bbb"
         placeholder="gbrain/{bluetooth name}"
         onChangeText={e => handleFormChange(e, 'topic')}
-        value={form.topic}
+        value={body.topic}
       />
       {isNotValid && (
         <Text className="mb-2 font-plight text-xs text-red-500">

@@ -8,6 +8,7 @@ import axios from 'axios';
 import {showErrorToast, showSuccessToast} from '../components/Toast';
 import ResetReceiver from '../components/wifiScreen/ResetReceiver';
 import WifiInfoInput from '../components/wifiScreen/WifiInfoInput';
+import {PostSSIDRequestBody} from '../types/common';
 
 const WifiScreen = () => {
   const {wifiList} = useWifiList();
@@ -15,10 +16,10 @@ const WifiScreen = () => {
   const [isError, setIsError] = useState(false);
   const [selectedSSID, setSelectedSSID] = useState<string | undefined>();
 
-  const handleSubmitForm = async (formData: FormData) => {
+  const handleSubmitForm = async (body: PostSSIDRequestBody) => {
     setIsLoading(true);
     const response = await axios
-      .post<SendForm>('http://192.168.4.1/api/ssid', formData)
+      .post<SendForm>('http://192.168.4.1/api/ssid', body)
       .then(_ => showSuccessToast('와이파이 설정 완료'))
       .catch(_ => {
         setIsError(false);
