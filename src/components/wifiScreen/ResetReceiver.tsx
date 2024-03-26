@@ -14,7 +14,7 @@ const ResetReceiver = () => {
     setIsError(false);
     console.log('ResetReceiver');
     try {
-      const response = await axios.get('http://192.168.4.2/api/ssid');
+      const response = await axios.get('http://192.168.4.1/api/ssid');
       response.status === 200 && showSuccessToast('리시버 초기화 완료');
     } catch (e) {
       console.log(e);
