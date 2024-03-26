@@ -1,5 +1,5 @@
 export type PostSSIDRequestBody = {
   ssid: string;
-  passwd: string;
+  password: string;
   topic: string;
 };

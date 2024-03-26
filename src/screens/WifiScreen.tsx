@@ -12,7 +12,6 @@ import ResetReceiver from '../components/wifiScreen/ResetReceiver';
 const WifiScreen = () => {
   const {wifiList} = useWifiList();
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedSSID, setSelectedSSID] = useState<string | undefined>();
   const [topic, setTopic] = useState<string>('');
@@ -21,11 +20,9 @@ const WifiScreen = () => {
     setIsLoading(true);
     try {
       const response = await axios.post('http://192.168.4.1/api/ssid', body);
-      setIsSuccess(response.data === 'Connect Success!!');
+      setIsSuccess(response.status === 200);
       setTopic(body.topic);
-      console.log(response);
     } catch (e) {
-      setIsError(true);
       showErrorToast('와이파이 설정 실패');
     } finally {
       setIsLoading(false);
@@ -36,9 +33,13 @@ const WifiScreen = () => {
     setSelectedSSID(value);
   };
 
+  const handleResetInfo = () => {
+    setSelectedSSID(undefined);
+  };
+
   return (
     <ScreenLayout>
-      <ResetReceiver />
+      <ResetReceiver onReset={handleResetInfo} />
       <View className="flex basis-3/5 bg-white rounded-t-3xl">
         {selectedSSID ? (
           isSuccess ? (
@@ -50,7 +51,7 @@ const WifiScreen = () => {
                 연결된 WIFI: {selectedSSID}
               </Text>
               <Text className="font-pnormal text-center text-xl">
-                구독한 Topic: {topic}
+                Serial No: {topic}
               </Text>
             </View>
           ) : (

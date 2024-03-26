@@ -26,12 +26,12 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
   const [isNotValid, setIsNotValid] = useState(false);
   const [body, setBody] = useState({
     ssid: ssid,
-    passwd: '',
-    topic: '',
+    password: 'isoft.qwer',
+    topic: 'GH7',
   });
 
   const isNotValidForm = () => {
-    return !body.passwd || !body.topic;
+    return !body.password || !body.topic;
   };
 
   const handleFormChange = (value: string, key: string) => {
@@ -68,13 +68,13 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
         placeholder="password"
         placeholderTextColor="#bbb"
         onChangeText={e => handleFormChange(e, 'passwd')}
-        value={body.passwd}
+        value={body.password}
       />
       <Text
         className={`mb-1 font-pnormal text-sm ${
           isNotValid ? 'text-red-400' : ''
         }`}>
-        Topic
+        Serial No
       </Text>
       <TextInput
         className={`border rounded px-2 mb-4 font-pnormal ${
