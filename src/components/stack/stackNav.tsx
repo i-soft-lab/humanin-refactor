@@ -1,9 +1,9 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {RootStackParamList} from './navigationType';
-import {BleProvider} from '../context/BleProvider';
-import BleScreen from '../screens/BleScreen';
-import GraphScreen from '../screens/GraphScreen';
+import {RootStackParamList} from '../../types/navigationType';
+import {BleProvider} from '../../context/BleProvider';
+import BleScreen from '../../screens/BleScreen';
+import GraphScreen from '../../screens/GraphScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import {RootStackParamList} from './types/navigationType';
-import BottomTabs from './types/bottomTabs';
+import BottomTabs from './components/stack/bottomTabs';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {LanguageProvider} from './context/LanguageProvider';
 import '../global.css';

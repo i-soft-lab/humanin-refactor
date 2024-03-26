@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import StackNav from './stackNav';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import WifiScreen from '../screens/WifiScreen';
+import WifiScreen from '../../screens/WifiScreen';
 
 interface TabIconProps {
   name: string;

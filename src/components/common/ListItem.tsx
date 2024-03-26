@@ -5,8 +5,8 @@ import TouchableScale from 'react-native-touchable-scale';
 type ListItemProps = {
   title: string;
   subTitle?: string;
-  value?: string;
-  onPress?: (value?: string) => void;
+  value: string;
+  onPress?: (value: string) => void;
 };
 const ListItem: React.FC<ListItemProps> = ({
   value,
