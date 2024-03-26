@@ -41,7 +41,7 @@ const WifiScreen = () => {
   return (
     <ScreenLayout>
       <IconPulseButton
-        text={'1. 리시버와 연결할 WIFI를 선택하세요'}
+        text={'리시버와 연결할 WIFI를 선택하세요'}
         iconName={iconName}
         isPulse={isLoading}
       />

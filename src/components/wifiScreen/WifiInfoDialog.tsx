@@ -54,7 +54,7 @@ const WifiInfoDialog: React.FC<WifiInfoDialogProps> = ({
   return (
     <Dialog isVisible={visible} onBackdropPress={closeDialog}>
       <Text className="mb-4 font-psemibold text-gray-800">
-        2. 연결에 필요한 정보를 입력하세요
+        연결에 필요한 정보를 입력하세요
       </Text>
       <Text
         className={`mb-1 font-pnormal text-sm ${

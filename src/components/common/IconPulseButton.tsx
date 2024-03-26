@@ -18,13 +18,13 @@ const IconPulseButton: React.FC<IconPulseButtonProps> = ({
   const Pulse = require('react-native-pulse').default;
 
   return (
-    <TouchableOpacity
-      className="flex flex-1 justify-center items-center"
-      onPress={onPress}>
+    <View className="flex flex-1 justify-center items-center">
       <Text className="text-lg font-semibold text-white font-pbold">
         {text}
       </Text>
-      <View className="flex flex-1 items-center justify-center">
+      <TouchableOpacity
+        className="flex flex-1 items-center justify-center"
+        onPress={() => onPress?.()}>
         {isPulse && (
           <Pulse
             color="#0592FF"
@@ -40,8 +40,8 @@ const IconPulseButton: React.FC<IconPulseButtonProps> = ({
           rounded
           icon={{name: iconName ?? 'bluetooth', type: 'material'}}
         />
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
