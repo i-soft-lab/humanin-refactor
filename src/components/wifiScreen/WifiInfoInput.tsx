@@ -91,7 +91,7 @@ const WifiInfoInput: React.FC<WifiInfoInputProps> = ({
         </Text>
       )}
       <TouchableHighlight
-        className="bg-blue-950 py-2.5 rounded w-20 h-20 self-end"
+        className="bg-blue-950 py-2.5 rounded w-20 self-end"
         onPress={handleSubmitButtonPress}>
         {isLoading ? (
           <ActivityIndicator />
