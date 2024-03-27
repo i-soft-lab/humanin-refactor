@@ -10,13 +10,16 @@ const useMqtt = (topic: string) => {
   useEffect(() => {
     // @ts-ignore
     MQTT.createClient({
-      host: process.env.MQTT_HOST,
+      // host: process.env.MQTT_HOST,
+      host: '61.101.55.94',
       port: 1883,
       protocol: 'mqtt',
-      clientId: topic,
+      clientId: `${topic}`,
       auth: true,
-      user: process.env.MQTT_USER,
-      pass: process.env.MQTT_PASSWORD,
+      user: 'gbrain',
+      pass: 'gbrain',
+      // user: process.env.MQTT_USER,
+      // pass: process.env.MQTT_PASSWORD,
     })
       .then(client => {
         client.on('closed', function () {
