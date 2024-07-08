@@ -1,20 +1,50 @@
-# HumanIn Project
+# Welcome to your Expo app 👋
 
-## Refactor 내용
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-1. [Javascript로 작성된 HumanIn Project React Native 앱](https://github.com/i-soft-lab/humamin-react-native.git)을
-   타입스크립트로 마이그레이션 했습니다.
-2. `Webview`와 `ChartJs`로 구성된 차트를 `react-native-charts-wrapper`로 변경하여 네이티브 뷰를 사용하도록 업데이트했습니다
-3. wifi 스크린을 삭제했습니다.
-4. 바텀바를 삭제하여 블루투스가 연결되면 자동으로 그래프 화면으로 전환되도록 화면 플로우를 개선했습니다.
-5. 블루투스 연결과 MQTT 연결 설정 기능을 그래프 화면에 추가하여 사용자가 해당 기능을 더 편리하게 이용할 수 있도록 개선했습니다.
-6. 슬라이더를 이용하여 임계값을 설정할 수 있는 기능도 추가되었습니다.
-7. 전체적으로 사용자가 직관적으로 더 쉽게 조작할 수 있는 UI로 디자인을 개선하였습니다.
+## Get started
 
-## 화면 플로우
+1. Install dependencies
 
-![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/ac97056e-d832-4c9c-81a1-d2767f4c73db)
+   ```bash
+   npm install
+   ```
 
-## 전체 시스템 구조
+2. Start the app
 
-![](https://github.com/i-soft-lab/humanin-refactor/assets/57657868/003dd440-f426-465e-bf53-f1141c820211)
+   ```bash
+    npx expo start
+   ```
+
+In the output, you'll find options to open the app in a
+
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Get a fresh project
+
+When you're ready, run:
+
+```bash
+npm run reset-project
+```
+
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+## Learn more
+
+To learn more about developing your project with Expo, look at the following resources:
+
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
