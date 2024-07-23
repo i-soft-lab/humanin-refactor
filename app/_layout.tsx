@@ -1,12 +1,13 @@
 import '@/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Theme, ThemeProvider} from '@react-navigation/native';
-import {SplashScreen, Stack} from 'expo-router';
-import {StatusBar} from 'expo-status-bar';
+import { Theme, ThemeProvider } from '@react-navigation/native';
+import { SplashScreen, Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import {NAV_THEME} from '@/lib/constants';
-import {useColorScheme} from '@/lib/useColorScheme';
+import { NAV_THEME } from '@/lib/constants';
+import { useColorScheme } from '@/lib/useColorScheme';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -26,11 +27,12 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const {colorScheme, setColorScheme, isDarkColorScheme} = useColorScheme();
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
     (async () => {
+      await AsyncStorage.setItem('theme', 'light');
       const theme = await AsyncStorage.getItem('theme');
 
       if (!theme) {
@@ -39,6 +41,7 @@ export default function RootLayout() {
         return;
       }
       const colorTheme = theme === 'dark' ? 'dark' : 'light';
+
       if (colorTheme !== colorScheme) {
         setColorScheme(colorTheme);
 
@@ -57,8 +60,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack />
+      <SafeAreaProvider>
+        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <Stack>
+          <Stack.Screen name="index" options={{ headerTitle: 'HumanIn' }} />
+          <Stack.Screen name="sender" />
+        </Stack>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
