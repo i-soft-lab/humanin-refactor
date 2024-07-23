@@ -80,9 +80,9 @@ const Step: React.FC<TStepProps> = ({
   } = useStepsContext();
 
   return currentStep === value ? (
-    <View className="flex justify-between h-full py-4">
-      <View>
-        <View>
+    <View style={{ flex: 1 }} className="flex justify-between h-full py-4">
+      <View style={{ flex: 1 }}>
+        <View className="pb-2">
           <Text className="font-bold text-2xl mb-1">{title}</Text>
           <Text className="font-normal text-neutral-600">{description}</Text>
         </View>
