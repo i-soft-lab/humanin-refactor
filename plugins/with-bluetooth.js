@@ -24,6 +24,32 @@ const withBluetoothLE = (config) => {
       });
     }
 
+    // Ensure permissions array exists
+    if (!androidManifest['uses-permission']) {
+      androidManifest['uses-permission'] = [];
+    }
+
+    const permissions = androidManifest['uses-permission'];
+
+    const requiredPermissions = [
+      'android.permission.BLUETOOTH',
+      'android.permission.BLUETOOTH_ADMIN',
+      'android.permission.ACCESS_FINE_LOCATION',
+      'android.permission.BLUETOOTH_SCAN',
+      'android.permission.BLUETOOTH_ADVERTISE',
+      'android.permission.BLUETOOTH_CONNECT',
+    ];
+
+    requiredPermissions.forEach((permission) => {
+      if (!permissions.find((p) => p.$['android:name'] === permission)) {
+        permissions.push({
+          $: {
+            'android:name': permission,
+          },
+        });
+      }
+    });
+
     return config;
   });
 };
