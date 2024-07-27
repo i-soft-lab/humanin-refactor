@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { ActivityIndicator, FlatList, Pressable, View } from 'react-native';
 import { Text } from '@/components/ui/text';
-import { useBleStore } from '@/lib/store/sender-store';
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/button';
+import { useBle } from '@/hooks/useBle';
 
 const BluetoothConnectStep = () => {
   const {
@@ -13,7 +13,7 @@ const BluetoothConnectStep = () => {
     connect,
     stopScan,
     connectStatus: { isLoading },
-  } = useBleStore();
+  } = useBle();
 
   useEffect(() => {
     (async () => {

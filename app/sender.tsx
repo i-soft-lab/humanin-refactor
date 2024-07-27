@@ -1,18 +1,22 @@
 import { View } from 'react-native';
-import { useState } from 'react';
 import { SenderSettingStep } from '@/components/sender/sender-setting-step';
 import { Step, Steps, StepsProvider } from '@/components/ui/step';
 import { useRouter } from 'expo-router';
 import { BluetoothConnectStep } from '@/components/sender/bluetooth-connect-step';
+import { useBle } from '@/hooks/useBle';
 
 const SenderScreen = () => {
   const router = useRouter();
-  const [isConnect, setIsConnect] = useState(false);
+  const {
+    connectStatus: { device },
+  } = useBle();
 
   const steps = {
     '센더 설정': { complete: true },
-    '블루투스 연결': { complete: isConnect },
+    '블루투스 연결': { complete: !device },
   };
+
+  console.log(device);
 
   return (
     <View style={{ flex: 1 }} className="px-6">
