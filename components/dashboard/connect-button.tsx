@@ -8,9 +8,35 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { useBle } from '@/hooks/useBle';
 
 const ConnectButton = () => {
+  const router = useRouter();
+
+  const {
+    disconnect,
+    connectStatus: { device },
+  } = useBle();
+
+  const handleSenderConfirmButtonPress = async () => {
+    if (!device) return;
+
+    await disconnect(device.id);
+    router.push('/sender');
+  };
+
   return (
     <View className="absolute right-6 bottom-6">
       <Collapsible className="flex flex-col-reverse items-end">
@@ -23,14 +49,40 @@ const ConnectButton = () => {
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="flex gap-y-2 my-2">
-          <Link href="/sender" asChild>
-            <Button
-              size="lg"
-              className={cn('flex flex-row gap-x-2', 'bg-blue-300 rounded-2xl')}
-            >
-              <Text className="font-semibold text-black">Sender 연결하기</Text>
-            </Button>
-          </Link>
+          <AlertDialog>
+            <AlertDialogTrigger asChild={!!device} disabled={!device}>
+              <Button
+                size="lg"
+                className={cn(
+                  'flex flex-row gap-x-2',
+                  'bg-blue-300 rounded-2xl'
+                )}
+                onPress={() => !device && router.push('/sender')}
+              >
+                <Text className="font-semibold text-black">
+                  Sender 연결하기
+                </Text>
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Sender를 다시 설정하시겠습니까?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  {`현재 ${device?.name} sender에 연결되어있습니다.`}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>
+                  <Text>취소하기</Text>
+                </AlertDialogCancel>
+                <AlertDialogAction onPress={handleSenderConfirmButtonPress}>
+                  <Text>연결하기</Text>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <Button
             size="lg"
             className={cn(

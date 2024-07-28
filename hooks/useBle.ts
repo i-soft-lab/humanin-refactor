@@ -104,7 +104,18 @@ const useBle = () => {
   };
 
   const disconnect = async (id: DeviceId) => {
-    await bleManager.cancelDeviceConnection(id);
+    await bleManager
+      .cancelDeviceConnection(id)
+      .then((_) =>
+        setConnectStatus({ device: null, isLoading: false, isError: false })
+      )
+      .catch((_) =>
+        setConnectStatus((prev) => ({
+          ...prev,
+          isError: true,
+          isLoading: false,
+        }))
+      );
   };
 
   const write = async (id: DeviceId, data: string) => {
