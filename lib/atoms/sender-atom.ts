@@ -9,5 +9,12 @@ const connectStatusAtom = atom({
   isError: false,
   isLoading: false,
 });
+const senderDataAtom = atom(new Array<number>());
 
-export { bleManagerAtom, scanDeviceListAtom, isScanAtom, connectStatusAtom };
+export {
+  bleManagerAtom,
+  scanDeviceListAtom,
+  isScanAtom,
+  connectStatusAtom,
+  senderDataAtom,
+};

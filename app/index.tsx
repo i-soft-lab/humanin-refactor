@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useBle } from '@/hooks/useBle';
 import React from 'react';
 import { ConnectButton } from '@/components/dashboard/connect-button';
+import { Chart } from '@/components/dashboard/chart';
 
 const DashboardScreen = () => {
   const {
@@ -37,7 +38,10 @@ const DashboardScreen = () => {
           </Text>
         </View>
       </View>
-      <Text className="font-semibold text-xl mb-2">Sender 차트</Text>
+      <View style={{ flex: 1 }} className="bg-slate-100 rounded-xl py-4">
+        <Text className="font-semibold text-xl px-4">Sender 차트</Text>
+        <Chart />
+      </View>
     </View>
   );
 };

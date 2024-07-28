@@ -38,7 +38,7 @@ const ConnectButton = () => {
   };
 
   return (
-    <View className="absolute right-6 bottom-6">
+    <View className="z-10 absolute right-6 bottom-6">
       <Collapsible className="flex flex-col-reverse items-end">
         <CollapsibleTrigger asChild>
           <Button
