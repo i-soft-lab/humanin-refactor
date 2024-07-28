@@ -1,16 +1,28 @@
 import { LineChart } from 'react-native-charts-wrapper';
 import { processColor, View } from 'react-native';
 import { useBle } from '@/hooks/useBle';
+import { Text } from '@/components/ui/text';
 import { useEffect } from 'react';
 
 const Chart = () => {
-  const { readSenderData, senderData } = useBle();
+  const {
+    readSenderData,
+    senderData,
+    connectStatus: { device },
+  } = useBle();
 
   useEffect(() => {
     (async () => {
       await readSenderData();
     })();
   }, []);
+
+  if (!device)
+    return (
+      <View className="flex justify-center items-center h-full">
+        <Text>Sender를 연결하면 차트가 표시됩니다.</Text>
+      </View>
+    );
 
   return (
     <View style={{ flex: 1 }} className="p-2">

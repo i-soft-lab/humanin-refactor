@@ -14,7 +14,7 @@ const DashboardScreen = () => {
   return (
     <View style={{ flex: 1 }} className="p-4">
       <ConnectButton />
-      <View className="flex flex-row gap-x-2 mb-4">
+      <View className="flex flex-row gap-x-2 mb-2">
         <View className="p-4 rounded-xl bg-slate-100 flex-1">
           <View className="flex flex-row items-center gap-x-2 mb-2">
             <View className="p-1 rounded-full bg-blue-500">
@@ -38,7 +38,7 @@ const DashboardScreen = () => {
           </Text>
         </View>
       </View>
-      <View style={{ flex: 1 }} className="bg-slate-100 rounded-xl py-4">
+      <View style={{ flex: 1 }} className="bg-slate-100 rounded-xl py-4 h-2/3">
         <Text className="font-semibold text-xl px-4">Sender 차트</Text>
         <Chart />
       </View>
