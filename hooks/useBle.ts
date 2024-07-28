@@ -6,6 +6,7 @@ import {
   isScanAtom,
   scanDeviceListAtom,
 } from '@/lib/atoms/sender-atom';
+import Toast from 'react-native-toast-message';
 
 const SERVICE_UUID = process.env.SERVICE_UUID!;
 const CHARACTERISTIC_UUID = process.env.CHARACTERISTIC_UUID!;
@@ -21,7 +22,7 @@ const isDuplicateDevice = (devices: Device[], nextDevice: Device) =>
   devices.findIndex((device) => nextDevice.id === device.id) > -1;
 
 const useBle = () => {
-  const [bleManager, setBleManager] = useAtom(bleManagerAtom);
+  const [bleManager] = useAtom(bleManagerAtom);
   const [scanDeviceList, setScanDeviceList] = useAtom(scanDeviceListAtom);
   const [isScan, setIsScan] = useAtom(isScanAtom);
   const [connectStatus, setConnectStatus] = useAtom(connectStatusAtom);
@@ -92,9 +93,14 @@ const useBle = () => {
       .then((device) =>
         setConnectStatus({ device, isLoading: false, isError: false })
       )
-      .catch(() =>
-        setConnectStatus({ device: null, isLoading: false, isError: true })
-      );
+      .catch((e) => {
+        setConnectStatus({ device: null, isLoading: false, isError: true });
+        Toast.show({
+          type: 'error',
+          text1: `장치에 연결할 수 없습니다.`,
+          text2: e.message,
+        });
+      });
   };
 
   const disconnect = async (id: DeviceId) => {

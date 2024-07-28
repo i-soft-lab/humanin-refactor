@@ -13,10 +13,8 @@ const SenderScreen = () => {
 
   const steps = {
     '센더 설정': { complete: true },
-    '블루투스 연결': { complete: !device },
+    '블루투스 연결': { complete: !!device },
   };
-
-  console.log(device);
 
   return (
     <View style={{ flex: 1 }} className="px-6">
@@ -36,6 +34,9 @@ const SenderScreen = () => {
             value="블루투스 연결"
             title="2. Sender 블루투스 연결하기"
             description="블루투스 목록에서 sender의 시리얼 번호랑 동일한 장치를 선택해서 연결해주세요."
+            goNext={() => {
+              router.back();
+            }}
           >
             <BluetoothConnectStep />
           </Step>

@@ -8,6 +8,7 @@ import * as React from 'react';
 import { NAV_THEME } from '@/lib/constants';
 import { useColorScheme } from '@/lib/useColorScheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -66,6 +67,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" options={{ headerTitle: 'HumanIn' }} />
           <Stack.Screen name="sender" />
         </Stack>
+        <Toast />
       </SafeAreaProvider>
     </ThemeProvider>
   );

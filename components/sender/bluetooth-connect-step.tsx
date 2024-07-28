@@ -12,7 +12,7 @@ const BluetoothConnectStep = () => {
     startScan,
     connect,
     stopScan,
-    connectStatus: { isLoading },
+    connectStatus: { device, isLoading },
   } = useBle();
 
   useEffect(() => {
@@ -36,6 +36,20 @@ const BluetoothConnectStep = () => {
           <View className="flex items-center justify-center h-full">
             <ActivityIndicator size="large" />
             <Text>연결중입니다...</Text>
+          </View>
+        ) : device ? (
+          <View className="flex flex-row gap-x-2 justify-center items-center h-full">
+            <View className="rounded-full bg-blue-500 p-2">
+              <Ionicons name="bluetooth" size={24} color="white" />
+            </View>
+            <View>
+              <Text className="font-semibold">
+                {device?.name}에 연결되었습니다.
+              </Text>
+              <Text className="text-xs text-neutral-500">
+                다음 버튼을 눌러주세요
+              </Text>
+            </View>
           </View>
         ) : (
           <>
