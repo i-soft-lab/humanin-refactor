@@ -38,7 +38,7 @@ const DashboardScreen = () => {
           </Text>
         </View>
       </View>
-      <View style={{ flex: 1 }} className="bg-slate-100 rounded-xl py-4 h-2/3">
+      <View style={{ flex: 1 }} className="bg-slate-100 rounded-xl py-4">
         <Text className="font-semibold text-xl px-4">Sender 차트</Text>
         <Chart />
       </View>

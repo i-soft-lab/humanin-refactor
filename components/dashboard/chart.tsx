@@ -13,9 +13,9 @@ const Chart = () => {
 
   useEffect(() => {
     (async () => {
-      await readSenderData();
+      if (!senderData.length) await readSenderData();
     })();
-  }, []);
+  }, [device]);
 
   if (!device)
     return (

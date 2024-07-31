@@ -124,7 +124,7 @@ const useBle = () => {
       const data = Number.parseInt(dataStr);
       const flag = flagStr === '0' || flagStr === '1';
 
-      setSenderData((prev) => (prev.length > 500 ? [] : [...prev, data]));
+      setSenderData((prev) => (prev.length > 500 ? [135] : [...prev, data]));
 
       //TODO mqtt로 flag 보내야함
     });
@@ -134,34 +134,33 @@ const useBle = () => {
     isScan && stopScan();
     setConnectStatus({ device: null, isLoading: true, isError: false });
 
-    await bleManager
-      .connectToDevice(id)
-      .then((device) =>
-        setConnectStatus({ device, isLoading: false, isError: false })
-      )
-      .catch((e) => {
-        setConnectStatus({ device: null, isLoading: false, isError: true });
-        Toast.show({
-          type: 'error',
-          text1: `장치에 연결할 수 없습니다.`,
-          text2: e.message,
-        });
+    try {
+      const device = await bleManager.connectToDevice(id);
+      setConnectStatus({ device, isLoading: false, isError: false });
+    } catch (e) {
+      const error = e as Error;
+
+      setConnectStatus({ device: null, isLoading: false, isError: true });
+      Toast.show({
+        type: 'error',
+        text1: `장치에 연결할 수 없습니다.`,
+        text2: error.message,
       });
+    }
   };
 
   const disconnect = async (id: DeviceId) => {
-    await bleManager
-      .cancelDeviceConnection(id)
-      .then((_) =>
-        setConnectStatus({ device: null, isLoading: false, isError: false })
-      )
-      .catch((_) =>
-        setConnectStatus((prev) => ({
-          ...prev,
-          isError: true,
-          isLoading: false,
-        }))
-      );
+    try {
+      await bleManager.cancelDeviceConnection(id);
+      setConnectStatus({ device: null, isLoading: false, isError: false });
+      setSenderData(new Array<number>());
+    } catch {
+      setConnectStatus((prev) => ({
+        ...prev,
+        isError: true,
+        isLoading: false,
+      }));
+    }
   };
 
   const write = async (id: DeviceId, data: string) => {
