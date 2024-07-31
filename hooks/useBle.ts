@@ -9,7 +9,7 @@ import {
 } from '@/lib/atoms/sender-atom';
 import Toast from 'react-native-toast-message';
 import { atob } from 'react-native-quick-base64';
-import { useEffect } from 'react';
+import { useEffect, useTransition } from 'react';
 
 // const SERVICE_UUID = process.env.SERVICE_UUID!;
 // const CHARACTERISTIC_UUID = process.env.CHARACTERISTIC_UUID!;
@@ -28,6 +28,7 @@ const useBle = () => {
   const [isScan, setIsScan] = useAtom(isScanAtom);
   const [connectStatus, setConnectStatus] = useAtom(connectStatusAtom);
   const [senderData, setSenderData] = useAtom(senderDataAtom);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
     if (!connectStatus.device) return;
@@ -124,7 +125,9 @@ const useBle = () => {
       const data = Number.parseInt(dataStr);
       const flag = flagStr === '0' || flagStr === '1';
 
-      setSenderData((prev) => (prev.length > 500 ? [135] : [...prev, data]));
+      startTransition(() => {
+        setSenderData((prev) => (prev.length > 500 ? [135] : [...prev, data]));
+      });
 
       //TODO mqtt로 flag 보내야함
     });
