@@ -10,6 +10,8 @@ import { useColorScheme } from '@/lib/useColorScheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { PortalHost } from '@rn-primitives/portal';
+import { QueryClient } from '@tanstack/query-core';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -27,6 +29,8 @@ export {
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
@@ -62,15 +66,17 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <SafeAreaProvider>
-        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack>
-          <Stack.Screen name="index" options={{ headerTitle: 'HumanIn' }} />
-          <Stack.Screen name="sender" />
-        </Stack>
-        <Toast />
-        <PortalHost />
-      </SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+          <Stack>
+            <Stack.Screen name="index" options={{ headerTitle: 'HumanIn' }} />
+            <Stack.Screen name="sender" />
+          </Stack>
+          <Toast />
+          <PortalHost />
+        </SafeAreaProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

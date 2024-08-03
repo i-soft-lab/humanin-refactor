@@ -1,32 +1,41 @@
 import { View } from 'react-native';
 import { Step, Steps, StepsProvider } from '@/components/ui/step';
-import { BluetoothConnectStep } from '@/components/sender/bluetooth-connect-step';
 import { useRouter } from 'expo-router';
 import { ReceiverConnectStep } from '@/components/receiver/receiver-connect-step';
 import { WifiSelectStep } from '@/components/receiver/wifi-select-step';
 import useNetworkInfo from '@/hooks/use-network-info';
 import { useAtom } from 'jotai/index';
 import {
-  connectedWifiSSIDAtom,
+  connectedWifiIpAddressAtom,
   selectedWifiSSIDAtom,
 } from '@/lib/atoms/receiver-atom';
+import { useEffect } from 'react';
+import WifiPasswordFormStep from '@/components/receiver/wifi-password-form-step';
 
 const ReceiverScreen = () => {
   const router = useRouter();
 
-  const [connectedWifiSSID] = useAtom(connectedWifiSSIDAtom);
-  const [selectedWifiSSID] = useAtom(selectedWifiSSIDAtom);
+  const [connectedWifiIpAddress, setConnectedWifiIpAddress] = useAtom(
+    connectedWifiIpAddressAtom
+  );
+  const [selectedWifiSSID, setSelectedWifiSSID] = useAtom(selectedWifiSSIDAtom);
 
   useNetworkInfo();
 
   const steps = {
     'Receiver 접속': {
       complete:
-        connectedWifiSSID !== process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
+        connectedWifiIpAddress !== process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
     },
     'wifi 선택': { complete: !!selectedWifiSSID },
     'wifi 비밀번호 입력': { complete: true },
   };
+
+  useEffect(() => {
+    return () => {
+      setSelectedWifiSSID(null);
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }} className="px-6">
@@ -54,7 +63,7 @@ const ReceiverScreen = () => {
             title="3. Receiver와 연결할 WIFI 네트워크의 비밀번호 입력"
             description="설명설명"
           >
-            <BluetoothConnectStep />
+            <WifiPasswordFormStep />
           </Step>
         </Steps>
       </StepsProvider>
