@@ -6,21 +6,25 @@ import { ReceiverConnectStep } from '@/components/receiver/receiver-connect-step
 import { WifiSelectStep } from '@/components/receiver/wifi-select-step';
 import useNetworkInfo from '@/hooks/use-network-info';
 import { useAtom } from 'jotai/index';
-import { connectedWifiSSIDAtom } from '@/lib/atoms/receiver-atom';
+import {
+  connectedWifiSSIDAtom,
+  selectedWifiSSIDAtom,
+} from '@/lib/atoms/receiver-atom';
 
 const ReceiverScreen = () => {
   const router = useRouter();
 
   const [connectedWifiSSID] = useAtom(connectedWifiSSIDAtom);
+  const [selectedWifiSSID] = useAtom(selectedWifiSSIDAtom);
 
   useNetworkInfo();
 
   const steps = {
     'Receiver 접속': {
       complete:
-        connectedWifiSSID === process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
+        connectedWifiSSID !== process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
     },
-    'wifi 선택': { complete: true },
+    'wifi 선택': { complete: !!selectedWifiSSID },
     'wifi 비밀번호 입력': { complete: true },
   };
 
