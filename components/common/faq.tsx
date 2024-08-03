@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import {
   Accordion,
   AccordionContent,
@@ -19,11 +19,26 @@ const faq = [
     question: 'FAQ 서버에서 받아오기2',
     answer: '센서 교체는 0000-0000으로 문의해주세요',
   },
+  {
+    key: 'q3',
+    question: 'FAQ 서버에서 받아오기2',
+    answer: '센서 교체는 0000-0000으로 문의해주세요',
+  },
+  {
+    key: 'q4',
+    question: 'FAQ 서버에서 받아오기2',
+    answer: '센서 교체는 0000-0000으로 문의해주세요',
+  },
+  {
+    key: 'q5',
+    question: 'FAQ 서버에서 받아오기2',
+    answer: '센서 교체는 0000-0000으로 문의해주세요',
+  },
 ];
 
 const Faq = () => {
   return (
-    <View>
+    <ScrollView className="h-64">
       <Text className="font-semibold text-xl">FAQ</Text>
       <Accordion
         type="single"
@@ -41,7 +56,7 @@ const Faq = () => {
           </AccordionItem>
         ))}
       </Accordion>
-    </View>
+    </ScrollView>
   );
 };
 
