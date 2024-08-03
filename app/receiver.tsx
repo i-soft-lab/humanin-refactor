@@ -3,11 +3,23 @@ import { Step, Steps, StepsProvider } from '@/components/ui/step';
 import { BluetoothConnectStep } from '@/components/sender/bluetooth-connect-step';
 import { useRouter } from 'expo-router';
 import { ReceiverConnectStep } from '@/components/receiver/receiver-connect-step';
+import { WifiSelectStep } from '@/components/receiver/wifi-select-step';
+import useNetworkInfo from '@/hooks/use-network-info';
+import { useAtom } from 'jotai/index';
+import { connectedWifiSSIDAtom } from '@/lib/atoms/receiver-atom';
 
 const ReceiverScreen = () => {
   const router = useRouter();
+
+  const [connectedWifiSSID] = useAtom(connectedWifiSSIDAtom);
+
+  useNetworkInfo();
+
   const steps = {
-    'Receiver 접속': { complete: true },
+    'Receiver 접속': {
+      complete:
+        connectedWifiSSID === process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
+    },
     'wifi 선택': { complete: true },
     'wifi 비밀번호 입력': { complete: true },
   };
@@ -31,7 +43,7 @@ const ReceiverScreen = () => {
             title="2. Receiver와 연결할 WIFI 네트워크 선택"
             description="설명설명"
           >
-            <BluetoothConnectStep />
+            <WifiSelectStep />
           </Step>
           <Step
             value="wifi 비밀번호 입력"
@@ -45,4 +57,5 @@ const ReceiverScreen = () => {
     </View>
   );
 };
+
 export default ReceiverScreen;
