@@ -8,5 +8,6 @@ export const usePostSsidMutation = (
   return useMutation({
     mutationFn: postSsid,
     retry: false,
+    ...options,
   });
 };

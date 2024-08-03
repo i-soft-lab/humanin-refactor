@@ -7,6 +7,7 @@ import useNetworkInfo from '@/hooks/use-network-info';
 import { useAtom } from 'jotai/index';
 import {
   connectedWifiIpAddressAtom,
+  isReceiverNetworkSetFinishedAtom,
   selectedWifiSSIDAtom,
 } from '@/lib/atoms/receiver-atom';
 import { useEffect } from 'react';
@@ -19,16 +20,19 @@ const ReceiverScreen = () => {
     connectedWifiIpAddressAtom
   );
   const [selectedWifiSSID, setSelectedWifiSSID] = useAtom(selectedWifiSSIDAtom);
+  const [isReceiverNetworkSetFinished] = useAtom(
+    isReceiverNetworkSetFinishedAtom
+  );
 
   useNetworkInfo();
 
   const steps = {
     'Receiver 접속': {
       complete:
-        connectedWifiIpAddress !== process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
+        connectedWifiIpAddress === process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
     },
     'wifi 선택': { complete: !!selectedWifiSSID },
-    'wifi 비밀번호 입력': { complete: true },
+    'wifi 비밀번호 입력': { complete: isReceiverNetworkSetFinished },
   };
 
   useEffect(() => {

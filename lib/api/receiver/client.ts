@@ -7,6 +7,10 @@ export const postSsid = async (body: TPostSsidReqDto) => {
     body: JSON.stringify(body),
   });
 
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
+
   return response.text();
 };
 
