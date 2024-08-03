@@ -63,7 +63,7 @@ const WifiPasswordFormStep = () => {
 
   return (
     <View className="flex gap-y-16">
-      <View className="bg-slate-100 rounded-lg p-4 h-[230]">
+      <View className="bg-slate-100 rounded-lg p-4 h-[230px]">
         {isReceiverNetworkSetFinished ? (
           <View className="h-full flex items-start justify-center">
             <Text className="font-semibold text-xl">

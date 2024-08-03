@@ -12,32 +12,36 @@ import {
 } from '@/lib/atoms/receiver-atom';
 import { useEffect } from 'react';
 import WifiPasswordFormStep from '@/components/receiver/wifi-password-form-step';
+import { InternetEnabledWifiStep } from '@/components/receiver/internet-enabled-wifi-step';
 
 const ReceiverScreen = () => {
   const router = useRouter();
 
-  const [connectedWifiIpAddress, setConnectedWifiIpAddress] = useAtom(
-    connectedWifiIpAddressAtom
-  );
+  const [connectedWifiIpAddress] = useAtom(connectedWifiIpAddressAtom);
   const [selectedWifiSSID, setSelectedWifiSSID] = useAtom(selectedWifiSSIDAtom);
-  const [isReceiverNetworkSetFinished] = useAtom(
-    isReceiverNetworkSetFinishedAtom
-  );
+  const [isReceiverNetworkSetFinished, setIsReceiverNetworkSetFinished] =
+    useAtom(isReceiverNetworkSetFinishedAtom);
 
-  useNetworkInfo();
+  const isSenderIpAddress =
+    connectedWifiIpAddress === process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS;
 
   const steps = {
     'Receiver 접속': {
-      complete:
-        connectedWifiIpAddress === process.env.EXPO_PUBLIC_RECEIVER_IP_ADDRESS,
+      complete: isSenderIpAddress,
     },
     'wifi 선택': { complete: !!selectedWifiSSID },
     'wifi 비밀번호 입력': { complete: isReceiverNetworkSetFinished },
+    '인터넷이 되는 wifi에 연결': {
+      complete: !isSenderIpAddress,
+    },
   };
+
+  useNetworkInfo();
 
   useEffect(() => {
     return () => {
       setSelectedWifiSSID(null);
+      setIsReceiverNetworkSetFinished(false);
     };
   }, []);
 
@@ -68,6 +72,16 @@ const ReceiverScreen = () => {
             description="설명설명"
           >
             <WifiPasswordFormStep />
+          </Step>
+          <Step
+            value="인터넷이 되는 wifi에 연결"
+            title="4. 인터넷이 가능한 wifi 네트워크에 연결해주세요."
+            description="설명설명"
+            goNext={() => {
+              router.back();
+            }}
+          >
+            <InternetEnabledWifiStep />
           </Step>
         </Steps>
       </StepsProvider>
