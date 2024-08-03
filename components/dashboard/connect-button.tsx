@@ -89,6 +89,7 @@ const ConnectButton = () => {
               'flex flex-row gap-x-2',
               'bg-emerald-400 rounded-2xl'
             )}
+            onPress={() => router.push('/receiver')}
           >
             <Text className="font-semibold text-black">Receiver 연결하기</Text>
           </Button>
