@@ -9,14 +9,10 @@ import {
 } from '@/lib/atoms/sender-atom';
 import Toast from 'react-native-toast-message';
 import { atob } from 'react-native-quick-base64';
-import { useEffect, useTransition } from 'react';
-
-// const SERVICE_UUID = process.env.SERVICE_UUID!;
-// const CHARACTERISTIC_UUID = process.env.CHARACTERISTIC_UUID!;
+import { useEffect, useState } from 'react';
 
 const SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
 const CHARACTERISTIC_UUID = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
-
 const SCAN_TIMEOUT = 10000;
 
 const isDuplicateDevice = (devices: Device[], nextDevice: Device) =>
@@ -28,7 +24,7 @@ const useBle = () => {
   const [isScan, setIsScan] = useAtom(isScanAtom);
   const [connectStatus, setConnectStatus] = useAtom(connectStatusAtom);
   const [senderData, setSenderData] = useAtom(senderDataAtom);
-  const [, startTransition] = useTransition();
+  const [localSenderData, setLocalSenderData] = useState<number[]>([]);
 
   useEffect(() => {
     if (!connectStatus.device) return;
@@ -36,7 +32,7 @@ const useBle = () => {
     bleManager.onDeviceDisconnected(connectStatus.device.id, () => {
       setConnectStatus({ device: null, isLoading: false, isError: false });
     });
-  }, []);
+  }, [bleManager, connectStatus.device, setConnectStatus]);
 
   const addDevice = (device: Device) => {
     setScanDeviceList((devices) => {
@@ -112,7 +108,7 @@ const useBle = () => {
     );
   };
 
-  const readSenderData = async () => {
+  const readSenderData = async (callback?: (flagMessage: string) => void) => {
     if (!connectStatus.device) return;
 
     const {
@@ -122,16 +118,21 @@ const useBle = () => {
     await findServicesAndCharacteristics(id);
     subscribeCharacteristic(id, (dataArr) => {
       const [dataStr, flagStr] = atob(dataArr?.value!).split(',');
+
       const data = Number.parseInt(dataStr);
       const flag = flagStr === '0' || flagStr === '1';
 
-      startTransition(() => {
-        setSenderData((prev) => (prev.length > 500 ? [135] : [...prev, data]));
-      });
+      flag && callback?.(flagStr);
 
-      //TODO mqtt로 flag 보내야함
+      setLocalSenderData((prev) =>
+        prev.length > 500 ? [135] : [...prev, data]
+      );
     });
   };
+
+  useEffect(() => {
+    setSenderData(localSenderData);
+  }, [localSenderData, setSenderData]);
 
   const connect = async (id: DeviceId) => {
     isScan && stopScan();

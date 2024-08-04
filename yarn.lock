@@ -8443,6 +8443,11 @@ source-map@^0.7.3:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
   integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
 
+sp-react-native-mqtt@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/sp-react-native-mqtt/-/sp-react-native-mqtt-0.5.1.tgz#935d64a7fa42d47a287c213c49551609d7d1ead3"
+  integrity sha512-8JdwBhy7HK2T7Z45Lc8fm43GeB/9B2m6BIVzbzc17N16ZwuB0R6BLgcCOPVfQJcxR49by5CnYAVPTus3L3guug==
+
 split-on-first@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/split-on-first/-/split-on-first-1.1.0.tgz#f610afeee3b12bce1d0c30425e76398b78249a5f"

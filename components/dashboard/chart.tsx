@@ -3,8 +3,11 @@ import { processColor, View } from 'react-native';
 import { useBle } from '@/hooks/useBle';
 import { Text } from '@/components/ui/text';
 import { useEffect } from 'react';
+import { useMqtt } from '@/hooks/use-mqtt';
 
-const Chart = () => {
+const Chart: React.FC = () => {
+  const { publish } = useMqtt();
+
   const {
     readSenderData,
     senderData,
@@ -12,9 +15,11 @@ const Chart = () => {
   } = useBle();
 
   useEffect(() => {
-    (async () => {
-      if (!senderData.length) await readSenderData();
-    })();
+    if (!senderData.length) {
+      readSenderData((flagMessage) => {
+        publish(flagMessage);
+      });
+    }
   }, [device]);
 
   if (!device)
@@ -94,3 +99,7 @@ const Chart = () => {
 };
 
 export { Chart };
+
+type TChartProps = {
+  publish: (message: string) => void;
+};
