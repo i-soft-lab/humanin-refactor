@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import MQTT, { IMqttClient } from 'sp-react-native-mqtt';
+import { useEffect } from 'react';
+import MQTT from 'sp-react-native-mqtt';
 import { useAtom } from 'jotai';
 import { connectStatusAtom } from '@/lib/atoms/sender-atom';
 import Toast from 'react-native-toast-message';
-import { isMQTTConnectedAtom } from '@/lib/atoms/receiver-atom';
+import { isMQTTConnectedAtom, mqttClientAtom } from '@/lib/atoms/receiver-atom';
 
 const useMqtt = () => {
   const [connectStatus] = useAtom(connectStatusAtom);
 
-  const [client, setClient] = useState<IMqttClient | null>(null);
+  const [client, setClient] = useAtom(mqttClientAtom);
   const [isMQTTConnected, setIsMQTTConnected] = useAtom(isMQTTConnectedAtom);
 
   useEffect(() => {
@@ -65,12 +65,6 @@ const useMqtt = () => {
     };
   }, [connectStatus]);
 
-  // useEffect(() => {
-  //   if (!connectStatus.device && client) {
-  //     MQTT.removeClient(client);
-  //   }
-  // }, [connectStatus]);
-
   const publish = (message: string) => {
     const topic = `${process.env.EXPO_PUBLIC_MQTT_USER}/${connectStatus.device?.name}`;
 
@@ -88,7 +82,6 @@ const useMqtt = () => {
   };
 
   return {
-    client,
     isMQTTConnected,
     mqttConnect,
     mqttDisconnect,

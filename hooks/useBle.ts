@@ -10,6 +10,7 @@ import {
 import Toast from 'react-native-toast-message';
 import { atob } from 'react-native-quick-base64';
 import { useEffect, useState } from 'react';
+import { mqttClientAtom } from '@/lib/atoms/receiver-atom';
 
 const SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
 const CHARACTERISTIC_UUID = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
@@ -24,6 +25,9 @@ const useBle = () => {
   const [isScan, setIsScan] = useAtom(isScanAtom);
   const [connectStatus, setConnectStatus] = useAtom(connectStatusAtom);
   const [senderData, setSenderData] = useAtom(senderDataAtom);
+
+  const [MQTTClient] = useAtom(mqttClientAtom);
+
   const [localSenderData, setLocalSenderData] = useState<number[]>([]);
 
   useEffect(() => {
@@ -31,6 +35,7 @@ const useBle = () => {
 
     bleManager.onDeviceDisconnected(connectStatus.device.id, () => {
       setConnectStatus({ device: null, isLoading: false, isError: false });
+      MQTTClient?.disconnect();
     });
   }, [bleManager, connectStatus.device, setConnectStatus]);
 
