@@ -13,8 +13,12 @@ import {
 import { useEffect } from 'react';
 import WifiPasswordFormStep from '@/components/receiver/wifi-password-form-step';
 import { InternetEnabledWifiStep } from '@/components/receiver/internet-enabled-wifi-step';
+import { useQueryClient } from '@tanstack/react-query';
+import { getFaq } from '@/lib/api/faq/client';
+import { FAQ_QUERY_KEY } from '@/lib/api/faq/queries';
 
 const ReceiverScreen = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [connectedWifiIpAddress] = useAtom(connectedWifiIpAddressAtom);
@@ -39,6 +43,21 @@ const ReceiverScreen = () => {
   useNetworkInfo();
 
   useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: FAQ_QUERY_KEY.faq('R02'),
+      queryFn: () => getFaq('R02'),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: FAQ_QUERY_KEY.faq('R03'),
+      queryFn: () => getFaq('R03'),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: FAQ_QUERY_KEY.faq('R04'),
+      queryFn: () => getFaq('R04'),
+    });
+
     return () => {
       setSelectedWifiSSID(null);
       setIsReceiverNetworkSetFinished(false);
