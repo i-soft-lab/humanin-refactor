@@ -4,12 +4,32 @@ import { Step, Steps, StepsProvider } from '@/components/ui/step';
 import { useRouter } from 'expo-router';
 import { BluetoothConnectStep } from '@/components/sender/bluetooth-connect-step';
 import { useBle } from '@/hooks/useBle';
+import { useEffect } from 'react';
+import { TEXT_QUERY_KEY, useGetDescriptionQuery } from '@/lib/api/text/queries';
+import { getFaq } from '@/lib/api/text/client';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SenderScreen = () => {
+  const queryClient = useQueryClient();
+
   const router = useRouter();
   const {
     connectStatus: { device },
   } = useBle();
+
+  const { data } = useGetDescriptionQuery();
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: TEXT_QUERY_KEY.faq('S01'),
+      queryFn: () => getFaq('S01'),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: TEXT_QUERY_KEY.faq('S02'),
+      queryFn: () => getFaq('S02'),
+    });
+  }, []);
 
   const steps = {
     '센더 설정': { complete: true },
@@ -22,8 +42,11 @@ const SenderScreen = () => {
         <Steps steps={steps}>
           <Step
             value="센더 설정"
-            title="1. Sender 세팅하기"
-            description="아래 영상을 참고해서 sender를 연결해주세요."
+            title={data?.S01.title ?? '1. Sender 세팅하기'}
+            description={
+              data?.S01.description ??
+              '아래 영상을 참고해서 sender를 연결해주세요.'
+            }
             goPrev={() => {
               router.back();
             }}
@@ -32,8 +55,11 @@ const SenderScreen = () => {
           </Step>
           <Step
             value="블루투스 연결"
-            title="2. Sender 블루투스 연결하기"
-            description="블루투스 목록에서 sender의 시리얼 번호랑 동일한 장치를 선택해서 연결해주세요."
+            title={data?.S02.title ?? '2. Sender 블루투스 연결하기'}
+            description={
+              data?.S02.description ??
+              '블루투스 목록에서 sender의 시리얼 번호랑 동일한 장치를 선택해서 연결해주세요.'
+            }
             goNext={() => {
               router.back();
             }}

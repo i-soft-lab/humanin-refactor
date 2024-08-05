@@ -14,8 +14,8 @@ import { useEffect } from 'react';
 import WifiPasswordFormStep from '@/components/receiver/wifi-password-form-step';
 import { InternetEnabledWifiStep } from '@/components/receiver/internet-enabled-wifi-step';
 import { useQueryClient } from '@tanstack/react-query';
-import { getFaq } from '@/lib/api/faq/client';
-import { FAQ_QUERY_KEY } from '@/lib/api/faq/queries';
+import { getFaq } from '@/lib/api/text/client';
+import { TEXT_QUERY_KEY, useGetDescriptionQuery } from '@/lib/api/text/queries';
 
 const ReceiverScreen = () => {
   const queryClient = useQueryClient();
@@ -40,21 +40,28 @@ const ReceiverScreen = () => {
     },
   };
 
+  const { data } = useGetDescriptionQuery();
+
   useNetworkInfo();
 
   useEffect(() => {
     queryClient.prefetchQuery({
-      queryKey: FAQ_QUERY_KEY.faq('R02'),
+      queryKey: TEXT_QUERY_KEY.faq('R01'),
+      queryFn: () => getFaq('R01'),
+    });
+
+    queryClient.prefetchQuery({
+      queryKey: TEXT_QUERY_KEY.faq('R02'),
       queryFn: () => getFaq('R02'),
     });
 
     queryClient.prefetchQuery({
-      queryKey: FAQ_QUERY_KEY.faq('R03'),
+      queryKey: TEXT_QUERY_KEY.faq('R03'),
       queryFn: () => getFaq('R03'),
     });
 
     queryClient.prefetchQuery({
-      queryKey: FAQ_QUERY_KEY.faq('R04'),
+      queryKey: TEXT_QUERY_KEY.faq('R04'),
       queryFn: () => getFaq('R04'),
     });
 
@@ -70,8 +77,10 @@ const ReceiverScreen = () => {
         <Steps steps={steps}>
           <Step
             value="Receiver 접속"
-            title="1. Receiver 접속하기"
-            description="설명은 github에 json 올려서 받아오자"
+            title={data?.R01.title ?? '1. Receiver 접속하기'}
+            description={
+              data?.R01.description ?? '리시버의 네트워크에 접속합니다.'
+            }
             goPrev={() => {
               router.back();
             }}
@@ -80,22 +89,28 @@ const ReceiverScreen = () => {
           </Step>
           <Step
             value="wifi 선택"
-            title="2. Receiver와 연결할 WIFI 네트워크 선택"
-            description="설명설명"
+            title={data?.R02.title ?? '2. Receiver와 연결할 WIFI 네트워크 선택'}
+            description={data?.R02.description ?? '설명'}
           >
             <WifiSelectStep />
           </Step>
           <Step
             value="wifi 비밀번호 입력"
-            title="3. Receiver와 연결할 WIFI 네트워크의 비밀번호 입력"
-            description="설명설명"
+            title={
+              data?.R03.title ??
+              '3. Receiver와 연결할 WIFI 네트워크의 비밀번호 입력'
+            }
+            description={data?.R03.description ?? '설명'}
           >
             <WifiPasswordFormStep />
           </Step>
           <Step
             value="인터넷이 되는 wifi에 연결"
-            title="4. 인터넷이 가능한 wifi 네트워크에 연결해주세요."
-            description="설명설명"
+            title={
+              data?.R04.title ??
+              '4. 인터넷이 가능한 wifi 네트워크에 연결해주세요.'
+            }
+            description={data?.R04.description ?? '설명'}
             goNext={() => {
               router.back();
             }}

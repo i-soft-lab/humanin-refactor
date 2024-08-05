@@ -7,8 +7,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Text } from '@/components/ui/text';
-import { useGetFaqQuery } from '@/lib/api/faq/queries';
-import { TScreen } from '@/lib/api/faq/client';
+import { useGetFaqQuery } from '@/lib/api/text/queries';
+import { TScreen } from '@/lib/api/text/client';
 
 const Faq: React.FC<TProps> = (props) => {
   const { screen } = props;

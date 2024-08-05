@@ -2,18 +2,29 @@ import { TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Ionicons } from '@expo/vector-icons';
 import { useBle } from '@/hooks/useBle';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ConnectButton } from '@/components/dashboard/connect-button';
 import { Chart } from '@/components/dashboard/chart';
 import { useAtom } from 'jotai/index';
 import { isMQTTConnectedAtom } from '@/lib/atoms/receiver-atom';
+import { TEXT_QUERY_KEY } from '@/lib/api/text/queries';
+import { getDescription } from '@/lib/api/text/client';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DashboardScreen = () => {
+  const queryClient = useQueryClient();
   const {
     connectStatus: { device },
   } = useBle();
 
   const [isMQTTConnected] = useAtom(isMQTTConnectedAtom);
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: TEXT_QUERY_KEY.description,
+      queryFn: () => getDescription(),
+    });
+  }, []);
 
   return (
     <View style={{ flex: 1 }} className="p-4">
