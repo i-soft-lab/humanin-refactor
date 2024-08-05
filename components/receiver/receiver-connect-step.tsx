@@ -33,7 +33,7 @@ const ReceiverConnectStep = () => {
           <Ionicons name="open-outline" size={20} color="black" />
         </Button>
       </View>
-      <Faq />
+      <Faq screen="R01" />
     </View>
   );
 };

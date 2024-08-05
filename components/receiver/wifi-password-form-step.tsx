@@ -144,7 +144,7 @@ const WifiPasswordFormStep = () => {
           </>
         )}
       </View>
-      <Faq />
+      <Faq screen="R03" />
     </View>
   );
 };

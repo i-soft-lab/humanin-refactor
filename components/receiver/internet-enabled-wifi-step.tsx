@@ -30,7 +30,7 @@ const InternetEnabledWifiStep = () => {
           <Ionicons name="open-outline" size={20} color="black" />
         </Button>
       </View>
-      <Faq />
+      <Faq screen="R04" />
     </View>
   );
 };

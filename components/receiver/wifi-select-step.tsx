@@ -81,7 +81,7 @@ const WifiSelectStep = () => {
           </View>
         </View>
       </View>
-      <Faq />
+      <Faq screen="R02" />
     </View>
   );
 };

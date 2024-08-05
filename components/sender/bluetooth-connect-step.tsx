@@ -4,6 +4,7 @@ import { Text } from '@/components/ui/text';
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/button';
 import { useBle } from '@/hooks/useBle';
+import { Faq } from '@/components/common/faq';
 
 const BluetoothConnectStep = () => {
   const {
@@ -31,7 +32,7 @@ const BluetoothConnectStep = () => {
 
   return (
     <View className="pt-10">
-      <View className="bg-slate-100 rounded-lg px-4 py-2 h-56">
+      <View className="mb-8 bg-slate-100 rounded-lg px-4 py-2 h-56">
         {isLoading ? (
           <View className="flex items-center justify-center h-full">
             <ActivityIndicator size="large" />
@@ -83,6 +84,7 @@ const BluetoothConnectStep = () => {
           </>
         )}
       </View>
+      <Faq screen="S02" />
     </View>
   );
 };

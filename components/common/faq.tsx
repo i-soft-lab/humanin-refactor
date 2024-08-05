@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import {
   Accordion,
   AccordionContent,
@@ -7,57 +7,51 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Text } from '@/components/ui/text';
+import { useGetFaqQuery } from '@/lib/api/faq/queries';
+import { TScreen } from '@/lib/api/faq/client';
 
-const faq = [
-  {
-    key: 'q1',
-    question: 'FAQ 서버에서 받아오기',
-    answer: '임시 텍스트',
-  },
-  {
-    key: 'q2',
-    question: 'FAQ 서버에서 받아오기2',
-    answer: '센서 교체는 0000-0000으로 문의해주세요',
-  },
-  {
-    key: 'q3',
-    question: 'FAQ 서버에서 받아오기2',
-    answer: '센서 교체는 0000-0000으로 문의해주세요',
-  },
-  {
-    key: 'q4',
-    question: 'FAQ 서버에서 받아오기2',
-    answer: '센서 교체는 0000-0000으로 문의해주세요',
-  },
-  {
-    key: 'q5',
-    question: 'FAQ 서버에서 받아오기2',
-    answer: '센서 교체는 0000-0000으로 문의해주세요',
-  },
-];
+const Faq: React.FC<TProps> = (props) => {
+  const { screen } = props;
 
-const Faq = () => {
+  const { data: faq, isLoading, isError } = useGetFaqQuery(screen);
+
   return (
-    <ScrollView className="h-64">
+    <View>
       <Text className="font-semibold text-xl">FAQ</Text>
-      <Accordion
-        type="single"
-        defaultValue="item-1"
-        className="w-full max-w-sm native:max-w-md"
-      >
-        {faq.map(({ key, question, answer }) => (
-          <AccordionItem key={key} value={key}>
-            <AccordionTrigger>
-              <Text className="text-neutral-900">{question}</Text>
-            </AccordionTrigger>
-            <AccordionContent>
-              <Text className="text-neutral-500">{answer}</Text>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </ScrollView>
+      <ScrollView className="h-64">
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : isError ? (
+          <Text>FAQ 로드 실패</Text>
+        ) : !faq ? (
+          <Text>faq가 존재하지 않습니다.</Text>
+        ) : (
+          <Accordion
+            type="single"
+            defaultValue="item-1"
+            className="w-full max-w-sm native:max-w-md"
+          >
+            {faq.map(({ key, question, answer }) => (
+              <AccordionItem key={key} value={key}>
+                <AccordionTrigger>
+                  <Text className="text-neutral-900">{question}</Text>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Text className="text-neutral-500 break-keep whitespace-pre-wrap">
+                    {answer}
+                  </Text>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
 export { Faq };
+
+type TProps = {
+  screen: TScreen;
+};
